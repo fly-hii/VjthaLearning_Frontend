@@ -179,44 +179,9 @@ const Index = () => {
     { name: 'Cybersecurity', count: 21, color: 'bg-red-100 text-red-800' },
     { name: 'Design', count: 14, color: 'bg-pink-100 text-pink-800' }
   ];
-  const today = new Date().toLocaleDateString('en-IN', {
-  weekday: 'long',
-  year: 'numeric',
-  month: 'long',
-  day: 'numeric'
-});
-
- 
 
   return (
-    <div className="bg-red-600 text-white py-2">
-  <div className="container mx-auto px-4">
-    <div className="flex items-center justify-between">
-      
-      {/* Date Section */}
-      <div className="flex items-center space-x-2">
-        <h1 className="font-medium">Date:</h1>
-        <p className="text-sm font-medium">{today}</p>
-      </div>
-
-      {/* Social Media Icons */}
-      <div className="flex space-x-4">
-        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-          <Facebook className="w-5 h-5 text-white hover:text-blue-200" />
-        </a>
-        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-          <Instagram className="w-5 h-5 text-white hover:text-pink-300" />
-        </a>
-        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-          <Linkedin className="w-5 h-5 text-white hover:text-blue-300" />
-        </a>
-      </div>
-
-    </div>
-  </div>
-
-
-
+    <div className="bg-grey text-black py-2">
       <Navigation />
 
       {/* Breaking News Banner */}
