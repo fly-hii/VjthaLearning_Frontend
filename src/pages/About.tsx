@@ -9,7 +9,7 @@ import Footer from '@/components/Footer';
 const About = () => {
   const teamMembers = [
     {
-      name: 'Sarah Chen',
+      name: 'Sahen Chen',
       role: 'Chief Technology Officer & AI Specialist',
       image: 'https://images.unsplash.com/photo-1494790108755-2616b612b786?w=400&h=400&fit=crop',
       bio: 'Leading AI researcher with 10+ years in machine learning and web development. Sarah drives our technical vision and content strategy.',
