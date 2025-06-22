@@ -47,33 +47,35 @@ const Navigation = () => {
   });
 
   return (
-    <nav className="bg-gradient-to-r from-blue-200 via-purple-300 to-pink-300 bg-[length:300%_300%] animate-gradient-x text-dark shadow-lg sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-blue-300 to-blue-800  text-dark shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-2">
         <div className="flex items-center justify-between py-2">
           <p className="text-xs font-medium">{today}</p>
           <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-              <Facebook className="w-5 h-5 text-black hover:text-blue-600" />
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
+              className="p-2 rounded-full hover:bg-blue-600 transition">
+              <Facebook className="w-5 h-5 text-black hover:text-white" />
             </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-              <Instagram className="w-5 h-5 text-black hover:text-pink-500" />
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
+              className="p-2 rounded-full hover:bg-pink-600 transition">
+              <Instagram className="w-5 h-5 text-black hover:text-white" />
             </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-              <Linkedin className="w-5 h-5 text-black hover:text-blue-400" />
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
+              className="p-2 rounded-full hover:bg-blue-200 transition">
+              <Linkedin className="w-5 h-5 text-black hover:text-blue-800" />
             </a>
           </div>
         </div>
 
-        <div className="flex justify-between items-center py-2">
+        <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
             <img 
               src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
               alt="Vjtha Media Logo" 
-              className="w-12 h-12 object-contain"
+              className="w-16 h-16 object-contain"
             />
             <div>
               <h1 className="text-xl font-bold text-gray-900">Vjtha Media</h1>
-              <p className="text-xs text-gray-500">Digital Insights & Innovation</p>
             </div>
           </Link>
 

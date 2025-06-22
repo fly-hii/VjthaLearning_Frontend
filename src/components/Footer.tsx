@@ -7,7 +7,6 @@ const Footer = () => {
   const quickLinks = [
     { name: 'Home', path: '/' },
     { name: 'Articles', path: '/articles' },
-    { name: 'Categories', path: '/categories' },
     { name: 'About Us', path: '/about' },
     { name: 'Contact', path: '/contact' },
   ];
@@ -27,27 +26,27 @@ const Footer = () => {
   ];
 
   return (
-    <footer className="bg-gray-900 text-white">
-      <div className="container mx-auto px-4 py-12">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-gradient-to-r from-blue-300 to-blue-600 text-black">
+      <div className="container mx-auto px-4 py-6">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 text-black-400 lg:text-center">
           {/* Company Info */}
-          <div className="lg:col-span-1">
+          <div className="lg:col-span-1 lg:text-left">
             <div className="flex items-center space-x-2 mb-6">
               <img 
                 src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
                 alt="Vjtha Media Logo" 
-                className="w-10 h-10 object-contain"
+                className="w-18 h-16 object-contain"
               />
               <div>
                 <h3 className="text-xl font-bold">Vjtha Media</h3>
-                <p className="text-sm text-gray-400">Digital Insights & Innovation</p>
+                <p className="text-sm text-black-400">Digital Insights & Innovation</p>
               </div>
             </div>
-            <p className="text-gray-400 mb-6 leading-relaxed">
+            <p className="text-black-400 mb-6 leading-relaxed">
               Empowering businesses with cutting-edge technology insights, innovative solutions, 
               and expert analysis of digital transformation trends.
             </p>
-            <div className="space-y-3 text-sm text-gray-400">
+            <div className="space-y-3 text-sm text-black-400">
               <div className="flex items-center">
                 <Mail className="w-4 h-4 mr-3 text-blue-400" />
                 <span>vjthalearning@gmail.com</span>
@@ -62,12 +61,12 @@ const Footer = () => {
           {/* Quick Links */}
           <div>
             <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
-            <ul className="space-y-3">
+            <ul className="space-y-3 ">
               {quickLinks.map((link) => (
                 <li key={link.name}>
                   <Link
                     to={link.path}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-black-400 hover:text-white transition-colors"
                   >
                     {link.name}
                   </Link>
@@ -84,7 +83,7 @@ const Footer = () => {
                 <li key={category.name}>
                   <Link
                     to={category.path}
-                    className="text-gray-400 hover:text-white transition-colors"
+                    className="text-black-400 hover:text-white transition-colors"
                   >
                     {category.name}
                   </Link>
@@ -94,26 +93,40 @@ const Footer = () => {
           </div>
 
           {/* Legal & Social */}
-          <div>
-            <h4 className="text-lg font-semibold mb-6">Legal</h4>
-            <ul className="space-y-3 mb-8">
-              {legal.map((item) => (
-                <li key={item.name}>
-                  <Link
-                    to={item.path}
-                    className="text-gray-400 hover:text-white transition-colors"
-                  >
-                    {item.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
+          
+        </div>
+
+        <div className="border-t border-black-800 mt-12 pt-2">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start text-center md:text-left">
             
-            <h4 className="text-lg font-semibold mb-4">Follow Us</h4>
-            <div className="flex space-x-4">
+            {/* Column 1 - Copyright */}
+            <div>
+              <p className="text-black-400 text-sm">
+                © {currentYear} Vjtha Media. All rights reserved.
+              </p>
+            </div>
+
+            {/* Column 2 - Legal Links */}
+            <div>
+              <ul className="space-y-2 flex-col md:flex-row md:space-x-6 md:space-y-0 flex justify-center md:justify-start text-sm text-black-400">
+                {legal.map((item) => (
+                  <li key={item.name}>
+                    <Link
+                      to={item.path}
+                      className="text-black-400 hover:text-white transition-colors"
+                    >
+                      {item.name}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            {/* Column 3 - Social Links */}
+            <div className="flex justify-center md:justify-end space-x-4">
               <a
                 href="https://twitter.com/flyhinedia"
-                className="bg-gray-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
+                className="bg-black-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -121,7 +134,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://linkedin.com/company/flyhinedia"
-                className="bg-gray-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
+                className="bg-black-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -129,21 +142,13 @@ const Footer = () => {
               </a>
               <a
                 href="https://facebook.com/flyhinedia"
-                className="bg-gray-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
+                className="bg-black-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
                 <Facebook className="w-5 h-5" />
               </a>
             </div>
-          </div>
-        </div>
-
-        <div className="border-t border-gray-800 mt-12 pt-8">
-          <div className="flex flex-col md:flex-row justify-between items-center">
-            <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} Vjtha Media. All rights reserved.
-            </p>
           </div>
         </div>
       </div>
