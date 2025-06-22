@@ -35,8 +35,8 @@ const Navigation = () => {
         { name: 'Case Studies', path: '/category/case-studies' },
       ]
     },
-    { name: 'About', path: '/about' },
-    { name: 'Contact', path: '/contact' },
+    // { name: 'About', path: '/about' },
+    // { name: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -49,10 +49,10 @@ const Navigation = () => {
   });
 
   return (
-    <nav className="bg-white shadow-lg sticky top-0 z-50">
-      <div className="container mx-auto px-4">
+    <nav className="bg-gradient-to-r from-blue-200 via-purple-300 to-pink-300 bg-[length:300%_300%] animate-gradient-x text-dark shadow-lg sticky top-0 z-50">
+      <div className="container mx-auto px-2">
         <div className="flex items-center justify-between py-2">
-          <p className="text-sm font-medium">{today}</p>
+          <p className="text-xs font-medium">{today}</p>
           <div className="flex space-x-4">
             <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
               <Facebook className="w-5 h-5 text-black hover:text-blue-600" />
@@ -66,14 +66,14 @@ const Navigation = () => {
           </div>
         </div>
 
-        <div className="flex justify-between items-center py-4">
+        <div className="flex justify-between items-center py-2">
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">F</span>
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-gray-900">FlyHii Media</h1>
-              <p className="text-sm text-gray-500">Digital Insights & Innovation</p>
+              <h1 className="text-xl font-bold text-gray-900">FlyHii Media</h1>
+              <p className="text-xs text-gray-500">Digital Insights & Innovation</p>
             </div>
           </Link>
 
@@ -97,7 +97,7 @@ const Navigation = () => {
                           <Link
                             key={dropdownItem.name}
                             to={dropdownItem.path}
-                            className="block px-4 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
+                            className="block px-2 py-2 text-gray-700 hover:text-blue-600 hover:bg-blue-50 transition-colors"
                           >
                             {dropdownItem.name}
                           </Link>
@@ -134,12 +134,12 @@ const Navigation = () => {
         </div>
 
         {isMenuOpen && (
-          <div className="lg:hidden py-4 border-t border-gray-200">
+          <div className="lg:hidden py-2 border-t border-gray-200">
             {navItems.map((item) => (
               <div key={item.name}>
                 <Link
                   to={item.path}
-                  className={`block py-2 px-4 font-medium transition-colors ${
+                  className={`block py-2 px-2 font-medium transition-colors ${
                     isActive(item.path)
                       ? 'text-blue-600 bg-blue-50'
                       : 'text-gray-700 hover:text-blue-600 hover:bg-gray-50'
@@ -154,7 +154,7 @@ const Navigation = () => {
                       <Link
                         key={dropdownItem.name}
                         to={dropdownItem.path}
-                        className="block py-2 pl-4 text-sm text-gray-600 hover:text-blue-600 hover:bg-gray-50"
+                        className="block py-2 pl-4 text-xs text-gray-600 hover:text-blue-600 hover:bg-gray-50"
                         onClick={() => setIsMenuOpen(false)}
                       >
                         {dropdownItem.name}
