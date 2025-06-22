@@ -178,7 +178,14 @@ const Index = () => {
   ];
 
   return (
+    
     <div className="min-h-screen bg-white">
+      <div className="flex items-center justify-center space-x-4">
+            <Badge variant="secondary" className="bg-white text-red-600 font-bold">BREAKING</Badge>
+            <p className="text-sm font-medium">
+              Major AI breakthrough announced: OpenAI releases GPT-5 with unprecedented capabilities
+            </p>
+          </div>
       <Navigation />
 
       {/* Breaking News Banner */}
