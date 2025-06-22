@@ -33,7 +33,7 @@ const Articles = () => {
                          article.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          article.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    const matchesCategory = selectedCategory === 'all' || article.category == selectedCategory;
+    const matchesCategory = selectedCategory === 'All Categories' || article.category == selectedCategory;
     console.log(selectedCategory)
     
     return matchesSearch && matchesCategory;
