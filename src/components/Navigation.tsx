@@ -4,6 +4,7 @@ import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import path from 'path';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -11,10 +12,23 @@ const Navigation = () => {
   const location = useLocation();
 
   const navItems = [
-    { name: 'Home', path: '/' },
+    { name: ' Trending', path: '/' },
+   { 
+      name: 'Jobs', 
+      path: '/',
+      dropdown: [
+        {name:'Today Posted',path},
+        { name: 'Tech Jobs', path: '/' },
+        
+        { name: 'Non-tech jobs', path: '/' },
+        { name: 'Internships', path: '/' },
+        { name: 'Urgent Requirements', path: '/' },
+       
+      ]
+    },
     { name: 'Articles', path: '/articles' },
     { 
-      name: 'Categories', 
+      name: 'Explore More', 
       path: '/categories',
       dropdown: [
         { name: 'Tech Innovation', path: '/category/tech-innovation' },
