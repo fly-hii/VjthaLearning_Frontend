@@ -26,85 +26,138 @@ const Articles = () => {
   ];
 
   const articles = [
-    {
-      id: 1,
-      title: 'The Future of AI in Web Development: Trends to Watch in 2024',
-      excerpt: 'Exploring how artificial intelligence is revolutionizing the way we build and interact with web applications, from automated code generation to intelligent user interfaces.',
-      author: 'Sarah Chen',
-      date: '2024-01-15',
-      readTime: '8 min read',
-      category: 'AI & Machine Learning',
-      categorySlug: 'ai-ml',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop',
-      featured: true,
-      tags: ['AI', 'Web Development', 'Future Tech']
-    },
-    {
-      id: 2,
-      title: 'Building Scalable React Applications: Best Practices and Patterns',
-      excerpt: 'A comprehensive guide to structuring React applications for long-term maintainability, performance optimization, and team collaboration.',
-      author: 'Michael Rodriguez',
-      date: '2024-01-14',
-      readTime: '12 min read',
-      category: 'Web Development',
-      categorySlug: 'web-development',
-      image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=600&h=400&fit=crop',
-      featured: false,
-      tags: ['React', 'JavaScript', 'Architecture']
-    },
-    {
-      id: 3,
-      title: 'Remote Work Culture: How FlyHii Media Adapts to the Digital Age',
-      excerpt: 'Inside look at how we maintain company culture, productivity, and team collaboration in a fully distributed work environment.',
-      author: 'Emma Thompson',
-      date: '2024-01-13',
-      readTime: '6 min read',
-      category: 'Company Culture',
-      categorySlug: 'company-culture',
-      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=600&h=400&fit=crop',
-      featured: false,
-      tags: ['Remote Work', 'Culture', 'Productivity']
-    },
-    {
-      id: 4,
-      title: 'Cybersecurity in 2024: Protecting Your Digital Assets',
-      excerpt: 'Essential security measures every business should implement to stay safe online, including the latest threat intelligence and prevention strategies.',
-      author: 'David Kim',
-      date: '2024-01-12',
-      readTime: '10 min read',
-      category: 'Tech Innovation',
-      categorySlug: 'tech-innovation',
-      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&h=400&fit=crop',
-      featured: true,
-      tags: ['Cybersecurity', 'Privacy', 'Business']
-    },
-    {
-      id: 5,
-      title: 'UX Design Principles That Drive User Engagement',
-      excerpt: 'How thoughtful design choices can significantly impact user behavior, conversion rates, and overall business outcomes in digital products.',
-      author: 'Lisa Park',
-      date: '2024-01-11',
-      readTime: '7 min read',
-      category: 'Web Development',
-      categorySlug: 'web-development',
-      image: 'https://images.unsplash.com/photo-1561070791-36f80b15ad06?w=600&h=400&fit=crop',
-      featured: false,
-      tags: ['UX Design', 'User Experience', 'Design']
-    },
-    {
-      id: 6,
-      title: 'Data Analytics: Turning Information into Business Intelligence',
-      excerpt: 'Leveraging modern data analytics tools and methodologies to make informed decisions and drive sustainable business growth.',
-      author: 'John Martinez',
-      date: '2024-01-10',
-      readTime: '9 min read',
-      category: 'Industry Trends',
-      categorySlug: 'industry-trends',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=600&h=400&fit=crop',
-      featured: false,
-      tags: ['Data Analytics', 'Business Intelligence', 'Strategy']
-    }
-  ];
+  {
+    id: 1,
+    title: 'The Future of AI in Web Development: Trends to Watch in 2024',
+    excerpt: 'Exploring how artificial intelligence is revolutionizing the way we build and interact with web applications, from automated code generation to intelligent user interfaces.',
+    author: 'Sarah Chen',
+    date: '2024-01-15',
+    readTime: '8 min read',
+    category: 'AI & Machine Learning',
+    categorySlug: 'ai-ml',
+    image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=600&h=400&fit=crop',
+    featured: true,
+    tags: ['AI', 'Web Development', 'Future Tech']
+  },
+  {
+    id: 2,
+    title: '10 JavaScript Frameworks Developers Love in 2025',
+    excerpt: 'Discover the top JavaScript frameworks that are dominating the development scene this year and why they’re preferred by modern developers.',
+    author: 'John Miller',
+    date: '2025-02-20',
+    readTime: '6 min read',
+    category: 'Web Development',
+    categorySlug: 'web-dev',
+    image: 'https://images.unsplash.com/photo-1618005198919-d3d4b2c2b47b?w=600&h=400&fit=crop',
+    featured: false,
+    tags: ['JavaScript', 'Frameworks', 'Frontend']
+  },
+  {
+    id: 3,
+    title: 'Why Every Developer Should Learn DevOps in 2025',
+    excerpt: 'From continuous deployment to monitoring and automation, here’s why DevOps skills are becoming essential in the software industry.',
+    author: 'Emily Rojas',
+    date: '2025-03-05',
+    readTime: '7 min read',
+    category: 'DevOps',
+    categorySlug: 'devops',
+    image: 'https://images.unsplash.com/photo-1581091215367-59a6f41d7c94?w=600&h=400&fit=crop',
+    featured: true,
+    tags: ['DevOps', 'CI/CD', 'Cloud']
+  },
+  {
+    id: 4,
+    title: 'UX Design Principles That Will Rule in 2025',
+    excerpt: 'Design trends change fast. Here are the core user experience principles that will define great digital products this year.',
+    author: 'Lisa Ahmed',
+    date: '2025-04-10',
+    readTime: '5 min read',
+    category: 'UI/UX Design',
+    categorySlug: 'ui-ux',
+    image: 'https://images.unsplash.com/photo-1559028012-481c04fa7023?w=600&h=400&fit=crop',
+    featured: false,
+    tags: ['UX Design', 'UI Trends', 'User Research']
+  },
+  {
+    id: 5,
+    title: 'Getting Started with TypeScript: A Beginner’s Guide',
+    excerpt: 'TypeScript is taking over JavaScript projects. Learn the basics, benefits, and how to integrate it into your frontend or backend apps.',
+    author: 'Mark Thompson',
+    date: '2025-01-25',
+    readTime: '9 min read',
+    category: 'Programming',
+    categorySlug: 'programming',
+    image: 'https://images.unsplash.com/photo-1603791440384-56cd371ee9a7?w=600&h=400&fit=crop',
+    featured: false,
+    tags: ['TypeScript', 'JavaScript', 'Frontend']
+  },
+  {
+    id: 6,
+    title: 'Building Scalable APIs with Node.js and Express',
+    excerpt: 'Learn how to build robust and scalable APIs using Node.js, Express, and best practices for performance and security.',
+    author: 'Anita Deshmukh',
+    date: '2025-02-12',
+    readTime: '10 min read',
+    category: 'Backend Development',
+    categorySlug: 'backend',
+    image: 'https://images.unsplash.com/photo-1522071820081-009f0129c71c?w=600&h=400&fit=crop',
+    featured: true,
+    tags: ['Node.js', 'API', 'Backend']
+  },
+  {
+    id: 7,
+    title: 'How to Ace Technical Interviews in 2025',
+    excerpt: 'With changing trends in hiring, here’s how you can prepare for coding interviews, system design rounds, and behavioral questions.',
+    author: 'Daniel Osei',
+    date: '2025-03-18',
+    readTime: '6 min read',
+    category: 'Career',
+    categorySlug: 'career',
+    image: 'https://images.unsplash.com/photo-1612832021605-09d4951abeb7?w=600&h=400&fit=crop',
+    featured: false,
+    tags: ['Interviews', 'Tech Jobs', 'Preparation']
+  },
+  {
+    id: 8,
+    title: 'Top Cloud Platforms Compared: AWS vs Azure vs GCP',
+    excerpt: 'Which cloud provider should you choose for your next project? We break down the pros, cons, and pricing.',
+    author: 'Ravi Kiran',
+    date: '2025-01-10',
+    readTime: '8 min read',
+    category: 'Cloud Computing',
+    categorySlug: 'cloud',
+    image: 'https://images.unsplash.com/photo-1581093588401-7a6e24b28279?w=600&h=400&fit=crop',
+    featured: false,
+    tags: ['Cloud', 'AWS', 'Azure', 'GCP']
+  },
+  {
+    id: 9,
+    title: 'React vs Vue: Which Framework to Use in 2025?',
+    excerpt: 'A head-to-head comparison of React and Vue for developers choosing the best frontend library.',
+    author: 'Priya Menon',
+    date: '2025-03-02',
+    readTime: '7 min read',
+    category: 'Frontend',
+    categorySlug: 'frontend',
+    image: 'https://images.unsplash.com/photo-1618375525315-f51f1f8477b3?w=600&h=400&fit=crop',
+    featured: true,
+    tags: ['React', 'Vue', 'JavaScript']
+  },
+  {
+    id: 10,
+    title: 'Essential Git Commands Every Developer Should Know',
+    excerpt: 'Version control is crucial. Here are the most useful Git commands that can save your workflow.',
+    author: 'Javier Morales',
+    date: '2025-04-01',
+    readTime: '4 min read',
+    category: 'Tools & Tips',
+    categorySlug: 'tools',
+    image: 'https://images.unsplash.com/photo-1610878180933-6c2adf7f94dd?w=600&h=400&fit=crop',
+    featured: false,
+    tags: ['Git', 'Version Control', 'Tools']
+  }
+];
+
 
   const filteredArticles = articles.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
