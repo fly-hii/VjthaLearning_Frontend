@@ -72,7 +72,7 @@ const Navigation = () => {
               <span className="text-white font-bold text-xl">F</span>
             </div>
             <div>
-              <h1 className="text-xl font-bold text-gray-900">FlyHii Media</h1>
+              <h1 className="text-xl font-bold text-gray-900">Vjtha Media</h1>
               <p className="text-xs text-gray-500">Digital Insights & Innovation</p>
             </div>
           </Link>

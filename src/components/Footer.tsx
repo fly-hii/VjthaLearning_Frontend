@@ -38,7 +38,7 @@ const Footer = () => {
                 <span className="text-white font-bold text-xl">F</span>
               </div>
               <div>
-                <h3 className="text-xl font-bold">FlyHii Media</h3>
+                <h3 className="text-xl font-bold">Vjtha Media</h3>
                 <p className="text-sm text-gray-400">Digital Insights & Innovation</p>
               </div>
             </div>
@@ -49,16 +49,16 @@ const Footer = () => {
             <div className="space-y-3 text-sm text-gray-400">
               <div className="flex items-center">
                 <Mail className="w-4 h-4 mr-3 text-blue-400" />
-                <span>hello@flyhinedia.com</span>
+                <span>vjthalearning@gmail.com</span>
               </div>
               <div className="flex items-center">
                 <Phone className="w-4 h-4 mr-3 text-blue-400" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91 77807 21731</span>
               </div>
-              <div className="flex items-center">
+              {/* <div className="flex items-center">
                 <MapPin className="w-4 h-4 mr-3 text-blue-400" />
                 <span>San Francisco, CA</span>
-              </div>
+              </div> */}
             </div>
           </div>
 
@@ -145,11 +145,11 @@ const Footer = () => {
         <div className="border-t border-gray-800 mt-12 pt-8">
           <div className="flex flex-col md:flex-row justify-between items-center">
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
-              © {currentYear} FlyHii Media. All rights reserved.
+              © {currentYear} Vjtha Media. All rights reserved.
             </p>
-            <p className="text-gray-400 text-sm">
+            {/* <p className="text-gray-400 text-sm">
               Built with ❤️ for the tech community
-            </p>
+            </p> */}
           </div>
         </div>
       </div>
