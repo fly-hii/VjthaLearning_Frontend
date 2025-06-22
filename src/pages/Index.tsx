@@ -100,6 +100,46 @@ const Index = () => {
       category: 'DevOps',
       image: 'https://images.unsplash.com/photo-1618477247222-acbdb0e159b3?w=400&h=250&fit=crop',
       readTime: '7 min read'
+    },
+    {
+      id: 9,
+      title: 'Blockchain Beyond Cryptocurrency: Real-World Applications',
+      excerpt: 'Exploring practical applications of blockchain technology beyond digital currencies.',
+      author: 'Sophie Chen',
+      date: '2024-01-07',
+      category: 'Blockchain',
+      image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=250&fit=crop',
+      readTime: '10 min read'
+    },
+    {
+      id: 10,
+      title: 'UI/UX Design Principles That Convert',
+      excerpt: 'Data-driven approach to creating user interfaces that drive results.',
+      author: 'Tom Wilson',
+      date: '2024-01-06',
+      category: 'Design',
+      image: 'https://images.unsplash.com/photo-1561070791-36f80b15ad06?w=400&h=250&fit=crop',
+      readTime: '8 min read'
+    },
+    {
+      id: 11,
+      title: 'Sustainable Tech: Green Computing Revolution',
+      excerpt: 'Environmental responsibility in the technology sector.',
+      author: 'Maria Garcia',
+      date: '2024-01-05',
+      category: 'Sustainability',
+      image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=250&fit=crop',
+      readTime: '6 min read'
+    },
+    {
+      id: 12,
+      title: 'Mobile App Development Trends 2024',
+      excerpt: 'Latest trends shaping the mobile application development landscape.',
+      author: 'James Lee',
+      date: '2024-01-04',
+      category: 'Mobile Development',
+      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop',
+      readTime: '9 min read'
     }
   ];
 
@@ -188,6 +228,7 @@ const Index = () => {
       readTime: '10 min read'
     }
   ];
+
 const highlights = [
   {
     title: 'Empowering Fresh Talent',
@@ -207,7 +248,6 @@ const highlights = [
   },
 ];
 
-
 const [currentSlide, setCurrentSlide] = useState(0);
 
 // Auto-slide every 5 seconds
@@ -218,7 +258,6 @@ useEffect(() => {
 
   return () => clearInterval(interval); // cleanup on unmount
 }, []);
-
 
   return (
     <div className="bg-white text-black">
@@ -293,6 +332,121 @@ useEffect(() => {
               </Link>
             ))}
           </div>
+      </section>
+
+      {/* Flyhii Specials Section - New Layout Based on Wireframe */}
+      <section className="py-16 bg-gray-100">
+        <div className="container mx-auto px-4">
+          <div className="mb-8">
+            <h2 className="text-4xl font-bold text-gray-900 border-b-4 border-black pb-2 inline-block">
+              Flyhii Specials
+            </h2>
+          </div>
+          
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            {/* Left Column - Two boxes with article lists */}
+            <div className="lg:col-span-2 space-y-8">
+              {/* First Box */}
+              <div className="bg-white border-4 border-gray-400 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {highlightArticles.slice(0, 6).map((article) => (
+                    <Link key={article.id} to={`/article/${article.id}`} className="group flex space-x-4">
+                      <div className="w-20 h-16 bg-gray-400 rounded flex-shrink-0">
+                        <img
+                          src={article.image}
+                          alt={article.title}
+                          className="w-full h-full object-cover rounded"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                          {article.title}
+                        </h3>
+                        <p className="text-xs text-gray-600 mb-2 line-clamp-2">{article.excerpt}</p>
+                        <div className="flex items-center text-xs text-gray-500">
+                          <span>{article.author}</span>
+                          <span className="mx-2">•</span>
+                          <span>{article.readTime}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+
+              {/* Second Box */}
+              <div className="bg-white border-4 border-gray-400 p-6">
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {highlightArticles.slice(6, 12).map((article) => (
+                    <Link key={article.id} to={`/article/${article.id}`} className="group flex space-x-4">
+                      <div className="w-20 h-16 bg-gray-400 rounded flex-shrink-0">
+                        <img
+                          src={article.image}
+                          alt={article.title}
+                          className="w-full h-full object-cover rounded"
+                        />
+                      </div>
+                      <div className="flex-1">
+                        <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                          {article.title}
+                        </h3>
+                        <p className="text-xs text-gray-600 mb-2 line-clamp-2">{article.excerpt}</p>
+                        <div className="flex items-center text-xs text-gray-500">
+                          <span>{article.author}</span>
+                          <span className="mx-2">•</span>
+                          <span>{article.readTime}</span>
+                        </div>
+                      </div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            {/* Right Column - Highly Recommended with Slider */}
+            <div className="lg:col-span-1">
+              <div className="bg-white border-4 border-gray-400 p-6">
+                <h3 className="text-xl font-bold text-gray-900 mb-6 border-b-2 border-dashed border-gray-400 pb-2">
+                  Highly Recommended
+                </h3>
+                
+                <Carousel className="w-full">
+                  <CarouselContent>
+                    {firstBlogPosts.map((article) => (
+                      <CarouselItem key={article.id}>
+                        <Link to={`/article/${article.id}`} className="group block">
+                          <div className="space-y-4">
+                            <div className="w-full h-40 bg-gray-400 rounded">
+                              <img
+                                src={article.image}
+                                alt={article.title}
+                                className="w-full h-full object-cover rounded"
+                              />
+                            </div>
+                            <div>
+                              <h4 className="font-semibold text-sm text-gray-900 mb-2 line-clamp-3 group-hover:text-blue-600 transition-colors">
+                                {article.title}
+                              </h4>
+                              <p className="text-xs text-gray-600 mb-3 line-clamp-3">{article.excerpt}</p>
+                              <div className="flex items-center justify-between text-xs text-gray-500">
+                                <span>{article.author}</span>
+                                <span>{article.readTime}</span>
+                              </div>
+                            </div>
+                          </div>
+                        </Link>
+                      </CarouselItem>
+                    ))}
+                  </CarouselContent>
+                  <div className="flex justify-center mt-4 space-x-2">
+                    <CarouselPrevious className="relative inset-auto translate-y-0 translate-x-0" />
+                    <CarouselNext className="relative inset-auto translate-y-0 translate-x-0" />
+                  </div>
+                </Carousel>
+              </div>
+            </div>
+          </div>
+        </div>
       </section>
 
       {/* First Blog Section with Slider */}
