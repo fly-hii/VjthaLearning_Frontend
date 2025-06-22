@@ -1,34 +1,30 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Facebook, Instagram, Linkedin } from 'lucide-react';
-import path from 'path';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
 
   const navItems = [
-    { name: ' Trending', path: '/' },
-   { 
-      name: 'Jobs', 
-      path: '/',
+    { name: 'Trending', path: '/' },
+    {
+      name: 'Jobs',
+      path: '/jobs',
       dropdown: [
-        {name:'Today Posted',path},
-        { name: 'Tech Jobs', path: '/' },
-        
-        { name: 'Non-tech jobs', path: '/' },
-        { name: 'Internships', path: '/' },
-        { name: 'Urgent Requirements', path: '/' },
-       
+        { name: 'Today Posted', path: '/jobs/today' },
+        { name: 'Tech Jobs', path: '/jobs/tech' },
+        { name: 'Non-tech jobs', path: '/jobs/non-tech' },
+        { name: 'Internships', path: '/jobs/internships' },
+        { name: 'Urgent Requirements', path: '/jobs/urgent' },
       ]
     },
     { name: 'Articles', path: '/articles' },
-    { 
-      name: 'Explore More', 
+    {
+      name: 'Explore More',
       path: '/categories',
       dropdown: [
         { name: 'Tech Innovation', path: '/category/tech-innovation' },
@@ -44,39 +40,33 @@ const Navigation = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
-    const today = new Date().toLocaleDateString('en-IN', {
+
+  const today = new Date().toLocaleDateString('en-IN', {
     weekday: 'long',
     year: 'numeric',
     month: 'long',
     day: 'numeric'
   });
+
   return (
     <nav className="bg-white shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-4">
-         <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between">
-            
-            {/* Date Section */}
-            <div className="flex items-center space-x-2">
-              <p className="text-sm font-medium">{today}</p>
-            </div>
-
-            {/* Social Media Icons */}
-            <div className="flex space-x-4">
-              <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
-                <Facebook className="w-5 h-5 text-black hover:text-blue-200" />
-              </a>
-              <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
-                <Instagram className="w-5 h-5 text-black hover:text-pink-300" />
-              </a>
-              <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
-                <Linkedin className="w-5 h-5 text-black hover:text-blue-300" />
-              </a>
-            </div>
+        <div className="flex items-center justify-between py-2">
+          <p className="text-sm font-medium">{today}</p>
+          <div className="flex space-x-4">
+            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+              <Facebook className="w-5 h-5 text-black hover:text-blue-600" />
+            </a>
+            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+              <Instagram className="w-5 h-5 text-black hover:text-pink-500" />
+            </a>
+            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+              <Linkedin className="w-5 h-5 text-black hover:text-blue-400" />
+            </a>
           </div>
         </div>
+
         <div className="flex justify-between items-center py-4">
-          {/* Logo */}
           <Link to="/" className="flex items-center space-x-2">
             <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
               <span className="text-white font-bold text-xl">F</span>
@@ -87,21 +77,21 @@ const Navigation = () => {
             </div>
           </Link>
 
-          {/* Desktop Navigation */}
           <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div key={item.name} className="relative">
+              <div
+                key={item.name}
+                className="relative"
+                onMouseEnter={() => setActiveDropdown(item.name)}
+                onMouseLeave={() => setActiveDropdown(null)}
+              >
                 {item.dropdown ? (
-                  <div
-                    className="relative"
-                    onMouseEnter={() => setIsDropdownOpen(true)}
-                    onMouseLeave={() => setIsDropdownOpen(false)}
-                  >
+                  <>
                     <button className="flex items-center space-x-1 text-gray-700 hover:text-blue-600 font-medium transition-colors">
                       <span>{item.name}</span>
                       <ChevronDown className="w-4 h-4" />
                     </button>
-                    {isDropdownOpen && (
+                    {activeDropdown === item.name && (
                       <div className="absolute top-full left-0 mt-2 w-56 bg-white rounded-lg shadow-xl border border-gray-200 py-2 z-50">
                         {item.dropdown.map((dropdownItem) => (
                           <Link
@@ -114,7 +104,7 @@ const Navigation = () => {
                         ))}
                       </div>
                     )}
-                  </div>
+                  </>
                 ) : (
                   <Link
                     to={item.path}
@@ -131,31 +121,18 @@ const Navigation = () => {
             ))}
           </div>
 
-          {/* Search and CTA */}
           <div className="hidden lg:flex items-center space-x-4">
             <Button variant="outline" size="sm">
-              <Search className="w-4 h-4 mr-2" />
-              Search
+              <Search className="w-4 h-4 mr-2" /> Search
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">
-              Subscribe
-            </Button>
+            <Button className="bg-blue-600 hover:bg-blue-700">Subscribe</Button>
           </div>
 
-          {/* Mobile Menu Button */}
-          <button
-            className="lg:hidden"
-            onClick={() => setIsMenuOpen(!isMenuOpen)}
-          >
-            {isMenuOpen ? (
-              <X className="w-6 h-6 text-gray-700" />
-            ) : (
-              <Menu className="w-6 h-6 text-gray-700" />
-            )}
+          <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
+            {isMenuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
           </button>
         </div>
 
-        {/* Mobile Menu */}
         {isMenuOpen && (
           <div className="lg:hidden py-4 border-t border-gray-200">
             {navItems.map((item) => (
@@ -189,12 +166,9 @@ const Navigation = () => {
             ))}
             <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
               <Button variant="outline" className="w-full">
-                <Search className="w-4 h-4 mr-2" />
-                Search
+                <Search className="w-4 h-4 mr-2" /> Search
               </Button>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">
-                Subscribe
-              </Button>
+              <Button className="w-full bg-blue-600 hover:bg-blue-700">Subscribe</Button>
             </div>
           </div>
         )}
