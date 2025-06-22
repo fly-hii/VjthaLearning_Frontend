@@ -31,7 +31,7 @@ const Footer = () => {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-5 text-black-400 lg:text-center">
           {/* Company Info */}
           <div className="lg:col-span-1 lg:text-left">
-            <div className="flex items-center space-x-2 mb-6">
+            <div className="flex items-center space-x-2 mb-2">
               <img 
                 src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
                 alt="Vjtha Media Logo" 
@@ -60,7 +60,7 @@ const Footer = () => {
 
           {/* Quick Links */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Quick Links</h4>
+            <h4 className="text-lg font-semibold mb-2">Quick Links</h4>
             <ul className="space-y-3 ">
               {quickLinks.map((link) => (
                 <li key={link.name}>
@@ -77,7 +77,7 @@ const Footer = () => {
 
           {/* Categories */}
           <div>
-            <h4 className="text-lg font-semibold mb-6">Categories</h4>
+            <h4 className="text-lg font-semibold mb-2">Categories</h4>
             <ul className="space-y-3">
               {categories.map((category) => (
                 <li key={category.name}>
@@ -96,7 +96,7 @@ const Footer = () => {
           
         </div>
 
-        <div className="border-t border-black-800 mt-12 pt-2">
+        <div className="border-t border-black-800 mt-6 pt-2">
           <div className="grid grid-cols-1 md:grid-cols-3 gap-6 items-start text-center md:text-left">
             
             {/* Column 1 - Copyright */}
