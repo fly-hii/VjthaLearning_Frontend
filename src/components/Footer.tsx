@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Twitter, Linkedin, Facebook } from 'lucide-react';
 
@@ -34,9 +33,11 @@ const Footer = () => {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-xl">F</span>
-              </div>
+              <img 
+                src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
+                alt="Vjtha Media Logo" 
+                className="w-10 h-10 object-contain"
+              />
               <div>
                 <h3 className="text-xl font-bold">Vjtha Media</h3>
                 <p className="text-sm text-gray-400">Digital Insights & Innovation</p>
@@ -55,10 +56,6 @@ const Footer = () => {
                 <Phone className="w-4 h-4 mr-3 text-blue-400" />
                 <span>+91 77807 21731</span>
               </div>
-              {/* <div className="flex items-center">
-                <MapPin className="w-4 h-4 mr-3 text-blue-400" />
-                <span>San Francisco, CA</span>
-              </div> */}
             </div>
           </div>
 
@@ -147,9 +144,6 @@ const Footer = () => {
             <p className="text-gray-400 text-sm mb-4 md:mb-0">
               © {currentYear} Vjtha Media. All rights reserved.
             </p>
-            {/* <p className="text-gray-400 text-sm">
-              Built with ❤️ for the tech community
-            </p> */}
           </div>
         </div>
       </div>

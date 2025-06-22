@@ -35,8 +35,6 @@ const Navigation = () => {
         { name: 'Case Studies', path: '/category/case-studies' },
       ]
     },
-    // { name: 'About', path: '/about' },
-    // { name: 'Contact', path: '/contact' },
   ];
 
   const isActive = (path: string) => location.pathname === path;
@@ -68,9 +66,11 @@ const Navigation = () => {
 
         <div className="flex justify-between items-center py-2">
           <Link to="/" className="flex items-center space-x-2">
-            <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-800 rounded-lg flex items-center justify-center">
-              <span className="text-white font-bold text-xl">F</span>
-            </div>
+            <img 
+              src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
+              alt="Vjtha Media Logo" 
+              className="w-12 h-12 object-contain"
+            />
             <div>
               <h1 className="text-xl font-bold text-gray-900">Vjtha Media</h1>
               <p className="text-xs text-gray-500">Digital Insights & Innovation</p>
