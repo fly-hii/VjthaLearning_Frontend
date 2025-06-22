@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import { Mail, Phone, MapPin, Twitter, Linkedin, Facebook } from 'lucide-react';
+import { Mail, Phone, MapPin, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -48,11 +48,11 @@ const Footer = () => {
             </p>
             <div className="space-y-3 text-sm text-black-400">
               <div className="flex items-center">
-                <Mail className="w-4 h-4 mr-3 text-blue-400" />
+                <Mail className="w-4 h-4 mr-3 text-black-400" />
                 <span>vjthalearning@gmail.com</span>
               </div>
               <div className="flex items-center">
-                <Phone className="w-4 h-4 mr-3 text-blue-400" />
+                <Phone className="w-4 h-4 mr-3 text-black-400" />
                 <span>+91 77807 21731</span>
               </div>
             </div>
@@ -126,15 +126,15 @@ const Footer = () => {
             <div className="flex justify-center md:justify-end space-x-4">
               <a
                 href="https://twitter.com/flyhinedia"
-                className="bg-black-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
+                className="bg-black-800 hover:bg-pink-600 hover:text-white p-2 rounded-lg transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
-                <Twitter className="w-5 h-5" />
+                <Instagram className="w-5 h-5" />
               </a>
               <a
                 href="https://linkedin.com/company/flyhinedia"
-                className="bg-black-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
+                className="bg-black-800 hover:bg-blue-200 hover:text-black p-2 rounded-lg transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
@@ -142,7 +142,7 @@ const Footer = () => {
               </a>
               <a
                 href="https://facebook.com/flyhinedia"
-                className="bg-black-800 hover:bg-blue-600 p-2 rounded-lg transition-colors"
+                className="bg-black-800 hover:bg-blue-800 hover:text-white p-2 rounded-lg transition-colors"
                 target="_blank"
                 rel="noopener noreferrer"
               >
