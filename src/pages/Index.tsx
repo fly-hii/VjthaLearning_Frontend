@@ -8,6 +8,8 @@ import { Card, CardContent, CardHeader } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { Facebook, Instagram, Linkedin } from 'lucide-react';
+
 import NewsletterSignup from '@/components/NewsletterSignup';
 
 const Index = () => {
@@ -25,6 +27,7 @@ const Index = () => {
     featured: true,
     views: '15.2K'
   };
+  
 
   const editorsPicks = [
     {
@@ -176,16 +179,44 @@ const Index = () => {
     { name: 'Cybersecurity', count: 21, color: 'bg-red-100 text-red-800' },
     { name: 'Design', count: 14, color: 'bg-pink-100 text-pink-800' }
   ];
+  const today = new Date().toLocaleDateString('en-IN', {
+  weekday: 'long',
+  year: 'numeric',
+  month: 'long',
+  day: 'numeric'
+});
+
+ 
 
   return (
-    
-    <div className="min-h-screen bg-white">
-      <div className="flex items-center justify-center space-x-4">
-            <Badge variant="secondary" className="bg-white text-red-600 font-bold">BREAKING</Badge>
-            <p className="text-sm font-medium">
-              Major AI breakthrough announced: OpenAI releases GPT-5 with unprecedented capabilities
-            </p>
-          </div>
+    <div className="bg-red-600 text-white py-2">
+  <div className="container mx-auto px-4">
+    <div className="flex items-center justify-between">
+      
+      {/* Date Section */}
+      <div className="flex items-center space-x-2">
+        <h1 className="font-medium">Date:</h1>
+        <p className="text-sm font-medium">{today}</p>
+      </div>
+
+      {/* Social Media Icons */}
+      <div className="flex space-x-4">
+        <a href="https://facebook.com" target="_blank" rel="noopener noreferrer">
+          <Facebook className="w-5 h-5 text-white hover:text-blue-200" />
+        </a>
+        <a href="https://instagram.com" target="_blank" rel="noopener noreferrer">
+          <Instagram className="w-5 h-5 text-white hover:text-pink-300" />
+        </a>
+        <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer">
+          <Linkedin className="w-5 h-5 text-white hover:text-blue-300" />
+        </a>
+      </div>
+
+    </div>
+  </div>
+
+
+
       <Navigation />
 
       {/* Breaking News Banner */}
