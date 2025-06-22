@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Calendar, User, ArrowRight, ChevronRight, Clock, TrendingUp, Star, ChevronLeft } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -188,6 +188,37 @@ const Index = () => {
       readTime: '10 min read'
     }
   ];
+const highlights = [
+  {
+    title: 'Empowering Fresh Talent',
+    subtitle: 'Find the right job to kickstart your career journey with personalized matches and support at every step.',
+  },
+  {
+    title: 'Real-Time Job Updates',
+    subtitle: 'Stay updated with the latest job opportunities, notifications, and alerts tailored to your profile.',
+  },
+  {
+    title: 'Trusted by Thousands',
+    subtitle: 'Join a growing community of job seekers and recruiters across India who trust our platform to build careers.',
+  },
+  {
+    title: 'Boost Your Visibility',
+    subtitle: 'Stand out from the crowd and get discovered by top recruiters through an optimized and professional profile.',
+  },
+];
+
+
+const [currentSlide, setCurrentSlide] = useState(0);
+
+// Auto-slide every 5 seconds
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentSlide((prev) => (prev + 1) % highlights.length);
+  }, 5000); // 5000ms = 5 seconds
+
+  return () => clearInterval(interval); // cleanup on unmount
+}, []);
+
 
   return (
     <div className="bg-white text-black">
@@ -212,14 +243,29 @@ const Index = () => {
       </section>
 
       {/* Highlights Section */}
-      <section className="py-12 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-5xl font-bold text-gray-800 mb-4">Highlights</h2>
-            <p className="text-xl text-gray-600">SUB HEADING</p>
+      <section className="py-8 bg-gradient-to-br from-blue-50 to-purple-50">
+        <div className="container mx-auto px-2 text-center">
+          <div className="relative max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8 transition-all duration-500">
+            <h3 className="text-2xl font-semibold text-blue-700 mb-2">
+              {highlights[currentSlide].title}
+            </h3>
+            <p className="text-gray-600">{highlights[currentSlide].subtitle}</p>
           </div>
+
+          {/* Optional: Dots for slide indicators */}
+          <div className="flex justify-center mt-4 mb-4 space-x-2">
+            {highlights.map((_, index) => (
+              <span
+                key={index}
+                className={`h-2 w-2 rounded-full ${
+                  index === currentSlide ? 'bg-blue-600' : 'bg-gray-300'
+                }`}
+              ></span>
+            ))}
+          </div>
+        </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-16 gap-6">
             {highlightArticles.slice(0, 8).map((article) => (
               <Link key={article.id} to={`/article/${article.id}`} className="group">
                 <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full bg-white/80 backdrop-blur-sm">
@@ -247,7 +293,6 @@ const Index = () => {
               </Link>
             ))}
           </div>
-        </div>
       </section>
 
       {/* First Blog Section with Slider */}
@@ -267,7 +312,7 @@ const Index = () => {
                   <Link to={`/article/${article.id}`} className="group block">
                     <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
                       <div className="flex lg:flex-col">
-                        <div className="w-32 h-24 lg:w-full lg:h-48 flex-shrink-0">
+                        <div className="w-16 h-12 lg:w-full lg:h-48 flex-shrink-0">
                           <img
                             src={article.image}
                             alt={article.title}
