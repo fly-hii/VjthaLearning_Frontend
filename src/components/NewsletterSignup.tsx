@@ -36,7 +36,7 @@ const NewsletterSignup = () => {
   if (isSubscribed) {
     return (
       <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-        <div className="container mx-auto px-4 text-center">
+        <div className="container mx-auto px-2 text-center">
           <CheckCircle className="w-16 h-16 mx-auto mb-6 text-green-300" />
           <h2 className="text-3xl font-bold mb-4">Thank You for Subscribing!</h2>
           <p className="text-xl text-blue-100 max-w-2xl mx-auto">
@@ -48,12 +48,12 @@ const NewsletterSignup = () => {
   }
 
   return (
-    <section className="py-16 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
-      <div className="container mx-auto px-4">
-        <div className="max-w-4xl mx-auto text-center">
-          <Mail className="w-16 h-16 mx-auto mb-6 text-blue-200" />
-          <h2 className="text-4xl font-bold mb-4">Stay Updated with FlyHii Media</h2>
-          <p className="text-xl text-blue-100 mb-8 max-w-2xl mx-auto">
+    <section className="py-8 bg-gradient-to-r from-blue-600 to-blue-800 text-white">
+      <div className="container mx-auto px-2">
+        <div className="max-w-2xl mx-auto text-center">
+          <Mail className="w-8 h-8 mx-auto mb-2 text-blue-200" />
+          <h2 className="text-4xl font-bold mb-2">Stay Updated with FlyHii Media</h2>
+          <p className="text-xl text-blue-100 mb-2 max-w-xl mx-auto">
             Get the latest insights on technology, innovation, and digital transformation 
             delivered straight to your inbox. Join thousands of professionals who trust our content.
           </p>
