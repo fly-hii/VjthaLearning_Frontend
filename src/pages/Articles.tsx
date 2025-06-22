@@ -186,20 +186,6 @@ const Articles = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
-      {/* Header */}
-      <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl lg:text-5xl font-bold mb-6">All Articles</h1>
-            <p className="text-xl text-blue-100 max-w-2xl mx-auto">
-              Explore our comprehensive collection of insights, tutorials, and thought leadership content
-              on technology, innovation, and digital transformation.
-            </p>
-          </div>
-        </div>
-      </section>
-
       {/* Filters and Search */}
       <section className="py-8 bg-gray-50 sticky top-20 z-40">
         <div className="container mx-auto px-4">
