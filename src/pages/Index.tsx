@@ -20,6 +20,7 @@ import {
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
+
   const highlightArticles = [
     {
       id: 1,
@@ -144,47 +145,88 @@ const Index = () => {
   ];
 
   const firstBlogPosts = [
-    {
-      id: 9,
-      title: 'Blockchain Beyond Cryptocurrency: Real-World Applications',
-      excerpt: 'Exploring practical applications of blockchain technology beyond digital currencies.',
-      author: 'Sophie Chen',
-      date: '2024-01-07',
-      category: 'Blockchain',
-      image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=250&fit=crop',
-      readTime: '10 min read'
-    },
-    {
-      id: 10,
-      title: 'UI/UX Design Principles That Convert',
-      excerpt: 'Data-driven approach to creating user interfaces that drive results.',
-      author: 'Tom Wilson',
-      date: '2024-01-06',
-      category: 'Design',
-      image: 'https://images.unsplash.com/photo-1561070791-36f80b15ad06?w=400&h=250&fit=crop',
-      readTime: '8 min read'
-    },
-    {
-      id: 11,
-      title: 'Sustainable Tech: Green Computing Revolution',
-      excerpt: 'Environmental responsibility in the technology sector.',
-      author: 'Maria Garcia',
-      date: '2024-01-05',
-      category: 'Sustainability',
-      image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=250&fit=crop',
-      readTime: '6 min read'
-    },
-    {
-      id: 12,
-      title: 'Mobile App Development Trends 2024',
-      excerpt: 'Latest trends shaping the mobile application development landscape.',
-      author: 'James Lee',
-      date: '2024-01-04',
-      category: 'Mobile Development',
-      image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop',
-      readTime: '9 min read'
-    }
-  ];
+  {
+    id: 9,
+    title: 'Blockchain Beyond Cryptocurrency: Real-World Applications',
+    excerpt: 'Exploring practical applications of blockchain technology beyond digital currencies.',
+    author: 'Sophie Chen',
+    date: '2024-01-07',
+    category: 'Blockchain',
+    image: 'https://images.unsplash.com/photo-1639762681485-074b7f938ba0?w=400&h=250&fit=crop',
+    readTime: '10 min read'
+  },
+  {
+    id: 10,
+    title: 'UI/UX Design Principles That Convert',
+    excerpt: 'Data-driven approach to creating user interfaces that drive results.',
+    author: 'Tom Wilson',
+    date: '2024-01-06',
+    category: 'Design',
+    image: 'https://images.unsplash.com/photo-1561070791-36f80b15ad06?w=400&h=250&fit=crop',
+    readTime: '8 min read'
+  },
+  {
+    id: 11,
+    title: 'Sustainable Tech: Green Computing Revolution',
+    excerpt: 'Environmental responsibility in the technology sector.',
+    author: 'Maria Garcia',
+    date: '2024-01-05',
+    category: 'Sustainability',
+    image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=250&fit=crop',
+    readTime: '6 min read'
+  },
+  {
+    id: 12,
+    title: 'Mobile App Development Trends 2024',
+    excerpt: 'Latest trends shaping the mobile application development landscape.',
+    author: 'James Lee',
+    date: '2024-01-04',
+    category: 'Mobile Development',
+    image: 'https://images.unsplash.com/photo-1512941937669-90a1b58e7e9c?w=400&h=250&fit=crop',
+    readTime: '9 min read'
+  },
+  {
+    id: 13,
+    title: 'The Rise of Edge Computing in IoT',
+    excerpt: 'How edge computing enhances the efficiency and speed of IoT systems.',
+    author: 'Nina Patel',
+    date: '2024-01-03',
+    category: 'IoT',
+    image: 'https://images.unsplash.com/photo-1549921296-3a7636c6e70b?w=400&h=250&fit=crop',
+    readTime: '7 min read'
+  },
+  {
+    id: 14,
+    title: 'Cybersecurity Trends to Watch This Year',
+    excerpt: 'Emerging threats and how organizations can prepare for them.',
+    author: 'Robert Singh',
+    date: '2024-01-02',
+    category: 'Cybersecurity',
+    image: 'https://images.unsplash.com/photo-1600267165986-3d1b99f36ad9?w=400&h=250&fit=crop',
+    readTime: '6 min read'
+  },
+  {
+    id: 15,
+    title: 'No-Code Platforms: The New Developer Toolkit?',
+    excerpt: 'A look at how no-code tools are enabling rapid application development.',
+    author: 'Aisha Khan',
+    date: '2024-01-01',
+    category: 'Development',
+    image: 'https://images.unsplash.com/photo-1581091226825-5ecb7823a46e?w=400&h=250&fit=crop',
+    readTime: '5 min read'
+  },
+  {
+    id: 16,
+    title: 'How 5G is Redefining Connectivity',
+    excerpt: 'The role of 5G networks in transforming communication and industries.',
+    author: 'Liam Roberts',
+    date: '2023-12-31',
+    category: 'Telecom',
+    image: 'https://images.unsplash.com/photo-1600267141133-1c0825ef098b?w=400&h=250&fit=crop',
+    readTime: '7 min read'
+  }
+];
+
 
   const secondBlogPosts = [
     {
@@ -247,7 +289,15 @@ const highlights = [
     subtitle: 'Stand out from the crowd and get discovered by top recruiters through an optimized and professional profile.',
   },
 ];
+const chunkArray = (array, size) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
 
+const articleChunks = chunkArray(firstBlogPosts, 6);
 const [currentSlide, setCurrentSlide] = useState(0);
 
 // Auto-slide every 5 seconds
@@ -349,35 +399,7 @@ useEffect(() => {
               {/* First Box */}
               <div className="bg-white border-4 border-gray-400 p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {highlightArticles.slice(0, 6).map((article) => (
-                    <Link key={article.id} to={`/article/${article.id}`} className="group flex space-x-4">
-                      <div className="w-20 h-16 bg-gray-400 rounded flex-shrink-0">
-                        <img
-                          src={article.image}
-                          alt={article.title}
-                          className="w-full h-full object-cover rounded"
-                        />
-                      </div>
-                      <div className="flex-1">
-                        <h3 className="font-semibold text-sm text-gray-900 mb-1 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                          {article.title}
-                        </h3>
-                        <p className="text-xs text-gray-600 mb-2 line-clamp-2">{article.excerpt}</p>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <span>{article.author}</span>
-                          <span className="mx-2">•</span>
-                          <span>{article.readTime}</span>
-                        </div>
-                      </div>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-
-              {/* Second Box */}
-              <div className="bg-white border-4 border-gray-400 p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                  {highlightArticles.slice(6, 12).map((article) => (
+                  {highlightArticles.slice(0, 10).map((article) => (
                     <Link key={article.id} to={`/article/${article.id}`} className="group flex space-x-4">
                       <div className="w-20 h-16 bg-gray-400 rounded flex-shrink-0">
                         <img
@@ -405,44 +427,38 @@ useEffect(() => {
 
             {/* Right Column - Highly Recommended with Slider */}
             <div className="lg:col-span-1">
-              <div className="bg-white border-4 border-gray-400 p-6">
+              <div className="bg-white border-4 border-gray-400 p-8">
                 <h3 className="text-xl font-bold text-gray-900 mb-6 border-b-2 border-dashed border-gray-400 pb-2">
                   Highly Recommended
                 </h3>
-                
                 <Carousel className="w-full">
                   <CarouselContent>
-                    {firstBlogPosts.map((article) => (
-                      <CarouselItem key={article.id}>
-                        <Link to={`/article/${article.id}`} className="group block">
-                          <div className="space-y-4">
-                            <div className="w-full h-40 bg-gray-400 rounded">
-                              <img
-                                src={article.image}
-                                alt={article.title}
-                                className="w-full h-full object-cover rounded"
-                              />
-                            </div>
-                            <div>
-                              <h4 className="font-semibold text-sm text-gray-900 mb-2 line-clamp-3 group-hover:text-blue-600 transition-colors">
+                    {articleChunks.map((group, index) => (
+                      <CarouselItem key={index}>
+                        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                          {group.map((article) => (
+                            <Link to={`/article/${article.id}`} key={article.id} className="group block bg-gray-50 p-3 rounded-md shadow-sm hover:shadow-md transition-shadow">
+                              <h4 className="font-semibold text-sm text-gray-900 mb-2 line-clamp-2 group-hover:text-blue-600 transition-colors">
                                 {article.title}
                               </h4>
-                              <p className="text-xs text-gray-600 mb-3 line-clamp-3">{article.excerpt}</p>
+                              <p className="text-xs text-gray-600 mb-2 line-clamp-3">{article.excerpt}</p>
                               <div className="flex items-center justify-between text-xs text-gray-500">
                                 <span>{article.author}</span>
                                 <span>{article.readTime}</span>
                               </div>
-                            </div>
-                          </div>
-                        </Link>
+                            </Link>
+                          ))}
+                        </div>
                       </CarouselItem>
                     ))}
                   </CarouselContent>
+
                   <div className="flex justify-center mt-4 space-x-2">
                     <CarouselPrevious className="relative inset-auto translate-y-0 translate-x-0" />
                     <CarouselNext className="relative inset-auto translate-y-0 translate-x-0" />
                   </div>
                 </Carousel>
+
               </div>
             </div>
           </div>
@@ -453,7 +469,7 @@ useEffect(() => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">First Blog</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Technologies Blog</h2>
             <Link to="/articles" className="flex items-center text-blue-600 hover:text-blue-800 font-medium">
               View All <ChevronRight className="w-4 h-4 ml-1" />
             </Link>
@@ -502,7 +518,7 @@ useEffect(() => {
       <section className="py-16 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Second Blog</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Education Blog</h2>
             <Link to="/articles" className="flex items-center text-blue-600 hover:text-blue-800 font-medium">
               View All <ChevronRight className="w-4 h-4 ml-1" />
             </Link>
@@ -551,7 +567,7 @@ useEffect(() => {
       <section className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Third Blog</h2>
+            <h2 className="text-3xl font-bold text-gray-900">Jobs Blog</h2>
             <Link to="/articles" className="flex items-center text-blue-600 hover:text-blue-800 font-medium">
               View All <ChevronRight className="w-4 h-4 ml-1" />
             </Link>
