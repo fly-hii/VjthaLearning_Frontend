@@ -1,7 +1,7 @@
 
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Filter, Calendar, User, Clock } from 'lucide-react';
+import { Search, Filter, Calendar, User, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
@@ -9,7 +9,8 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { blogPosts } from '@/lib/mockdata'; // Assuming articles data is imported from a data file
+import { blogPosts } from '@/lib/mockdata';
+
 const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -25,7 +26,7 @@ const Articles = () => {
     { value: 'case-studies', label: 'Case Studies' },
   ];
 
-  const articles = blogPosts
+  const articles = blogPosts;
 
   const filteredArticles = articles.filter(article => {
     const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -33,8 +34,7 @@ const Articles = () => {
                          article.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
                          article.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    const matchesCategory = selectedCategory === 'All Categories' || article.category == selectedCategory;
-    console.log(selectedCategory)
+    const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
     
     return matchesSearch && matchesCategory;
   });
@@ -55,16 +55,20 @@ const Articles = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      {/* Filters and Search */}
-      <section className="py-8 bg-gray-50 sticky top-20 z-40">
+      
+      {/* Page Header */}
+      <section className="py-8 bg-gray-50 border-b-4 border-black">
         <div className="container mx-auto px-4">
+          <h1 className="text-4xl font-bold text-center mb-8">Articles</h1>
+          
+          {/* Filters and Search */}
           <div className="flex flex-col lg:flex-row gap-4 items-center justify-between">
             <div className="flex-1 max-w-md">
               <div className="relative">
                 <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
                 <Input
                   type="text"
-                  placeholder="Search articles, authors, or topics..."
+                  placeholder="Search articles..."
                   value={searchQuery}
                   onChange={(e) => setSearchQuery(e.target.value)}
                   className="pl-10 border-2 focus:border-blue-500"
@@ -80,7 +84,7 @@ const Articles = () => {
                 </SelectTrigger>
                 <SelectContent>
                   {categories.map((category) => (
-                    <SelectItem key={category.label} value={category.label}>
+                    <SelectItem key={category.value} value={category.value}>
                       {category.label}
                     </SelectItem>
                   ))}
@@ -99,100 +103,115 @@ const Articles = () => {
               </Select>
             </div>
           </div>
-          
-          <div className="mt-4 flex items-center justify-between">
-            <p className="text-gray-600">
-              Showing {sortedArticles.length} of {articles.length} articles
-            </p>
-            {(searchQuery || selectedCategory !== 'All Categories') && (
-              <Button
-                variant="outline"
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                }}
-              >
-                Clear Filters
-              </Button>
-            )}
-          </div>
         </div>
       </section>
 
-      {/* Articles Grid */}
-      <section className="py-12">
+      {/* Main Content */}
+      <section className="py-8">
         <div className="container mx-auto px-4">
-          {sortedArticles.length === 0 ? (
-            <div className="text-center py-16">
-              <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
-              <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
-              <Button
-                onClick={() => {
-                  setSearchQuery('');
-                  setSelectedCategory('all');
-                }}
-              >
-                Show All Articles
-              </Button>
+          <div className="flex gap-8">
+            {/* Articles Grid - Left Side */}
+            <div className="flex-1">
+              <div className="bg-gray-100 p-6 border-4 border-black">
+                {sortedArticles.length === 0 ? (
+                  <div className="text-center py-16">
+                    <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
+                    <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
+                    <Button
+                      onClick={() => {
+                        setSearchQuery('');
+                        setSelectedCategory('all');
+                      }}
+                    >
+                      Show All Articles
+                    </Button>
+                  </div>
+                ) : (
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {sortedArticles.slice(0, 9).map((article) => (
+                      <Card key={article.id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
+                        <div className="relative">
+                          <img
+                            src={article.image}
+                            alt={article.title}
+                            className="w-full h-40 object-cover"
+                          />
+                          {article.featured && (
+                            <Badge className="absolute top-2 left-2 bg-red-600 text-white">
+                              Featured
+                            </Badge>
+                          )}
+                        </div>
+                        <CardContent className="p-4">
+                          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                            {article.title}
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                            {article.excerpt}
+                          </p>
+                          
+                          <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                            <div className="flex items-center">
+                              <User className="w-3 h-3 mr-1" />
+                              {article.author}
+                            </div>
+                            <div className="flex items-center">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {new Date(article.date).toLocaleDateString()}
+                            </div>
+                          </div>
+                          
+                          <Link to={`/article/${article.id}`}>
+                            <Button size="sm" className="w-full">
+                              Read More
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                          </Link>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
-          ) : (
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {sortedArticles.map((article) => (
-                <Link key={article.id} to={`/article/${article.id}`} className="group">
-                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
-                    <div className="relative">
+
+            {/* Latest Articles Sidebar - Right Side */}
+            <div className="w-80">
+              <div className="bg-gray-100 p-6 border-4 border-black">
+                <h2 className="text-xl font-bold mb-6 text-center">Latest Articles</h2>
+                <div className="space-y-4">
+                  {sortedArticles.slice(0, 5).map((article) => (
+                    <div key={article.id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
                       <img
                         src={article.image}
                         alt={article.title}
-                        className="w-full h-48 object-cover group-hover:scale-105 transition-transform duration-300"
+                        className="w-16 h-16 object-cover rounded bg-gray-300"
                       />
-                      {article.featured && (
-                        <Badge className="absolute top-4 left-4 bg-red-600 text-white">
-                          Featured
-                        </Badge>
-                      )}
-                      <Badge className="absolute top-4 right-4 bg-white/90 text-gray-800">
-                        {article.category}
-                      </Badge>
+                      <div className="flex-1">
+                        <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
+                          {article.title}
+                        </h4>
+                        <div className="flex items-center text-xs text-gray-500">
+                          <Calendar className="w-3 h-3 mr-1" />
+                          {new Date(article.date).toLocaleDateString()}
+                        </div>
+                      </div>
                     </div>
-                    <CardContent className="p-6 flex flex-col flex-grow">
-                      <h3 className="text-xl font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-                        {article.title}
-                      </h3>
-                      <p className="text-gray-600 mb-4 flex-grow line-clamp-3">
-                        {article.excerpt}
-                      </p>
-                      
-                      <div className="flex flex-wrap gap-2 mb-4">
-                        {article.tags.slice(0, 3).map((tag) => (
-                          <Badge key={tag} variant="outline" className="text-xs">
-                            #{tag}
-                          </Badge>
-                        ))}
-                      </div>
-                      
-                      <div className="flex items-center justify-between text-sm text-gray-500 mt-auto">
-                        <div className="flex items-center space-x-4">
-                          <div className="flex items-center">
-                            <User className="w-4 h-4 mr-1" />
-                            {article.author}
-                          </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-1" />
-                            {new Date(article.date).toLocaleDateString()}
-                          </div>
-                        </div>
-                        <div className="flex items-center">
-                          <Clock className="w-4 h-4 mr-1" />
-                          {article.readTime}
-                        </div>
-                      </div>
-                    </CardContent>
-                  </Card>
-                </Link>
-              ))}
+                  ))}
+                </div>
+                
+                {/* Navigation arrows at bottom */}
+                <div className="flex justify-center mt-6 gap-4">
+                  <Button variant="outline" size="icon">
+                    <ArrowRight className="w-4 h-4 rotate-180" />
+                  </Button>
+                  <Button variant="outline" size="icon">
+                    <ArrowRight className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
             </div>
-          )}
+          </div>
         </div>
       </section>
 
