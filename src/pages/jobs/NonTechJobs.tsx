@@ -8,85 +8,28 @@ import Footer from '@/components/Footer';
 
 const NonTechJobs = () => {
   const nonTechJobs = [
-    {
-      id: 1,
-      title: "Marketing Manager",
-      company: "Coca-Cola",
-      location: "Atlanta, GA",
-      type: "Full-time",
-      salary: "$80k - $110k",
-      experience: "4+ years",
-      description: "Lead marketing campaigns and brand strategy for global products...",
-      postedTime: "2 hours ago",
-      isUrgent: false,
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop"
-    },
-    {
-      id: 2,
-      title: "HR Business Partner",
-      company: "Johnson & Johnson",
-      location: "New Brunswick, NJ",
-      type: "Full-time",
-      salary: "$90k - $120k",
-      experience: "5+ years",
-      description: "Partner with business leaders to develop HR strategies and solutions...",
-      postedTime: "4 hours ago",
-      isUrgent: true,
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop"
-    },
-    {
-      id: 3,
-      title: "Financial Analyst",
-      company: "Goldman Sachs",
-      location: "New York, NY",
-      type: "Full-time",
-      salary: "$95k - $130k",
-      experience: "3+ years",
-      description: "Analyze financial data and provide investment recommendations...",
-      postedTime: "1 hour ago",
-      isUrgent: false,
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop"
-    },
-    {
-      id: 4,
-      title: "Sales Director",
-      company: "Oracle",
-      location: "Austin, TX",
-      type: "Full-time",
-      salary: "$120k - $160k",
-      experience: "6+ years",
-      description: "Drive enterprise sales and build strategic customer relationships...",
-      postedTime: "3 hours ago",
-      isUrgent: true,
-      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop"
-    },
-    {
-      id: 5,
-      title: "Content Writer",
-      company: "HubSpot",
-      location: "Cambridge, MA",
-      type: "Remote",
-      salary: "$60k - $80k",
-      experience: "2+ years",
-      description: "Create engaging content for blogs, social media, and marketing materials...",
-      postedTime: "5 hours ago",
-      isUrgent: false,
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop"
-    },
-    {
-      id: 6,
-      title: "Operations Manager",
-      company: "FedEx",
-      location: "Memphis, TN",
-      type: "Full-time",
-      salary: "$85k - $115k",
-      experience: "4+ years",
-      description: "Oversee daily operations and optimize logistics processes...",
-      postedTime: "6 hours ago",
-      isUrgent: false,
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop"
-    }
-  ];
+  { id: 1, title: "Marketing Manager", company: "Coca-Cola", location: "Atlanta, GA", type: "Full-time", salary: "$80k - $110k", experience: "4+ years", description: "Lead marketing campaigns and brand strategy for global products...", postedTime: "2 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop" },
+  { id: 2, title: "HR Business Partner", company: "Johnson & Johnson", location: "New Brunswick, NJ", type: "Full-time", salary: "$90k - $120k", experience: "5+ years", description: "Partner with business leaders to develop HR strategies and solutions...", postedTime: "4 hours ago", isUrgent: true, image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop" },
+  { id: 3, title: "Financial Analyst", company: "Goldman Sachs", location: "New York, NY", type: "Full-time", salary: "$95k - $130k", experience: "3+ years", description: "Analyze financial data and provide investment recommendations...", postedTime: "1 hour ago", isUrgent: false, image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop" },
+  { id: 4, title: "Sales Director", company: "Oracle", location: "Austin, TX", type: "Full-time", salary: "$120k - $160k", experience: "6+ years", description: "Drive enterprise sales and build strategic customer relationships...", postedTime: "3 hours ago", isUrgent: true, image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop" },
+  { id: 5, title: "Content Writer", company: "HubSpot", location: "Cambridge, MA", type: "Remote", salary: "$60k - $80k", experience: "2+ years", description: "Create engaging content for blogs, social media, and marketing materials...", postedTime: "5 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop" },
+  { id: 6, title: "Operations Manager", company: "FedEx", location: "Memphis, TN", type: "Full-time", salary: "$85k - $115k", experience: "4+ years", description: "Oversee daily operations and optimize logistics processes...", postedTime: "6 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop" },
+  { id: 7, title: "Administrative Assistant", company: "General Motors", location: "Detroit, MI", type: "Full-time", salary: "$45k - $60k", experience: "2+ years", description: "Support executive teams with scheduling, communication, and office duties...", postedTime: "1 hour ago", isUrgent: false, image: "https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?w=400&h=200&fit=crop" },
+  { id: 8, title: "Recruiter", company: "Walmart", location: "Bentonville, AR", type: "Full-time", salary: "$65k - $85k", experience: "3+ years", description: "Manage full-cycle recruiting and talent sourcing...", postedTime: "3 hours ago", isUrgent: true, image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop" },
+  { id: 9, title: "Customer Service Representative", company: "American Express", location: "Phoenix, AZ", type: "Full-time", salary: "$50k - $65k", experience: "1+ years", description: "Assist customers with account inquiries and support issues...", postedTime: "2 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop" },
+  { id: 10, title: "Event Planner", company: "Marriott", location: "Chicago, IL", type: "Contract", salary: "$55k - $75k", experience: "2+ years", description: "Organize and coordinate corporate and private events...", postedTime: "5 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop" },
+  { id: 11, title: "Legal Assistant", company: "Deloitte", location: "New York, NY", type: "Full-time", salary: "$65k - $85k", experience: "2+ years", description: "Support legal team with documentation, scheduling, and filings...", postedTime: "1 hour ago", isUrgent: false, image: "https://images.unsplash.com/photo-1607746882042-944635dfe10e?w=400&h=200&fit=crop" },
+  { id: 12, title: "Business Development Associate", company: "PepsiCo", location: "Purchase, NY", type: "Full-time", salary: "$70k - $95k", experience: "3+ years", description: "Identify new opportunities and drive business growth...", postedTime: "4 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop" },
+  { id: 13, title: "Human Resources Coordinator", company: "Nestle", location: "Arlington, VA", type: "Full-time", salary: "$60k - $75k", experience: "2+ years", description: "Coordinate HR activities and onboarding for new hires...", postedTime: "6 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1533750349088-cd871a92f312?w=400&h=200&fit=crop" },
+  { id: 14, title: "Communications Specialist", company: "NBCUniversal", location: "Los Angeles, CA", type: "Full-time", salary: "$75k - $100k", experience: "3+ years", description: "Manage internal and external communication strategies...", postedTime: "3 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=200&fit=crop" },
+  { id: 15, title: "Public Relations Manager", company: "Nike", location: "Beaverton, OR", type: "Full-time", salary: "$90k - $120k", experience: "5+ years", description: "Lead PR initiatives to enhance brand reputation...", postedTime: "2 hours ago", isUrgent: true, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop" },
+  { id: 16, title: "Procurement Specialist", company: "GE", location: "Boston, MA", type: "Full-time", salary: "$70k - $95k", experience: "3+ years", description: "Source vendors and manage procurement contracts...", postedTime: "5 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop" },
+  { id: 17, title: "Training Coordinator", company: "UPS", location: "Louisville, KY", type: "Full-time", salary: "$60k - $80k", experience: "2+ years", description: "Develop and facilitate training programs for staff...", postedTime: "4 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop" },
+  { id: 18, title: "Accountant", company: "Ernst & Young", location: "New York, NY", type: "Full-time", salary: "$85k - $110k", experience: "4+ years", description: "Manage financial records, reporting, and compliance...", postedTime: "6 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1542744173-05336fcc7ad4?w=400&h=200&fit=crop" },
+  { id: 19, title: "Facilities Manager", company: "Siemens", location: "Pittsburgh, PA", type: "Full-time", salary: "$80k - $105k", experience: "3+ years", description: "Oversee building operations and maintenance activities...", postedTime: "3 hours ago", isUrgent: false, image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop" },
+  { id: 20, title: "Retail Store Manager", company: "Zara", location: "Miami, FL", type: "Full-time", salary: "$65k - $90k", experience: "3+ years", description: "Manage store operations and team performance...", postedTime: "2 hours ago", isUrgent: true, image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop" }
+];
+
 
   const latestJobs = [
     { id: 1, title: "Account Manager", company: "Salesforce", time: "1h ago" },
@@ -100,7 +43,7 @@ const NonTechJobs = () => {
     <div className="min-h-screen bg-white">
       <Navigation />
       
-      <section className="py-8 bg-gray-50 border-b-4 border-black">
+      <section className="py-8 bg-gray-50 ">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-center mb-4">Non-Tech Jobs</h1>
           <p className="text-center text-gray-600 max-w-2xl mx-auto">
@@ -113,10 +56,10 @@ const NonTechJobs = () => {
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
             <div className="flex-1">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-gray-100 p-6 ">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {nonTechJobs.map((job) => (
-                    <Card key={job.id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
+                    <Card key={job.id} className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                       <div className="relative">
                         <img
                           src={job.image}
@@ -176,7 +119,7 @@ const NonTechJobs = () => {
             </div>
 
             <div className="w-80">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-gray-100 p-6 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Non-Tech Jobs</h2>
                 <div className="space-y-4">
                   {latestJobs.map((job) => (
