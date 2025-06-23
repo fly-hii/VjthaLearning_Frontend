@@ -16,6 +16,7 @@ import {
   CarouselNext,
   CarouselPrevious,
 } from "@/components/ui/carousel"
+import { BackToTop } from './BacktoTop';
 
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -397,7 +398,7 @@ useEffect(() => {
             {/* Left Column - Two boxes with article lists */}
             <div className="lg:col-span-2 space-y-8">
               {/* First Box */}
-              <div className="bg-white border-4 border-gray-400 p-6">
+              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                   {highlightArticles.slice(0, 10).map((article) => (
                     <Link key={article.id} to={`/article/${article.id}`} className="group flex space-x-4">
@@ -426,8 +427,8 @@ useEffect(() => {
             </div>
 
             {/* Right Column - Highly Recommended with Slider */}
-            <div className="lg:col-span-1">
-              <div className="bg-white border-4 border-gray-400 p-8">
+            <div className="lg:col-span-1" >
+              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-4">
                 <h3 className="text-xl font-bold text-gray-900 mb-6 border-b-2 border-dashed border-gray-400 pb-2">
                   Highly Recommended
                 </h3>
@@ -614,7 +615,7 @@ useEffect(() => {
 
       {/* Newsletter Signup */}
       <NewsletterSignup />
-
+      <BackToTop />
       <Footer />
     </div>
   );

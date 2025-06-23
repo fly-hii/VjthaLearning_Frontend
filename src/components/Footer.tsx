@@ -1,5 +1,6 @@
 import { Link } from 'react-router-dom';
 import { Mail, Phone, MapPin, Twitter, Linkedin, Facebook, Instagram } from 'lucide-react';
+import { BackToTop } from '@/pages/BacktoTop';
 
 const Footer = () => {
   const currentYear = new Date().getFullYear();
@@ -152,7 +153,9 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
+    <BackToTop />
+  </footer>
+    
   );
 };
 
