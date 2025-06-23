@@ -24,6 +24,7 @@ import UrgentRequirements from "./pages/jobs/UrgentRequirements";
 import NotFound from "./pages/NotFound";
 import Register from "./components/Register";
 import Login from "./components/Login";
+import SearchResults from "./components/SearchPage";
 
 const queryClient = new QueryClient();
 
@@ -38,6 +39,7 @@ const App = () => (
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
+            <Route path="/search" element={<SearchResults />} />
             <Route path="/articles" element={
               <ProtectedRoute>
                 <Articles />

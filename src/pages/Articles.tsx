@@ -57,7 +57,7 @@ const Articles = () => {
       <Navigation />
       
       {/* Page Header */}
-      <section className="py-8 bg-gray-50 border-b-4 border-black">
+      <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-center mb-8">Articles</h1>
           
@@ -112,7 +112,7 @@ const Articles = () => {
           <div className="flex gap-8">
             {/* Articles Grid - Left Side */}
             <div className="flex-1">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
                 {sortedArticles.length === 0 ? (
                   <div className="text-center py-16">
                     <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
@@ -177,7 +177,7 @@ const Articles = () => {
 
             {/* Latest Articles Sidebar - Right Side */}
             <div className="w-80">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Articles</h2>
                 <div className="space-y-4">
                   {sortedArticles.slice(0, 5).map((article) => (
@@ -214,7 +214,6 @@ const Articles = () => {
           </div>
         </div>
       </section>
-
       <Footer />
     </div>
   );

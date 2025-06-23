@@ -10,6 +10,7 @@ const Navigation = () => {
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
   const { user, signOut } = useAuth();
+  const [searchQuery, setSearchQuery] = useState('');
 
   const navItems = [
     { name: 'Trending', path: '/' },
@@ -110,9 +111,26 @@ const Navigation = () => {
           </div>
 
           <div className="hidden lg:flex items-center space-x-4">
-            <Button variant="outline" size="sm">
-              <Search className="w-4 h-4 mr-2" /> Search
-            </Button>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (searchQuery.trim()) {
+                  window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+                }
+              }}
+              className="flex items-center space-x-2"
+            >
+              <input
+                type="text"
+                placeholder="Search..."
+                className="px-2 py-1  border border-gray-300 rounded-md text-sm"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+              />
+              <Button variant="outline" size="sm" type="submit">
+                <Search className="w-4 h-4 mr-2" />
+              </Button>
+            </form>
             {user ? (
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-700">
@@ -167,9 +185,26 @@ const Navigation = () => {
               </div>
             ))}
             <div className="mt-4 pt-4 border-t border-gray-200 space-y-2">
-              <Button variant="outline" className="w-full">
-                <Search className="w-4 h-4 mr-2" /> Search
-              </Button>
+              <form
+                onSubmit={(e) => {
+                  e.preventDefault();
+                  if (searchQuery.trim()) {
+                    window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
+                  }
+                }}
+                className="flex items-center space-x-2"
+              >
+                <input
+                  type="text"
+                  placeholder="Search..."
+                  className="px-2 py-1 border border-gray-300 rounded-md text-sm"
+                  value={searchQuery}
+                  onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <Button variant="outline" size="sm" type="submit">
+                  <Search className="w-4 h-4 mr-2" />
+                </Button>
+              </form>
               {user ? (
                 <Button onClick={handleSignOut} variant="outline" className="w-full">
                   <LogOut className="w-4 h-4 mr-2" />
