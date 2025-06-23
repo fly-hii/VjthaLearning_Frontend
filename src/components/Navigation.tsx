@@ -123,12 +123,12 @@ const Navigation = () => {
               <input
                 type="text"
                 placeholder="Search..."
-                className="px-2 py-1  border border-gray-300 rounded-md text-sm"
+                className="px-2 py-2  border border-gray-300 rounded-md text-sm"
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
               />
-              <Button variant="outline" size="sm" type="submit">
-                <Search className="w-4 h-4 mr-2" />
+              <Button variant="outline" size="sm" type="submit" className="bg-blue-400">
+                <Search className="w-4 h-4" />
               </Button>
             </form>
             {user ? (
