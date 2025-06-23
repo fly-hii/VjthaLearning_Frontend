@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 
 export const BackToTop = () => {
@@ -6,18 +5,17 @@ export const BackToTop = () => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    const handleScroll = () => {
-      const bodyHeight = document.body.scrollHeight;
-      const windowHeight = window.innerHeight;
-      const scrollEndPos = bodyHeight - windowHeight;
-      const totalScrollPercent = (window.scrollY / scrollEndPos) * 100;
+    const onScroll = () => {
+      const scrollTop = window.scrollY;
+      const docHeight = Math.max(document.body.scrollHeight - window.innerHeight, 1); // avoid division by 0
+      const scroll = Math.min((scrollTop / docHeight) * 100, 100);
 
-      setScrollPercent(Math.round(totalScrollPercent));
-      setIsVisible(totalScrollPercent > 5);
+      setScrollPercent(scroll);
+      setIsVisible(scroll > 2); // 🟢 now hidden until you scroll more than 4%
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
+    window.addEventListener('scroll', onScroll);
+    return () => window.removeEventListener('scroll', onScroll);
   }, []);
 
   const scrollToTop = () => {
@@ -27,12 +25,44 @@ export const BackToTop = () => {
   return (
     <button
       onClick={scrollToTop}
-      className={`fixed bottom-8 right-8 w-14 h-14 bg-blue-200 text-black rounded-full font-bold text-sm transition-all duration-300 z-40 ${
-        isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4 pointer-events-none'
-      }`}
-      data-back-top-btn
+      className={`group fixed bottom-6 right-6 w-16 h-16 flex items-center justify-center rounded-full z-50 
+      backdrop-blur-sm bg-blue-300 border border-white/30 
+      transition-all duration-300 transform hover:scale-110 
+      ${isVisible ? 'opacity-100 animate-pulse' : 'opacity-0 pointer-events-none'} 
+      shadow-[0_0_20px_rgba(99,102,241,0.6)] hover:shadow-[0_0_30px_rgba(147,51,234,0.8)]`}
+      aria-label="Back to top"
+      title={`${Math.round(scrollPercent)}% scrolled`}
     >
-      {scrollPercent}%
+      <svg className="absolute w-16 h-16 transform -rotate-90">
+        <circle
+          cx="32"
+          cy="32"
+          r="28"
+          stroke="rgba(255,255,255,0.2)"
+          strokeWidth="4"
+          fill="none"
+        />
+        <circle
+          cx="32"
+          cy="32"
+          r="28"
+          stroke="white"
+          strokeWidth="4"
+          strokeLinecap="round"
+          strokeDasharray={175}
+          strokeDashoffset={175 - (175 * scrollPercent) / 100}
+          fill="none"
+        />
+      </svg>
+      <svg
+        className="w-6 h-6 text-white group-hover:animate-bounce transition-transform"
+        fill="none"
+        stroke="currentColor"
+        strokeWidth="3"
+        viewBox="0 0 24 24"
+      >
+        <path d="M5 15l7-7 7 7" strokeLinecap="round" strokeLinejoin="round" />
+      </svg>
     </button>
   );
 };
