@@ -169,7 +169,7 @@ const Login = () => {
                 <img
                   src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png"
                   alt="VJtha Logo"
-                  className="w-40 h-40 mb-4 object-contain border border-gray-300 p-2 bg-white"
+                  className="w-40 h-40 mb-4 object-contain bg-white"
                 />
                 <h2 className="text-xl font-semibold italic mb-2">
                   Welcome to VJtha Media
