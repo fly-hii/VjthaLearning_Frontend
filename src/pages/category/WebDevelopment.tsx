@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, User } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -68,8 +67,9 @@ const WebDevelopment = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
-      <section className="py-8 bg-gray-50 border-b-4 border-black">
+
+      {/* Header */}
+      <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-center mb-4">Web Development</h1>
           <p className="text-center text-gray-600 max-w-2xl mx-auto">
@@ -78,14 +78,19 @@ const WebDevelopment = () => {
         </div>
       </section>
 
+      {/* Content */}
       <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
+            {/* Left Column: Articles */}
             <div className="flex-1">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-gray-100 p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {webDevArticles.map((article) => (
-                    <Card key={article.id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
+                    <Card
+                      key={article.id}
+                      className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-green-500/40 transition-shadow"
+                    >
                       <div className="relative">
                         <img
                           src={article.image}
@@ -103,7 +108,6 @@ const WebDevelopment = () => {
                         <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                           {article.excerpt}
                         </p>
-                        
                         <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                           <div className="flex items-center">
                             <User className="w-3 h-3 mr-1" />
@@ -114,7 +118,6 @@ const WebDevelopment = () => {
                             {new Date(article.date).toLocaleDateString()}
                           </div>
                         </div>
-                        
                         <Link to={`/article/${article.id}`}>
                           <Button size="sm" className="w-full">
                             Read More
@@ -128,12 +131,16 @@ const WebDevelopment = () => {
               </div>
             </div>
 
+            {/* Right Column: Sidebar */}
             <div className="w-80">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-gray-100 p-6 hover:shadow-lg hover:shadow-green-500/40 transition-shadow">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Web Dev Articles</h2>
                 <div className="space-y-4">
                   {webDevArticles.slice(0, 5).map((article) => (
-                    <div key={article.id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
+                    <div
+                      key={article.id}
+                      className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0"
+                    >
                       <img
                         src={article.image}
                         alt={article.title}
@@ -151,7 +158,7 @@ const WebDevelopment = () => {
                     </div>
                   ))}
                 </div>
-                
+
                 <div className="flex justify-center mt-6 gap-4">
                   <Button variant="outline" size="icon">
                     <ArrowRight className="w-4 h-4 rotate-180" />

@@ -1,4 +1,3 @@
-
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, User, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -74,8 +73,8 @@ const CaseStudies = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
-      <section className="py-8 bg-gray-50 border-b-4 border-black">
+
+      <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-center mb-4">
             <FileText className="w-8 h-8 text-indigo-600 mr-3" />
@@ -90,11 +89,15 @@ const CaseStudies = () => {
       <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
+            {/* Main Section */}
             <div className="flex-1">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-gray-100 p-6">
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                   {caseStudies.map((study) => (
-                    <Card key={study.id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
+                    <Card
+                      key={study.id}
+                      className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow"
+                    >
                       <div className="relative">
                         <img
                           src={study.image}
@@ -115,7 +118,7 @@ const CaseStudies = () => {
                         <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                           {study.excerpt}
                         </p>
-                        
+
                         <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                           <div className="flex items-center">
                             <User className="w-3 h-3 mr-1" />
@@ -126,7 +129,7 @@ const CaseStudies = () => {
                             {new Date(study.date).toLocaleDateString()}
                           </div>
                         </div>
-                        
+
                         <Link to={`/article/${study.id}`}>
                           <Button size="sm" className="w-full">
                             Read Case Study
@@ -140,8 +143,9 @@ const CaseStudies = () => {
               </div>
             </div>
 
+            {/* Sidebar */}
             <div className="w-80">
-              <div className="bg-gray-100 p-6 border-4 border-black">
+              <div className="bg-gray-100 p-6 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                 <h2 className="text-xl font-bold mb-6 text-center">Featured Case Studies</h2>
                 <div className="space-y-4">
                   {caseStudies.slice(0, 5).map((study) => (
@@ -152,7 +156,7 @@ const CaseStudies = () => {
                         className="w-16 h-16 object-cover rounded bg-gray-300"
                       />
                       <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
+                        <h4 className="text-sm font-semibold text-gray-900 mb-1 line-clamp-2">
                           {study.title}
                         </h4>
                         <p className="text-xs text-indigo-600 mb-1">{study.company}</p>
@@ -164,7 +168,7 @@ const CaseStudies = () => {
                     </div>
                   ))}
                 </div>
-                
+
                 <div className="flex justify-center mt-6 gap-4">
                   <Button variant="outline" size="icon">
                     <ArrowRight className="w-4 h-4 rotate-180" />
