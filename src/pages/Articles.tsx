@@ -104,7 +104,7 @@ const Articles = () => {
             <p className="text-gray-600">
               Showing {sortedArticles.length} of {articles.length} articles
             </p>
-            {(searchQuery || selectedCategory !== 'all') && (
+            {(searchQuery || selectedCategory !== 'All Categories') && (
               <Button
                 variant="outline"
                 onClick={() => {
