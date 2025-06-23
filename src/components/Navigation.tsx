@@ -116,7 +116,7 @@ const Navigation = () => {
             {user ? (
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-700">
-                  Welcome, {user.user_metadata?.name || user.email}
+                  Welcome, {user.name || user.email}
                 </span>
                 <Button onClick={handleSignOut} variant="outline" size="sm">
                   <LogOut className="w-4 h-4 mr-2" />

@@ -6,9 +6,15 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { caseStudyArticles } from '@/lib/mockdata';
+import { blogPosts } from '@/lib/mockdata';
 
 const CaseStudies = () => {
+  // Filter blog posts for case studies or use all posts if no specific case studies
+  const caseStudyArticles = blogPosts.filter(post => 
+    post.category.toLowerCase().includes('case') || 
+    post.tags.some(tag => tag.toLowerCase().includes('case'))
+  ).slice(0, 9);
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
