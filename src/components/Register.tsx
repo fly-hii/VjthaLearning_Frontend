@@ -69,7 +69,7 @@ const Register: React.FC = () => {
     <>
       <Navigation />
       <div className="container flex items-center justify-center min-h-[calc(100vh-200px)] py-8">
-        <div className="w-full max-w-4xl px-4">
+        <div className="w-full max-w-5xl px-4">
           <Card className="shadow-lg bg-blue-50 border border-gray-200"
            style={{ fontFamily: `'Georgia', 'Times New Roman', serif` }}>
             <div className="grid grid-cols-1 md:grid-cols-2">
