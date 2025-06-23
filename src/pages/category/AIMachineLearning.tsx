@@ -5,64 +5,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { aiArticle } from '@/lib/mockdata'; // Assuming you have a data file with AI articles
 
 const AIMachineLearning = () => {
-  const aiArticles = [
-    {
-      id: 1,
-      title: "The Future of Artificial Intelligence in Healthcare",
-      excerpt: "Exploring how AI is revolutionizing medical diagnosis and patient care...",
-      author: "Dr. Sarah Chen",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
-      tags: ["AI", "Healthcare", "Machine Learning"]
-    },
-    {
-      id: 2,
-      title: "Deep Learning Breakthrough in Natural Language Processing",
-      excerpt: "New transformer models are pushing the boundaries of language understanding...",
-      author: "Prof. Michael Rodriguez",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["Deep Learning", "NLP", "Transformers"]
-    },
-    {
-      id: 3,
-      title: "Machine Learning Ethics: Building Responsible AI Systems",
-      excerpt: "Addressing bias and fairness in machine learning algorithms...",
-      author: "Dr. Amanda Johnson",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Ethics", "AI", "Bias"]
-    },
-    {
-      id: 4,
-      title: "Computer Vision Applications in Autonomous Vehicles",
-      excerpt: "How neural networks are enabling self-driving car technology...",
-      author: "John Park",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Computer Vision", "Autonomous Vehicles"]
-    },
-    {
-      id: 5,
-      title: "Reinforcement Learning in Game AI",
-      excerpt: "From chess to video games, how RL is creating intelligent opponents...",
-      author: "Lisa Wang",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["Reinforcement Learning", "Gaming", "AI"]
-    },
-    {
-      id: 6,
-      title: "Generative AI: The Creative Revolution",
-      excerpt: "How AI is transforming art, music, and content creation...",
-      author: "David Kim",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["Generative AI", "Creativity", "Art"]
-    }
-  ];
+  const aiArticles = aiArticle; // Get the first 9 articles for display
 
   return (
     <div className="min-h-screen bg-white">
