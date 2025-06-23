@@ -1,13 +1,15 @@
+
 import { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Menu, X, Search, ChevronDown } from 'lucide-react';
+import { Menu, X, Search, ChevronDown, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { Facebook, Instagram, Linkedin } from 'lucide-react';
+import { useAuth } from '@/contexts/AuthContext';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
+  const { user, signOut } = useAuth();
 
   const navItems = [
     { name: 'Trending', path: '/' },
@@ -38,14 +40,11 @@ const Navigation = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
-  const timeoutRef = useRef(null);
+  const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const today = new Date().toLocaleDateString('en-IN', {
-    weekday: 'long',
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric'
-  });
+  const handleSignOut = async () => {
+    await signOut();
+  };
 
   return (
     <nav className="bg-gradient-to-r from-blue-200 to-blue-300  text-dark shadow-lg sticky top-0 z-50">
@@ -71,7 +70,7 @@ const Navigation = () => {
                 onMouseLeave={() => {
                   timeoutRef.current = setTimeout(() => {
                     setActiveDropdown(null);
-                  }, 300); // 0.5 seconds
+                  }, 300);
                 }}
               >
                 {item.dropdown ? (
@@ -114,10 +113,21 @@ const Navigation = () => {
             <Button variant="outline" size="sm">
               <Search className="w-4 h-4 mr-2" /> Search
             </Button>
-            <Link to="/login">
-              <Button className="bg-blue-600 hover:bg-blue-700">Login</Button>
-            </Link>
-
+            {user ? (
+              <div className="flex items-center space-x-2">
+                <span className="text-sm text-gray-700">
+                  Welcome, {user.user_metadata?.name || user.email}
+                </span>
+                <Button onClick={handleSignOut} variant="outline" size="sm">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              </div>
+            ) : (
+              <Link to="/login">
+                <Button className="bg-blue-600 hover:bg-blue-700">Login</Button>
+              </Link>
+            )}
           </div>
 
           <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -160,7 +170,16 @@ const Navigation = () => {
               <Button variant="outline" className="w-full">
                 <Search className="w-4 h-4 mr-2" /> Search
               </Button>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">Login</Button>
+              {user ? (
+                <Button onClick={handleSignOut} variant="outline" className="w-full">
+                  <LogOut className="w-4 h-4 mr-2" />
+                  Logout
+                </Button>
+              ) : (
+                <Link to="/login">
+                  <Button className="w-full bg-blue-600 hover:bg-blue-700">Login</Button>
+                </Link>
+              )}
             </div>
           </div>
         )}

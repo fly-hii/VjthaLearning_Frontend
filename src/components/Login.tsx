@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -14,7 +14,6 @@ import {
   FormMessage,
 } from '@/components/ui/form';
 import { Input } from '@/components/ui/input';
-import { toast } from 'sonner';
 import {
   Card,
   CardContent,
@@ -25,6 +24,7 @@ import {
 } from '@/components/ui/card';
 import { Eye, EyeOff, Lock, Mail } from 'lucide-react';
 import Navigation from './Navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -37,6 +37,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
+  const { signIn } = useAuth();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -46,27 +47,16 @@ const Login = () => {
     },
   });
 
-  const onSubmit = (data: FormValues) => {
+  const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
-
-    const users = JSON.parse(localStorage.getItem('vjtha_users') || '[]');
-    const admins = JSON.parse(localStorage.getItem('vjtha_admins') || '[]');
-    const allAccounts = [...users, ...admins];
-
-    const found = allAccounts.find((acc: any) =>
-      acc.email === data.email && acc.password === data.password
-    );
-
-    if (found) {
-      toast.success(`Logged in successfully`);
-      setTimeout(() => {
-        navigate('/dashboard');
-      }, 1000);
-    } else {
-      toast.error('Invalid credentials');
+    try {
+      await signIn(data.email, data.password);
+      navigate('/');
+    } catch (error) {
+      console.error('Login error:', error);
+    } finally {
+      setIsLoading(false);
     }
-
-    setIsLoading(false);
   };
 
   return (
@@ -156,7 +146,7 @@ const Login = () => {
 
                 <CardFooter className="flex flex-col">
                   <div className="text-center w-full text-sm">
-                    Don’t have an account?{' '}
+                    Don't have an account?{' '}
                     <Link to="/register" className="text-primary hover:underline font-medium">
                       Sign up
                     </Link>
@@ -185,4 +175,5 @@ const Login = () => {
     </>
   );
 };
+
 export default Login;

@@ -4,6 +4,8 @@ import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { AuthProvider } from "@/contexts/AuthContext";
+import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Articles from "./pages/Articles";
 import About from "./pages/About";
@@ -20,7 +22,6 @@ import NonTechJobs from "./pages/jobs/NonTechJobs";
 import Internships from "./pages/jobs/Internships";
 import UrgentRequirements from "./pages/jobs/UrgentRequirements";
 import NotFound from "./pages/NotFound";
-import { LogIn } from "lucide-react";
 import Register from "./components/Register";
 import Login from "./components/Login";
 
@@ -32,27 +33,76 @@ const App = () => (
       <Toaster />
       <Sonner />
       <BrowserRouter>
-        <Routes>
-          <Route path="/" element={<Index />} />
-          <Route path="/articles" element={<Articles />} />
-          <Route path="/about" element={<About />} />
-          <Route path="/contact" element={<Contact />} />
-          <Route path="/category/tech-innovation" element={<TechInnovation />} />
-          <Route path="/category/ai-machine-learning" element={<AIMachineLearning />} />
-          <Route path="/category/web-development" element={<WebDevelopment />} />
-          <Route path="/category/company-culture" element={<CompanyCulture />} />
-          <Route path="/category/industry-trends" element={<IndustryTrends />} />
-          <Route path="/category/case-studies" element={<CaseStudies />} />
-          <Route path="/jobs/today" element={<TodayJobs />} />
-          <Route path="/jobs/tech" element={<TechJobs />} />
-          <Route path="/jobs/non-tech" element={<NonTechJobs />} />
-          <Route path="/jobs/internships" element={<Internships />} />
-          <Route path="/jobs/urgent" element={<UrgentRequirements />} />
-          <Route path="/login" element={<Login />} /> {/* Default route for jobs */}
-          <Route path="/register" element={<Register />} /> {/* Default route for jobs */}
-          {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
+        <AuthProvider>
+          <Routes>
+            <Route path="/" element={<Index />} />
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            <Route path="/articles" element={
+              <ProtectedRoute>
+                <Articles />
+              </ProtectedRoute>
+            } />
+            <Route path="/about" element={<About />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/category/tech-innovation" element={
+              <ProtectedRoute>
+                <TechInnovation />
+              </ProtectedRoute>
+            } />
+            <Route path="/category/ai-machine-learning" element={
+              <ProtectedRoute>
+                <AIMachineLearning />
+              </ProtectedRoute>
+            } />
+            <Route path="/category/web-development" element={
+              <ProtectedRoute>
+                <WebDevelopment />
+              </ProtectedRoute>
+            } />
+            <Route path="/category/company-culture" element={
+              <ProtectedRoute>
+                <CompanyCulture />
+              </ProtectedRoute>
+            } />
+            <Route path="/category/industry-trends" element={
+              <ProtectedRoute>
+                <IndustryTrends />
+              </ProtectedRoute>
+            } />
+            <Route path="/category/case-studies" element={
+              <ProtectedRoute>
+                <CaseStudies />
+              </ProtectedRoute>
+            } />
+            <Route path="/jobs/today" element={
+              <ProtectedRoute>
+                <TodayJobs />
+              </ProtectedRoute>
+            } />
+            <Route path="/jobs/tech" element={
+              <ProtectedRoute>
+                <TechJobs />
+              </ProtectedRoute>
+            } />
+            <Route path="/jobs/non-tech" element={
+              <ProtectedRoute>
+                <NonTechJobs />
+              </ProtectedRoute>
+            } />
+            <Route path="/jobs/internships" element={
+              <ProtectedRoute>
+                <Internships />
+              </ProtectedRoute>
+            } />
+            <Route path="/jobs/urgent" element={
+              <ProtectedRoute>
+                <UrgentRequirements />
+              </ProtectedRoute>
+            } />
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
   </QueryClientProvider>

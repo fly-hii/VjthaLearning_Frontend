@@ -1,4 +1,4 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { useForm } from 'react-hook-form';
@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { toast } from 'sonner';
 import {
   Card,
   CardContent,
@@ -23,17 +22,19 @@ import {
   CardTitle,
 } from '@/components/ui/card';
 import Navigation from './Navigation';
+import { useAuth } from '@/contexts/AuthContext';
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
   email: z.string().email({ message: "Enter a valid email address." }),
-  password: z.string().min(8, { message: "Password must be at least 8 characters." }),
+  password: z.string().min(6, { message: "Password must be at least 6 characters." }),
   mobile: z.string().min(10, { message: "Mobile number must be at least 10 digits." }),
 });
 
 const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
+  const { signUp } = useAuth();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -45,24 +46,16 @@ const Register: React.FC = () => {
     },
   });
 
-  const onSubmit = (data: z.infer<typeof registerSchema>) => {
+  const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     setLoading(true);
-
-    const users = JSON.parse(localStorage.getItem("vjtha_users") || "[]");
-    const alreadyExists = users.some((u: any) => u.email === data.email);
-
-    if (alreadyExists) {
-      toast.error("User already registered with this email.");
+    try {
+      await signUp(data.email, data.password, data.name);
+      navigate("/login");
+    } catch (error) {
+      console.error('Registration error:', error);
+    } finally {
       setLoading(false);
-      return;
     }
-
-    users.push(data);
-    localStorage.setItem("vjtha_users", JSON.stringify(users));
-
-    toast.success("Registered successfully!");
-    setLoading(false);
-    navigate("/login");
   };
 
   return (
