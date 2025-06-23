@@ -5,70 +5,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { caseStudies } from '@/lib/mockdata'; // Assuming you have a type definition for CaseStudy
 
 const CaseStudies = () => {
-  const caseStudies = [
-    {
-      id: 1,
-      title: "Netflix's Migration to Microservices: A Complete Transformation",
-      excerpt: "How Netflix successfully transitioned from monolithic architecture to microservices...",
-      author: "Engineering Team",
-      date: "2024-06-20",
-      company: "Netflix",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["Microservices", "Architecture", "Scale"]
-    },
-    {
-      id: 2,
-      title: "Airbnb's Data-Driven Growth Strategy",
-      excerpt: "Analyzing how Airbnb leveraged data analytics to achieve global expansion...",
-      author: "Data Science Team",
-      date: "2024-06-19",
-      company: "Airbnb",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Data Analytics", "Growth", "Strategy"]
-    },
-    {
-      id: 3,
-      title: "Spotify's Recommendation Algorithm: Personalization at Scale",
-      excerpt: "Inside Spotify's machine learning approach to music recommendations...",
-      author: "ML Engineering Team",
-      date: "2024-06-18",
-      company: "Spotify",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
-      tags: ["Machine Learning", "Personalization", "Algorithms"]
-    },
-    {
-      id: 4,
-      title: "Tesla's Manufacturing Innovation: Gigafactory Success",
-      excerpt: "How Tesla revolutionized automotive manufacturing with automation and efficiency...",
-      author: "Operations Team",
-      date: "2024-06-17",
-      company: "Tesla",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Manufacturing", "Automation", "Innovation"]
-    },
-    {
-      id: 5,
-      title: "Zoom's Scalability Challenge During COVID-19",
-      excerpt: "How Zoom handled unprecedented growth and scaled their infrastructure...",
-      author: "Infrastructure Team",
-      date: "2024-06-16",
-      company: "Zoom",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
-      tags: ["Scalability", "Infrastructure", "Crisis Management"]
-    },
-    {
-      id: 6,
-      title: "Amazon's Supply Chain Optimization",
-      excerpt: "The technology and logistics behind Amazon's same-day delivery system...",
-      author: "Logistics Team",
-      date: "2024-06-15",
-      company: "Amazon",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["Supply Chain", "Logistics", "Optimization"]
-    }
-  ];
+  const caseStudies = CaseStudies; // Get the case studies data
 
   return (
     <div className="min-h-screen bg-white">

@@ -5,64 +5,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { trendsArticles } from '@/lib/mockdata'; // Assuming you have a data file with trends articles
 
 const IndustryTrends = () => {
-  const trendsArticles = [
-    {
-      id: 1,
-      title: "The Rise of Edge Computing in 2024",
-      excerpt: "How edge computing is transforming data processing and reducing latency...",
-      author: "Kevin Zhang",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Edge Computing", "Cloud", "Infrastructure"]
-    },
-    {
-      id: 2,
-      title: "Sustainable Technology: Green Tech Revolution",
-      excerpt: "How technology companies are leading the charge towards sustainability...",
-      author: "Maria Rodriguez",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Sustainability", "Green Tech", "Environment"]
-    },
-    {
-      id: 3,
-      title: "The Metaverse: Current State and Future Prospects",
-      excerpt: "Analyzing the metaverse landscape and its potential impact on various industries...",
-      author: "David Lee",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
-      tags: ["Metaverse", "VR", "AR"]
-    },
-    {
-      id: 4,
-      title: "Quantum Computing: Breaking Through Commercial Barriers",
-      excerpt: "Latest breakthroughs in quantum computing and their commercial applications...",
-      author: "Prof. Sarah Williams",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["Quantum Computing", "Technology", "Innovation"]
-    },
-    {
-      id: 5,
-      title: "Blockchain Beyond Cryptocurrency: Real-World Applications",
-      excerpt: "Exploring practical blockchain applications in supply chain, healthcare, and more...",
-      author: "Alex Thompson",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["Blockchain", "Cryptocurrency", "Web3"]
-    },
-    {
-      id: 6,
-      title: "5G and IoT: Enabling the Connected Future",
-      excerpt: "How 5G networks are accelerating IoT adoption across industries...",
-      author: "Jessica Chen",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["5G", "IoT", "Connectivity"]
-    }
-  ];
+  const trendsArtices = trendsArticles;
 
   return (
     <div className="min-h-screen bg-white">

@@ -806,4 +806,234 @@ const urgentJobs = [
     image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop"
   }
 ];
-export { blogPosts, blogNews, blogJobs,aiArticle ,internships,techJobs,nonTechJobs,todayJobs,urgentJobs};
+const caseStudies = [
+    {
+      id: 1,
+      title: "Netflix's Migration to Microservices: A Complete Transformation",
+      excerpt: "How Netflix successfully transitioned from monolithic architecture to microservices...",
+      author: "Engineering Team",
+      date: "2024-06-20",
+      company: "Netflix",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+      tags: ["Microservices", "Architecture", "Scale"]
+    },
+    {
+      id: 2,
+      title: "Airbnb's Data-Driven Growth Strategy",
+      excerpt: "Analyzing how Airbnb leveraged data analytics to achieve global expansion...",
+      author: "Data Science Team",
+      date: "2024-06-19",
+      company: "Airbnb",
+      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+      tags: ["Data Analytics", "Growth", "Strategy"]
+    },
+    {
+      id: 3,
+      title: "Spotify's Recommendation Algorithm: Personalization at Scale",
+      excerpt: "Inside Spotify's machine learning approach to music recommendations...",
+      author: "ML Engineering Team",
+      date: "2024-06-18",
+      company: "Spotify",
+      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+      tags: ["Machine Learning", "Personalization", "Algorithms"]
+    },
+    {
+      id: 4,
+      title: "Tesla's Manufacturing Innovation: Gigafactory Success",
+      excerpt: "How Tesla revolutionized automotive manufacturing with automation and efficiency...",
+      author: "Operations Team",
+      date: "2024-06-17",
+      company: "Tesla",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+      tags: ["Manufacturing", "Automation", "Innovation"]
+    },
+    {
+      id: 5,
+      title: "Zoom's Scalability Challenge During COVID-19",
+      excerpt: "How Zoom handled unprecedented growth and scaled their infrastructure...",
+      author: "Infrastructure Team",
+      date: "2024-06-16",
+      company: "Zoom",
+      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+      tags: ["Scalability", "Infrastructure", "Crisis Management"]
+    },
+    {
+      id: 6,
+      title: "Amazon's Supply Chain Optimization",
+      excerpt: "The technology and logistics behind Amazon's same-day delivery system...",
+      author: "Logistics Team",
+      date: "2024-06-15",
+      company: "Amazon",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+      tags: ["Supply Chain", "Logistics", "Optimization"]
+    }
+  ];
+ const cultureArticles = [
+    {
+      id: 1,
+      title: "Building a Remote-First Company Culture",
+      excerpt: "How leading companies are creating inclusive remote work environments...",
+      author: "Jennifer Adams",
+      date: "2024-06-20",
+      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
+      tags: ["Remote Work", "Culture", "Management"]
+    },
+    {
+      id: 2,
+      title: "Diversity and Inclusion in Tech: Progress and Challenges",
+      excerpt: "Examining the current state of D&I initiatives in technology companies...",
+      author: "Marcus Johnson",
+      date: "2024-06-19",
+      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop",
+      tags: ["Diversity", "Inclusion", "Tech Culture"]
+    },
+    {
+      id: 3,
+      title: "The Future of Work: Hybrid Models and Employee Satisfaction",
+      excerpt: "Exploring how hybrid work models are reshaping employee expectations...",
+      author: "Lisa Park",
+      date: "2024-06-18",
+      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+      tags: ["Hybrid Work", "Employee Satisfaction", "Future of Work"]
+    },
+    {
+      id: 4,
+      title: "Mental Health Support in the Workplace",
+      excerpt: "How companies are prioritizing employee mental health and well-being...",
+      author: "Dr. Rachel Green",
+      date: "2024-06-17",
+      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+      tags: ["Mental Health", "Employee Well-being", "HR"]
+    },
+    {
+      id: 5,
+      title: "Innovation Through Cross-Functional Collaboration",
+      excerpt: "Breaking down silos to foster innovation and creativity in teams...",
+      author: "Tom Wilson",
+      date: "2024-06-16",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+      tags: ["Collaboration", "Innovation", "Team Dynamics"]
+    },
+    {
+      id: 6,
+      title: "Creating Psychological Safety in Tech Teams",
+      excerpt: "Building environments where team members feel safe to take risks and make mistakes...",
+      author: "Amanda Foster",
+      date: "2024-06-15",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+      tags: ["Psychological Safety", "Team Building", "Leadership"]
+    }
+  ];
+const trendsArticles = [
+    {
+      id: 1,
+      title: "The Rise of Edge Computing in 2024",
+      excerpt: "How edge computing is transforming data processing and reducing latency...",
+      author: "Kevin Zhang",
+      date: "2024-06-20",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+      tags: ["Edge Computing", "Cloud", "Infrastructure"]
+    },
+    {
+      id: 2,
+      title: "Sustainable Technology: Green Tech Revolution",
+      excerpt: "How technology companies are leading the charge towards sustainability...",
+      author: "Maria Rodriguez",
+      date: "2024-06-19",
+      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+      tags: ["Sustainability", "Green Tech", "Environment"]
+    },
+    {
+      id: 3,
+      title: "The Metaverse: Current State and Future Prospects",
+      excerpt: "Analyzing the metaverse landscape and its potential impact on various industries...",
+      author: "David Lee",
+      date: "2024-06-18",
+      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+      tags: ["Metaverse", "VR", "AR"]
+    },
+    {
+      id: 4,
+      title: "Quantum Computing: Breaking Through Commercial Barriers",
+      excerpt: "Latest breakthroughs in quantum computing and their commercial applications...",
+      author: "Prof. Sarah Williams",
+      date: "2024-06-17",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+      tags: ["Quantum Computing", "Technology", "Innovation"]
+    },
+    {
+      id: 5,
+      title: "Blockchain Beyond Cryptocurrency: Real-World Applications",
+      excerpt: "Exploring practical blockchain applications in supply chain, healthcare, and more...",
+      author: "Alex Thompson",
+      date: "2024-06-16",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+      tags: ["Blockchain", "Cryptocurrency", "Web3"]
+    },
+    {
+      id: 6,
+      title: "5G and IoT: Enabling the Connected Future",
+      excerpt: "How 5G networks are accelerating IoT adoption across industries...",
+      author: "Jessica Chen",
+      date: "2024-06-15",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+      tags: ["5G", "IoT", "Connectivity"]
+    }
+  ];  
+   const webDevArticles = [
+    {
+      id: 1,
+      title: "Modern React Patterns and Best Practices",
+      excerpt: "Exploring the latest React patterns for building scalable applications...",
+      author: "Emma Thompson",
+      date: "2024-06-20",
+      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+      tags: ["React", "JavaScript", "Frontend"]
+    },
+    {
+      id: 2,
+      title: "Building Responsive Web Applications with CSS Grid",
+      excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
+      author: "Carlos Martinez",
+      date: "2024-06-19",
+      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+      tags: ["CSS", "Grid", "Responsive Design"]
+    },
+    {
+      id: 3,
+      title: "Node.js Performance Optimization Techniques",
+      excerpt: "Learn how to optimize your Node.js applications for better performance...",
+      author: "Ryan Kim",
+      date: "2024-06-18",
+      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+      tags: ["Node.js", "Performance", "Backend"]
+    },
+    {
+      id: 4,
+      title: "TypeScript Advanced Features and Use Cases",
+      excerpt: "Diving deep into TypeScript's advanced features for better code quality...",
+      author: "Sarah Miller",
+      date: "2024-06-17",
+      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+      tags: ["TypeScript", "JavaScript", "Development"]
+    },
+    {
+      id: 5,
+      title: "Progressive Web Apps: The Future of Web Development",
+      excerpt: "Building PWAs that provide native app experiences on the web...",
+      author: "Alex Chen",
+      date: "2024-06-16",
+      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+      tags: ["PWA", "Web Development", "Mobile"]
+    },
+    {
+      id: 6,
+      title: "GraphQL vs REST: Choosing the Right API Approach",
+      excerpt: "Comparing GraphQL and REST APIs to help you make the right choice...",
+      author: "Michael Brown",
+      date: "2024-06-15",
+      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+      tags: ["GraphQL", "REST", "API"]
+    }
+  ];
+export { blogPosts, blogNews, blogJobs,aiArticle ,internships,techJobs,nonTechJobs,todayJobs,urgentJobs,caseStudies,cultureArticles,trendsArticles ,webDevArticles};

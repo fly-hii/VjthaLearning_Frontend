@@ -5,64 +5,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { cultureArticles } from '@/lib/mockdata'; // Assuming you have a data file with culture articles
 
 const CompanyCulture = () => {
-  const cultureArticles = [
-    {
-      id: 1,
-      title: "Building a Remote-First Company Culture",
-      excerpt: "How leading companies are creating inclusive remote work environments...",
-      author: "Jennifer Adams",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
-      tags: ["Remote Work", "Culture", "Management"]
-    },
-    {
-      id: 2,
-      title: "Diversity and Inclusion in Tech: Progress and Challenges",
-      excerpt: "Examining the current state of D&I initiatives in technology companies...",
-      author: "Marcus Johnson",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop",
-      tags: ["Diversity", "Inclusion", "Tech Culture"]
-    },
-    {
-      id: 3,
-      title: "The Future of Work: Hybrid Models and Employee Satisfaction",
-      excerpt: "Exploring how hybrid work models are reshaping employee expectations...",
-      author: "Lisa Park",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
-      tags: ["Hybrid Work", "Employee Satisfaction", "Future of Work"]
-    },
-    {
-      id: 4,
-      title: "Mental Health Support in the Workplace",
-      excerpt: "How companies are prioritizing employee mental health and well-being...",
-      author: "Dr. Rachel Green",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Mental Health", "Employee Well-being", "HR"]
-    },
-    {
-      id: 5,
-      title: "Innovation Through Cross-Functional Collaboration",
-      excerpt: "Breaking down silos to foster innovation and creativity in teams...",
-      author: "Tom Wilson",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["Collaboration", "Innovation", "Team Dynamics"]
-    },
-    {
-      id: 6,
-      title: "Creating Psychological Safety in Tech Teams",
-      excerpt: "Building environments where team members feel safe to take risks and make mistakes...",
-      author: "Amanda Foster",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["Psychological Safety", "Team Building", "Leadership"]
-    }
-  ];
+  const cultureArticls = cultureArticles;
 
   return (
     <div className="min-h-screen bg-white">

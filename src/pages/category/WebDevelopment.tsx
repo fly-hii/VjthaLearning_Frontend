@@ -5,64 +5,10 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import { webDevArticles } from '@/lib/mockdata'; // Assuming you have a data file with web development articles
 
 const WebDevelopment = () => {
-  const webDevArticles = [
-    {
-      id: 1,
-      title: "Modern React Patterns and Best Practices",
-      excerpt: "Exploring the latest React patterns for building scalable applications...",
-      author: "Emma Thompson",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["React", "JavaScript", "Frontend"]
-    },
-    {
-      id: 2,
-      title: "Building Responsive Web Applications with CSS Grid",
-      excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
-      author: "Carlos Martinez",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["CSS", "Grid", "Responsive Design"]
-    },
-    {
-      id: 3,
-      title: "Node.js Performance Optimization Techniques",
-      excerpt: "Learn how to optimize your Node.js applications for better performance...",
-      author: "Ryan Kim",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Node.js", "Performance", "Backend"]
-    },
-    {
-      id: 4,
-      title: "TypeScript Advanced Features and Use Cases",
-      excerpt: "Diving deep into TypeScript's advanced features for better code quality...",
-      author: "Sarah Miller",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["TypeScript", "JavaScript", "Development"]
-    },
-    {
-      id: 5,
-      title: "Progressive Web Apps: The Future of Web Development",
-      excerpt: "Building PWAs that provide native app experiences on the web...",
-      author: "Alex Chen",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["PWA", "Web Development", "Mobile"]
-    },
-    {
-      id: 6,
-      title: "GraphQL vs REST: Choosing the Right API Approach",
-      excerpt: "Comparing GraphQL and REST APIs to help you make the right choice...",
-      author: "Michael Brown",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
-      tags: ["GraphQL", "REST", "API"]
-    }
-  ];
+  const webDevArtices =webDevArticles;
 
   return (
     <div className="min-h-screen bg-white">
