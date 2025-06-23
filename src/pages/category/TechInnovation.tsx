@@ -8,15 +8,7 @@ import Footer from '@/components/Footer';
 import { blogPosts } from '@/lib/mockdata';
 
 const TechInnovation = () => {
-  const techArticles = blogPosts.filter(
-    (article) =>
-      article.category === 'tech-innovation' ||
-      article.tags.some(
-        (tag) =>
-          tag.toLowerCase().includes('tech') ||
-          tag.toLowerCase().includes('innovation')
-      )
-  );
+  const techArticles = blogPosts;
 
   return (
     <div className="min-h-screen bg-white">
