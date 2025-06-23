@@ -10,10 +10,7 @@ import { blogPosts } from '@/lib/mockdata';
 
 const CaseStudies = () => {
   // Filter blog posts for case studies or use all posts if no specific case studies
-  const caseStudyArticles = blogPosts.filter(post => 
-    post.category.toLowerCase().includes('case') || 
-    post.tags.some(tag => tag.toLowerCase().includes('case'))
-  ).slice(0, 9);
+  const caseStudyArticles = blogPosts;
 
   return (
     <div className="min-h-screen bg-white">

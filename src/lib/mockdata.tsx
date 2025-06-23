@@ -267,61 +267,188 @@ const blogJobs=[
 ]
 
 const aiArticle = [
-    {
-      id: 1,
-      title: "The Future of Artificial Intelligence in Healthcare",
-      excerpt: "Exploring how AI is revolutionizing medical diagnosis and patient care...",
-      author: "Dr. Sarah Chen",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
-      tags: ["AI", "Healthcare", "Machine Learning"]
-    },
-    {
-      id: 2,
-      title: "Deep Learning Breakthrough in Natural Language Processing",
-      excerpt: "New transformer models are pushing the boundaries of language understanding...",
-      author: "Prof. Michael Rodriguez",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["Deep Learning", "NLP", "Transformers"]
-    },
-    {
-      id: 3,
-      title: "Machine Learning Ethics: Building Responsible AI Systems",
-      excerpt: "Addressing bias and fairness in machine learning algorithms...",
-      author: "Dr. Amanda Johnson",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Ethics", "AI", "Bias"]
-    },
-    {
-      id: 4,
-      title: "Computer Vision Applications in Autonomous Vehicles",
-      excerpt: "How neural networks are enabling self-driving car technology...",
-      author: "John Park",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Computer Vision", "Autonomous Vehicles"]
-    },
-    {
-      id: 5,
-      title: "Reinforcement Learning in Game AI",
-      excerpt: "From chess to video games, how RL is creating intelligent opponents...",
-      author: "Lisa Wang",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["Reinforcement Learning", "Gaming", "AI"]
-    },
-    {
-      id: 6,
-      title: "Generative AI: The Creative Revolution",
-      excerpt: "How AI is transforming art, music, and content creation...",
-      author: "David Kim",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["Generative AI", "Creativity", "Art"]
-    }
-  ];
+  {
+    id: 1,
+    title: "The Future of Artificial Intelligence in Healthcare",
+    excerpt: "Exploring how AI is revolutionizing medical diagnosis and patient care...",
+    author: "Dr. Sarah Chen",
+    date: "2024-06-20",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["AI", "Healthcare", "Machine Learning"]
+  },
+  {
+    id: 2,
+    title: "Deep Learning Breakthrough in Natural Language Processing",
+    excerpt: "New transformer models are pushing the boundaries of language understanding...",
+    author: "Prof. Michael Rodriguez",
+    date: "2024-06-19",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["Deep Learning", "NLP", "Transformers"]
+  },
+  {
+    id: 3,
+    title: "Machine Learning Ethics: Building Responsible AI Systems",
+    excerpt: "Addressing bias and fairness in machine learning algorithms...",
+    author: "Dr. Amanda Johnson",
+    date: "2024-06-18",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Ethics", "AI", "Bias"]
+  },
+  {
+    id: 4,
+    title: "Computer Vision Applications in Autonomous Vehicles",
+    excerpt: "How neural networks are enabling self-driving car technology...",
+    author: "John Park",
+    date: "2024-06-17",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Computer Vision", "Autonomous Vehicles"]
+  },
+  {
+    id: 5,
+    title: "Reinforcement Learning in Game AI",
+    excerpt: "From chess to video games, how RL is creating intelligent opponents...",
+    author: "Lisa Wang",
+    date: "2024-06-16",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["Reinforcement Learning", "Gaming", "AI"]
+  },
+  {
+    id: 6,
+    title: "Generative AI: The Creative Revolution",
+    excerpt: "How AI is transforming art, music, and content creation...",
+    author: "David Kim",
+    date: "2024-06-15",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["Generative AI", "Creativity", "Art"]
+  },
+  {
+    id: 7,
+    title: "AI in Cybersecurity: Smart Defense Mechanisms",
+    excerpt: "How artificial intelligence is detecting and preventing cyber threats...",
+    author: "Rachel Lee",
+    date: "2024-06-14",
+    image: "https://images.unsplash.com/photo-1591696205602-2f950c417cb9?w=400&h=200&fit=crop",
+    tags: ["Cybersecurity", "AI", "Threat Detection"]
+  },
+  {
+    id: 8,
+    title: "AI and Climate Change: Predicting Environmental Shifts",
+    excerpt: "Using machine learning to forecast natural disasters and climate patterns...",
+    author: "Dr. Ken Yamada",
+    date: "2024-06-13",
+    image: "https://images.unsplash.com/photo-1508261303786-458fdf4b0436?w=400&h=200&fit=crop",
+    tags: ["Climate", "AI", "Environment"]
+  },
+  {
+    id: 9,
+    title: "AI in Education: Personalized Learning at Scale",
+    excerpt: "Adaptive learning systems powered by AI are transforming classrooms...",
+    author: "Priya Desai",
+    date: "2024-06-12",
+    image: "https://images.unsplash.com/photo-1584697964381-950f76a1e405?w=400&h=200&fit=crop",
+    tags: ["Education", "AI", "EdTech"]
+  },
+  {
+    id: 10,
+    title: "Explainable AI: Making Machine Decisions Transparent",
+    excerpt: "The importance of transparency and accountability in AI models...",
+    author: "Dr. Noah Patel",
+    date: "2024-06-11",
+    image: "https://images.unsplash.com/photo-1551817958-20204df661e7?w=400&h=200&fit=crop",
+    tags: ["XAI", "Ethics", "Transparency"]
+  },
+  {
+    id: 11,
+    title: "AI-Powered Robotics in Manufacturing",
+    excerpt: "Smart robots are redefining automation and assembly lines...",
+    author: "Elena Martinez",
+    date: "2024-06-10",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
+    tags: ["Robotics", "Manufacturing", "AI"]
+  },
+  {
+    id: 12,
+    title: "AI and Finance: Risk Analysis and Fraud Detection",
+    excerpt: "How machine learning is shaping modern financial security...",
+    author: "Mark Thompson",
+    date: "2024-06-09",
+    image: "https://images.unsplash.com/photo-1556740738-b6a63e27c4df?w=400&h=200&fit=crop",
+    tags: ["Finance", "AI", "Fraud Detection"]
+  },
+  {
+    id: 13,
+    title: "AI in Space Exploration: Smarter Missions Beyond Earth",
+    excerpt: "Using AI for autonomous navigation and anomaly detection in space...",
+    author: "Natalie Brooks",
+    date: "2024-06-08",
+    image: "https://images.unsplash.com/photo-1473654729523-203e25dfda10?w=400&h=200&fit=crop",
+    tags: ["Space", "AI", "Exploration"]
+  },
+  {
+    id: 14,
+    title: "AI for Mental Health: Virtual Therapy Assistants",
+    excerpt: "The growing role of conversational AI in emotional support systems...",
+    author: "Dr. Emily Stone",
+    date: "2024-06-07",
+    image: "https://images.unsplash.com/photo-1588776814546-bf4e3b4c7b17?w=400&h=200&fit=crop",
+    tags: ["Mental Health", "AI", "Healthcare"]
+  },
+  {
+    id: 15,
+    title: "Multimodal AI: Understanding the World Like Humans",
+    excerpt: "Combining vision, text, and audio to create more capable AI systems...",
+    author: "James Carter",
+    date: "2024-06-06",
+    image: "https://images.unsplash.com/photo-1573497491208-6b1acb260507?w=400&h=200&fit=crop",
+    tags: ["Multimodal", "AI", "ML"]
+  },
+  {
+    id: 16,
+    title: "Quantum Computing and AI: The Next Frontier",
+    excerpt: "How quantum technology may accelerate machine learning algorithms...",
+    author: "Sophia Zhang",
+    date: "2024-06-05",
+    image: "https://images.unsplash.com/photo-1603984883326-4b2deaa0a4a3?w=400&h=200&fit=crop",
+    tags: ["Quantum Computing", "AI", "Futurism"]
+  },
+  {
+    id: 17,
+    title: "AI in Agriculture: Smarter Farming Techniques",
+    excerpt: "Using drones and data-driven insights to increase crop yields...",
+    author: "Arjun Mehta",
+    date: "2024-06-04",
+    image: "https://images.unsplash.com/photo-1582478193412-df98f3e6e0f6?w=400&h=200&fit=crop",
+    tags: ["Agriculture", "AI", "Drones"]
+  },
+  {
+    id: 18,
+    title: "Voice Assistants and the Evolution of AI in Homes",
+    excerpt: "How voice recognition and smart assistants are changing lifestyles...",
+    author: "Rebecca Nguyen",
+    date: "2024-06-03",
+    image: "https://images.unsplash.com/photo-1581090700227-1b5b98dc56a0?w=400&h=200&fit=crop",
+    tags: ["Voice AI", "Smart Home", "IoT"]
+  },
+  {
+    id: 19,
+    title: "AI-Generated Music: A New Era of Sound",
+    excerpt: "Exploring how neural networks are composing original music...",
+    author: "Anthony Rivera",
+    date: "2024-06-02",
+    image: "https://images.unsplash.com/photo-1511376777868-611b54f68947?w=400&h=200&fit=crop",
+    tags: ["Music", "Generative AI", "Creativity"]
+  },
+  {
+    id: 20,
+    title: "AI Startups to Watch in 2025",
+    excerpt: "The most promising startups driving AI innovation this year...",
+    author: "Clara Nguyen",
+    date: "2024-06-01",
+    image: "https://images.unsplash.com/photo-1549921296-3a6b75be9edb?w=400&h=200&fit=crop",
+    tags: ["Startups", "Innovation", "AI"]
+  }
+];
+
 // ----------------------------company culture--------------------------------
 
 const blogPosts = [
@@ -807,233 +934,755 @@ const urgentJobs = [
   }
 ];
 const caseStudies = [
-    {
-      id: 1,
-      title: "Netflix's Migration to Microservices: A Complete Transformation",
-      excerpt: "How Netflix successfully transitioned from monolithic architecture to microservices...",
-      author: "Engineering Team",
-      date: "2024-06-20",
-      company: "Netflix",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["Microservices", "Architecture", "Scale"]
-    },
-    {
-      id: 2,
-      title: "Airbnb's Data-Driven Growth Strategy",
-      excerpt: "Analyzing how Airbnb leveraged data analytics to achieve global expansion...",
-      author: "Data Science Team",
-      date: "2024-06-19",
-      company: "Airbnb",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Data Analytics", "Growth", "Strategy"]
-    },
-    {
-      id: 3,
-      title: "Spotify's Recommendation Algorithm: Personalization at Scale",
-      excerpt: "Inside Spotify's machine learning approach to music recommendations...",
-      author: "ML Engineering Team",
-      date: "2024-06-18",
-      company: "Spotify",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
-      tags: ["Machine Learning", "Personalization", "Algorithms"]
-    },
-    {
-      id: 4,
-      title: "Tesla's Manufacturing Innovation: Gigafactory Success",
-      excerpt: "How Tesla revolutionized automotive manufacturing with automation and efficiency...",
-      author: "Operations Team",
-      date: "2024-06-17",
-      company: "Tesla",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Manufacturing", "Automation", "Innovation"]
-    },
-    {
-      id: 5,
-      title: "Zoom's Scalability Challenge During COVID-19",
-      excerpt: "How Zoom handled unprecedented growth and scaled their infrastructure...",
-      author: "Infrastructure Team",
-      date: "2024-06-16",
-      company: "Zoom",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
-      tags: ["Scalability", "Infrastructure", "Crisis Management"]
-    },
-    {
-      id: 6,
-      title: "Amazon's Supply Chain Optimization",
-      excerpt: "The technology and logistics behind Amazon's same-day delivery system...",
-      author: "Logistics Team",
-      date: "2024-06-15",
-      company: "Amazon",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["Supply Chain", "Logistics", "Optimization"]
-    }
-  ];
+  {
+    id: 1,
+    title: "Netflix: A Complete Transformation Case Study #1",
+    excerpt: "How Netflix successfully transitioned from monolithic architecture to microservices...",
+    author: "Engineering Team",
+    date: "2024-06-20",
+    company: "Netflix",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["Microservices", "Architecture", "Scale"]
+  },
+  {
+    id: 2,
+    title: "Airbnb: Data-Driven Growth Strategy Case Study #2",
+    excerpt: "Analyzing how Airbnb leveraged data analytics to achieve global expansion...",
+    author: "Data Science Team",
+    date: "2024-06-19",
+    company: "Airbnb",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Data Analytics", "Growth", "Strategy"]
+  },
+  {
+    id: 3,
+    title: "Spotify: Personalization at Scale Case Study #3",
+    excerpt: "Inside Spotify's machine learning approach to music recommendations...",
+    author: "ML Engineering Team",
+    date: "2024-06-18",
+    company: "Spotify",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["Machine Learning", "Personalization", "Algorithms"]
+  },
+  {
+    id: 4,
+    title: "Tesla: Gigafactory Success Case Study #4",
+    excerpt: "How Tesla revolutionized automotive manufacturing with automation and efficiency...",
+    author: "Operations Team",
+    date: "2024-06-17",
+    company: "Tesla",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Manufacturing", "Automation", "Innovation"]
+  },
+  {
+    id: 5,
+    title: "Zoom: Scalability During COVID-19 Case Study #5",
+    excerpt: "How Zoom handled unprecedented growth and scaled their infrastructure...",
+    author: "Infrastructure Team",
+    date: "2024-06-16",
+    company: "Zoom",
+    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+    tags: ["Scalability", "Infrastructure", "Crisis Management"]
+  },
+  {
+    id: 6,
+    title: "Amazon: Supply Chain Optimization Case Study #6",
+    excerpt: "The technology and logistics behind Amazon's same-day delivery system...",
+    author: "Logistics Team",
+    date: "2024-06-15",
+    company: "Amazon",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["Supply Chain", "Logistics", "Optimization"]
+  },
+  {
+    id: 7,
+    title: "Meta: Scaling Social Networks Globally",
+    excerpt: "How Meta optimized backend infrastructure to support billions of users...",
+    author: "Backend Team",
+    date: "2024-06-14",
+    company: "Meta",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop",
+    tags: ["Scalability", "Social Media", "Infrastructure"]
+  },
+  {
+    id: 8,
+    title: "Uber: Real-Time Ride Matching System",
+    excerpt: "Understanding the algorithms behind Uber’s real-time matching and pricing...",
+    author: "Algorithms Team",
+    date: "2024-06-13",
+    company: "Uber",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop",
+    tags: ["Real-Time", "Algorithms", "Mobility"]
+  },
+  {
+    id: 9,
+    title: "LinkedIn: Engagement Growth via AI",
+    excerpt: "AI recommendations and personalization boosted user engagement significantly...",
+    author: "AI Team",
+    date: "2024-06-12",
+    company: "LinkedIn",
+    image: "https://images.unsplash.com/photo-1502767089025-6572583495b0?w=400&h=200&fit=crop",
+    tags: ["AI", "Engagement", "Recommendations"]
+  },
+  {
+    id: 10,
+    title: "Slack: Scaling Workspaces Efficiently",
+    excerpt: "Tech behind Slack’s ability to manage thousands of teams in real time...",
+    author: "Cloud Team",
+    date: "2024-06-11",
+    company: "Slack",
+    image: "https://images.unsplash.com/photo-1581090700227-1dc67aa43874?w=400&h=200&fit=crop",
+    tags: ["SaaS", "Cloud", "Communication"]
+  },
+  {
+    id: 11,
+    title: "Pinterest: Image Search Innovation",
+    excerpt: "How Pinterest engineered visual search that changed e-commerce interaction...",
+    author: "Vision Team",
+    date: "2024-06-10",
+    company: "Pinterest",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop",
+    tags: ["Computer Vision", "Search", "E-commerce"]
+  },
+  {
+    id: 12,
+    title: "Shopify: Building Resilient Ecommerce Platforms",
+    excerpt: "What Shopify did to stay online during peak Black Friday traffic...",
+    author: "Platform Engineering",
+    date: "2024-06-09",
+    company: "Shopify",
+    image: "https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=200&fit=crop",
+    tags: ["E-commerce", "Resilience", "Traffic"]
+  },
+  {
+    id: 13,
+    title: "Twitch: Real-Time Streaming at Scale",
+    excerpt: "Low-latency video streaming infrastructure at Twitch...",
+    author: "Streaming Tech Team",
+    date: "2024-06-08",
+    company: "Twitch",
+    image: "https://images.unsplash.com/photo-1503341455253-b2e723bb3dbb?w=400&h=200&fit=crop",
+    tags: ["Streaming", "Latency", "Infrastructure"]
+  },
+  {
+    id: 14,
+    title: "Stripe: Global Payments Simplified",
+    excerpt: "Learn how Stripe scaled global payments and fraud detection...",
+    author: "Finance Engineering",
+    date: "2024-06-07",
+    company: "Stripe",
+    image: "https://images.unsplash.com/photo-1581091012184-eed194ae90d9?w=400&h=200&fit=crop",
+    tags: ["Payments", "Finance", "Fraud Detection"]
+  },
+  {
+    id: 15,
+    title: "Dropbox: Efficient File Syncing",
+    excerpt: "Dropbox’s block-level sync algorithm keeps files in sync across devices...",
+    author: "Sync Team",
+    date: "2024-06-06",
+    company: "Dropbox",
+    image: "https://images.unsplash.com/photo-1504384308090-c894fdcc538d?w=400&h=200&fit=crop",
+    tags: ["Sync", "Storage", "Files"]
+  },
+  {
+    id: 16,
+    title: "DoorDash: Logistics and Routing AI",
+    excerpt: "Optimizing deliveries and driver dispatch through AI...",
+    author: "Logistics AI",
+    date: "2024-06-05",
+    company: "DoorDash",
+    image: "https://images.unsplash.com/photo-1549924231-f129b911e442?w=400&h=200&fit=crop",
+    tags: ["Routing", "Delivery", "AI"]
+  },
+  {
+    id: 17,
+    title: "Coursera: Online Learning Infrastructure",
+    excerpt: "Scalable tech enabling education access worldwide...",
+    author: "EdTech Team",
+    date: "2024-06-04",
+    company: "Coursera",
+    image: "https://images.unsplash.com/photo-1581090700227-1dc67aa43874?w=400&h=200&fit=crop",
+    tags: ["Education", "Scale", "Tech"]
+  },
+  {
+    id: 18,
+    title: "Instagram: Reels Engine Optimization",
+    excerpt: "How Instagram made Reels faster and more engaging...",
+    author: "Media Team",
+    date: "2024-06-03",
+    company: "Instagram",
+    image: "https://images.unsplash.com/photo-1502767089025-6572583495b0?w=400&h=200&fit=crop",
+    tags: ["Media", "Reels", "Speed"]
+  },
+  {
+    id: 19,
+    title: "Reddit: Community Moderation Tools",
+    excerpt: "Tech behind Reddit's scalable moderation and ranking algorithms...",
+    author: "Platform Team",
+    date: "2024-06-02",
+    company: "Reddit",
+    image: "https://images.unsplash.com/photo-1581091012184-eed194ae90d9?w=400&h=200&fit=crop",
+    tags: ["Moderation", "Ranking", "Communities"]
+  },
+  {
+    id: 20,
+    title: "PayPal: High-Volume Secure Transactions",
+    excerpt: "Ensuring secure, fast payments at massive scale...",
+    author: "Security Team",
+    date: "2024-06-01",
+    company: "PayPal",
+    image: "https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=400&h=200&fit=crop",
+    tags: ["Security", "Transactions", "Payments"]
+  }
+];
+
  const cultureArticles = [
-    {
-      id: 1,
-      title: "Building a Remote-First Company Culture",
-      excerpt: "How leading companies are creating inclusive remote work environments...",
-      author: "Jennifer Adams",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
-      tags: ["Remote Work", "Culture", "Management"]
-    },
-    {
-      id: 2,
-      title: "Diversity and Inclusion in Tech: Progress and Challenges",
-      excerpt: "Examining the current state of D&I initiatives in technology companies...",
-      author: "Marcus Johnson",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop",
-      tags: ["Diversity", "Inclusion", "Tech Culture"]
-    },
-    {
-      id: 3,
-      title: "The Future of Work: Hybrid Models and Employee Satisfaction",
-      excerpt: "Exploring how hybrid work models are reshaping employee expectations...",
-      author: "Lisa Park",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
-      tags: ["Hybrid Work", "Employee Satisfaction", "Future of Work"]
-    },
-    {
-      id: 4,
-      title: "Mental Health Support in the Workplace",
-      excerpt: "How companies are prioritizing employee mental health and well-being...",
-      author: "Dr. Rachel Green",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Mental Health", "Employee Well-being", "HR"]
-    },
-    {
-      id: 5,
-      title: "Innovation Through Cross-Functional Collaboration",
-      excerpt: "Breaking down silos to foster innovation and creativity in teams...",
-      author: "Tom Wilson",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["Collaboration", "Innovation", "Team Dynamics"]
-    },
-    {
-      id: 6,
-      title: "Creating Psychological Safety in Tech Teams",
-      excerpt: "Building environments where team members feel safe to take risks and make mistakes...",
-      author: "Amanda Foster",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["Psychological Safety", "Team Building", "Leadership"]
-    }
-  ];
+  {
+    id: 1,
+    title: "Building a Remote-First Company Culture",
+    excerpt: "How leading companies are creating inclusive remote work environments...",
+    author: "Jennifer Adams",
+    date: "2024-06-20",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
+    tags: ["Remote Work", "Culture", "Management"]
+  },
+  {
+    id: 2,
+    title: "Diversity and Inclusion in Tech: Progress and Challenges",
+    excerpt: "Examining the current state of D&I initiatives in technology companies...",
+    author: "Marcus Johnson",
+    date: "2024-06-19",
+    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop",
+    tags: ["Diversity", "Inclusion", "Tech Culture"]
+  },
+  {
+    id: 3,
+    title: "The Future of Work: Hybrid Models and Employee Satisfaction",
+    excerpt: "Exploring how hybrid work models are reshaping employee expectations...",
+    author: "Lisa Park",
+    date: "2024-06-18",
+    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+    tags: ["Hybrid Work", "Employee Satisfaction", "Future of Work"]
+  },
+  {
+    id: 4,
+    title: "Mental Health Support in the Workplace",
+    excerpt: "How companies are prioritizing employee mental health and well-being...",
+    author: "Dr. Rachel Green",
+    date: "2024-06-17",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Mental Health", "Employee Well-being", "HR"]
+  },
+  {
+    id: 5,
+    title: "Innovation Through Cross-Functional Collaboration",
+    excerpt: "Breaking down silos to foster innovation and creativity in teams...",
+    author: "Tom Wilson",
+    date: "2024-06-16",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["Collaboration", "Innovation", "Team Dynamics"]
+  },
+  {
+    id: 6,
+    title: "Creating Psychological Safety in Tech Teams",
+    excerpt: "Building environments where team members feel safe to take risks and make mistakes...",
+    author: "Amanda Foster",
+    date: "2024-06-15",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["Psychological Safety", "Team Building", "Leadership"]
+  },
+  {
+    id: 7,
+    title: "Employee Recognition: Boosting Morale and Engagement",
+    excerpt: "How recognizing achievements improves retention and productivity...",
+    author: "Chris Hall",
+    date: "2024-06-14",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["Recognition", "Culture", "Engagement"]
+  },
+  {
+    id: 8,
+    title: "Workplace Transparency and Trust",
+    excerpt: "Why open communication is essential for a healthy workplace...",
+    author: "Sandra Kim",
+    date: "2024-06-13",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["Transparency", "Trust", "Leadership"]
+  },
+  {
+    id: 9,
+    title: "Remote Onboarding: Making New Hires Feel Welcome",
+    excerpt: "Steps to build a welcoming experience for remote team members...",
+    author: "Ivan Torres",
+    date: "2024-06-12",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["Onboarding", "Remote Work", "Culture"]
+  },
+  {
+    id: 10,
+    title: "Balancing Flexibility and Accountability",
+    excerpt: "How to build a high-performing culture without micromanagement...",
+    author: "Priya Das",
+    date: "2024-06-11",
+    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+    tags: ["Flexibility", "Accountability", "Performance"]
+  },
+  {
+    id: 11,
+    title: "Leadership Styles That Inspire Culture Change",
+    excerpt: "How transformational leaders reshape organizations...",
+    author: "Daniel Reed",
+    date: "2024-06-10",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Leadership", "Change Management", "Inspiration"]
+  },
+  {
+    id: 12,
+    title: "Creating a Learning Organization",
+    excerpt: "Fostering a growth mindset through continuous development...",
+    author: "Nina Alvarez",
+    date: "2024-06-09",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Learning", "Growth", "Training"]
+  },
+  {
+    id: 13,
+    title: "Workplace Culture in a Post-Pandemic World",
+    excerpt: "What has changed forever and what remains the same...",
+    author: "Derek Lin",
+    date: "2024-06-08",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["Pandemic", "Culture Shift", "Trends"]
+  },
+  {
+    id: 14,
+    title: "Employee Autonomy: Trusting Your Team",
+    excerpt: "Why giving employees ownership leads to better outcomes...",
+    author: "Renee Brooks",
+    date: "2024-06-07",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
+    tags: ["Autonomy", "Trust", "Motivation"]
+  },
+  {
+    id: 15,
+    title: "Peer Mentorship Programs in Tech",
+    excerpt: "How peer-led learning is shaping company culture...",
+    author: "Mohammed Rahim",
+    date: "2024-06-06",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["Mentorship", "Learning", "Team Culture"]
+  },
+  {
+    id: 16,
+    title: "Culture Fit vs. Culture Add: Rethinking Hiring",
+    excerpt: "Why hiring for 'culture add' creates stronger, more diverse teams...",
+    author: "Elena Kaur",
+    date: "2024-06-05",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["Hiring", "Diversity", "Talent"]
+  },
+  {
+    id: 17,
+    title: "Building Culture in Distributed Teams",
+    excerpt: "Practical tips for creating unity across time zones...",
+    author: "Adrian Murphy",
+    date: "2024-06-04",
+    image: "https://images.unsplash.com/photo-1649972904349-6e44c42644a7?w=400&h=200&fit=crop",
+    tags: ["Remote Culture", "Distributed Teams", "Collaboration"]
+  },
+  {
+    id: 18,
+    title: "Measuring the ROI of Culture Initiatives",
+    excerpt: "Connecting employee happiness with business results...",
+    author: "Jasmine Lee",
+    date: "2024-06-03",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["Culture ROI", "Analytics", "Strategy"]
+  },
+  {
+    id: 19,
+    title: "Cross-Cultural Communication in Global Teams",
+    excerpt: "Navigating language, etiquette, and cultural differences at work...",
+    author: "Liam Chen",
+    date: "2024-06-02",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Communication", "Global Teams", "Culture"]
+  },
+  {
+    id: 20,
+    title: "Aligning Values Across the Organization",
+    excerpt: "Creating a shared vision that drives behavior and results...",
+    author: "Natalie Brooks",
+    date: "2024-06-01",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["Values", "Alignment", "Leadership"]
+  }
+];
+
 const trendsArticles = [
-    {
-      id: 1,
-      title: "The Rise of Edge Computing in 2024",
-      excerpt: "How edge computing is transforming data processing and reducing latency...",
-      author: "Kevin Zhang",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Edge Computing", "Cloud", "Infrastructure"]
-    },
-    {
-      id: 2,
-      title: "Sustainable Technology: Green Tech Revolution",
-      excerpt: "How technology companies are leading the charge towards sustainability...",
-      author: "Maria Rodriguez",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["Sustainability", "Green Tech", "Environment"]
-    },
-    {
-      id: 3,
-      title: "The Metaverse: Current State and Future Prospects",
-      excerpt: "Analyzing the metaverse landscape and its potential impact on various industries...",
-      author: "David Lee",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
-      tags: ["Metaverse", "VR", "AR"]
-    },
-    {
-      id: 4,
-      title: "Quantum Computing: Breaking Through Commercial Barriers",
-      excerpt: "Latest breakthroughs in quantum computing and their commercial applications...",
-      author: "Prof. Sarah Williams",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["Quantum Computing", "Technology", "Innovation"]
-    },
-    {
-      id: 5,
-      title: "Blockchain Beyond Cryptocurrency: Real-World Applications",
-      excerpt: "Exploring practical blockchain applications in supply chain, healthcare, and more...",
-      author: "Alex Thompson",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["Blockchain", "Cryptocurrency", "Web3"]
-    },
-    {
-      id: 6,
-      title: "5G and IoT: Enabling the Connected Future",
-      excerpt: "How 5G networks are accelerating IoT adoption across industries...",
-      author: "Jessica Chen",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["5G", "IoT", "Connectivity"]
-    }
-  ];  
+  {
+    id: 1,
+    title: "The Rise of Edge Computing in 2024",
+    excerpt: "How edge computing is transforming data processing and reducing latency...",
+    author: "Kevin Zhang",
+    date: "2024-06-20",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Edge Computing", "Cloud", "Infrastructure"]
+  },
+  {
+    id: 2,
+    title: "Sustainable Technology: Green Tech Revolution",
+    excerpt: "How technology companies are leading the charge towards sustainability...",
+    author: "Maria Rodriguez",
+    date: "2024-06-19",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Sustainability", "Green Tech", "Environment"]
+  },
+  {
+    id: 3,
+    title: "The Metaverse: Current State and Future Prospects",
+    excerpt: "Analyzing the metaverse landscape and its potential impact on various industries...",
+    author: "David Lee",
+    date: "2024-06-18",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["Metaverse", "VR", "AR"]
+  },
+  {
+    id: 4,
+    title: "Quantum Computing: Breaking Through Commercial Barriers",
+    excerpt: "Latest breakthroughs in quantum computing and their commercial applications...",
+    author: "Prof. Sarah Williams",
+    date: "2024-06-17",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["Quantum Computing", "Technology", "Innovation"]
+  },
+  {
+    id: 5,
+    title: "Blockchain Beyond Cryptocurrency: Real-World Applications",
+    excerpt: "Exploring practical blockchain applications in supply chain, healthcare, and more...",
+    author: "Alex Thompson",
+    date: "2024-06-16",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["Blockchain", "Cryptocurrency", "Web3"]
+  },
+  {
+    id: 6,
+    title: "5G and IoT: Enabling the Connected Future",
+    excerpt: "How 5G networks are accelerating IoT adoption across industries...",
+    author: "Jessica Chen",
+    date: "2024-06-15",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["5G", "IoT", "Connectivity"]
+  },
+  {
+    id: 7,
+    title: "AI in Healthcare: Diagnosis, Prediction, and Ethics",
+    excerpt: "How artificial intelligence is reshaping the future of medicine...",
+    author: "Dr. Amit Patel",
+    date: "2024-06-14",
+    image: "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=400&h=200&fit=crop",
+    tags: ["AI", "Healthcare", "Ethics"]
+  },
+  {
+    id: 8,
+    title: "The Role of DevOps in Accelerating Digital Transformation",
+    excerpt: "DevOps best practices for building modern, agile businesses...",
+    author: "Anita Rao",
+    date: "2024-06-13",
+    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+    tags: ["DevOps", "Agile", "Cloud"]
+  },
+  {
+    id: 9,
+    title: "Cybersecurity Trends: Preparing for AI-Powered Threats",
+    excerpt: "Emerging threats and how to defend against them with intelligent tools...",
+    author: "James Lockhart",
+    date: "2024-06-12",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["Cybersecurity", "AI", "Threat Detection"]
+  },
+  {
+    id: 10,
+    title: "Augmented Reality in E-commerce: Try Before You Buy",
+    excerpt: "How AR is changing the way consumers shop online...",
+    author: "Linda Nguyen",
+    date: "2024-06-11",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Augmented Reality", "E-commerce", "Innovation"]
+  },
+  {
+    id: 11,
+    title: "Remote Work Tech Stack: What's Here to Stay?",
+    excerpt: "Evaluating essential tools for the future of remote work...",
+    author: "Daniel Garcia",
+    date: "2024-06-10",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["Remote Work", "Tools", "Culture"]
+  },
+  {
+    id: 12,
+    title: "Digital Twins: Simulating the Real World Virtually",
+    excerpt: "How digital twins are helping businesses predict and optimize operations...",
+    author: "Sophia Malik",
+    date: "2024-06-09",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["Digital Twins", "Simulation", "Industry 4.0"]
+  },
+  {
+    id: 13,
+    title: "Natural Language Processing in Customer Support",
+    excerpt: "How NLP is improving automated responses and enhancing CX...",
+    author: "Nikhil Rao",
+    date: "2024-06-08",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["NLP", "Customer Experience", "AI"]
+  },
+  {
+    id: 14,
+    title: "Low-Code and No-Code Platforms: Democratizing Development",
+    excerpt: "Empowering non-developers to build applications with ease...",
+    author: "Karen Liu",
+    date: "2024-06-07",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Low-Code", "No-Code", "Productivity"]
+  },
+  {
+    id: 15,
+    title: "Tech for Good: Social Impact Through Innovation",
+    excerpt: "Examples of how technology is solving societal challenges...",
+    author: "Ravi Mehra",
+    date: "2024-06-06",
+    image: "https://images.unsplash.com/photo-1605810230434-7631ac76ec81?w=400&h=200&fit=crop",
+    tags: ["Tech for Good", "Impact", "Innovation"]
+  },
+  {
+    id: 16,
+    title: "Voice Interfaces and the Future of Interaction",
+    excerpt: "Why voice is becoming a major channel for digital interaction...",
+    author: "Emily Stone",
+    date: "2024-06-05",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["Voice", "UX", "AI"]
+  },
+  {
+    id: 17,
+    title: "Digital Identity and Decentralized Authentication",
+    excerpt: "Web3 identity trends and self-sovereign identity explained...",
+    author: "Victor Nguyen",
+    date: "2024-06-04",
+    image: "https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=200&fit=crop",
+    tags: ["Digital Identity", "Web3", "Security"]
+  },
+  {
+    id: 18,
+    title: "The Role of Ethics in AI Development",
+    excerpt: "Building responsible AI systems and reducing algorithmic bias...",
+    author: "Dr. Olivia Sanders",
+    date: "2024-06-03",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["AI", "Ethics", "Fairness"]
+  },
+  {
+    id: 19,
+    title: "Cloud-Native Applications: Kubernetes and Beyond",
+    excerpt: "How cloud-native tech is changing the software deployment landscape...",
+    author: "Ben Park",
+    date: "2024-06-02",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["Kubernetes", "Cloud", "DevOps"]
+  },
+  {
+    id: 20,
+    title: "Generative AI and the Next Wave of Content Creation",
+    excerpt: "Exploring tools that generate code, art, music, and more...",
+    author: "Lena Patel",
+    date: "2024-06-01",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["Generative AI", "Creativity", "Future Tech"]
+  }
+];
+ 
    const webDevArticles = [
-    {
-      id: 1,
-      title: "Modern React Patterns and Best Practices",
-      excerpt: "Exploring the latest React patterns for building scalable applications...",
-      author: "Emma Thompson",
-      date: "2024-06-20",
-      image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
-      tags: ["React", "JavaScript", "Frontend"]
-    },
-    {
-      id: 2,
-      title: "Building Responsive Web Applications with CSS Grid",
-      excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
-      author: "Carlos Martinez",
-      date: "2024-06-19",
-      image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
-      tags: ["CSS", "Grid", "Responsive Design"]
-    },
-    {
-      id: 3,
-      title: "Node.js Performance Optimization Techniques",
-      excerpt: "Learn how to optimize your Node.js applications for better performance...",
-      author: "Ryan Kim",
-      date: "2024-06-18",
-      image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
-      tags: ["Node.js", "Performance", "Backend"]
-    },
-    {
-      id: 4,
-      title: "TypeScript Advanced Features and Use Cases",
-      excerpt: "Diving deep into TypeScript's advanced features for better code quality...",
-      author: "Sarah Miller",
-      date: "2024-06-17",
-      image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
-      tags: ["TypeScript", "JavaScript", "Development"]
-    },
-    {
-      id: 5,
-      title: "Progressive Web Apps: The Future of Web Development",
-      excerpt: "Building PWAs that provide native app experiences on the web...",
-      author: "Alex Chen",
-      date: "2024-06-16",
-      image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
-      tags: ["PWA", "Web Development", "Mobile"]
-    },
-    {
-      id: 6,
-      title: "GraphQL vs REST: Choosing the Right API Approach",
-      excerpt: "Comparing GraphQL and REST APIs to help you make the right choice...",
-      author: "Michael Brown",
-      date: "2024-06-15",
-      image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
-      tags: ["GraphQL", "REST", "API"]
-    }
-  ];
+  {
+    id: 1,
+    title: "Modern React Patterns and Best Practices (Edition 1)",
+    excerpt: "Exploring the latest React patterns for building scalable applications...",
+    author: "Emma Thompson",
+    date: "2024-06-20",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["React", "JavaScript", "Frontend"]
+  },
+  {
+    id: 2,
+    title: "Building Responsive Web Applications with CSS Grid (Edition 2)",
+    excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
+    author: "Carlos Martinez",
+    date: "2024-06-19",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["CSS", "Grid", "Responsive Design"]
+  },
+  {
+    id: 3,
+    title: "Node.js Performance Optimization Techniques (Edition 3)",
+    excerpt: "Learn how to optimize your Node.js applications for better performance...",
+    author: "Ryan Kim",
+    date: "2024-06-18",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["Node.js", "Performance", "Backend"]
+  },
+  {
+    id: 4,
+    title: "TypeScript Advanced Features and Use Cases (Edition 4)",
+    excerpt: "Diving deep into TypeScript's advanced features for better code quality...",
+    author: "Sarah Miller",
+    date: "2024-06-17",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["TypeScript", "JavaScript", "Development"]
+  },
+  {
+    id: 5,
+    title: "Progressive Web Apps: The Future of Web Development (Edition 5)",
+    excerpt: "Building PWAs that provide native app experiences on the web...",
+    author: "Alex Chen",
+    date: "2024-06-16",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["PWA", "Web Development", "Mobile"]
+  },
+  {
+    id: 6,
+    title: "GraphQL vs REST: Choosing the Right API Approach (Edition 6)",
+    excerpt: "Comparing GraphQL and REST APIs to help you make the right choice...",
+    author: "Michael Brown",
+    date: "2024-06-15",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["GraphQL", "REST", "API"]
+  },
+  {
+    id: 7,
+    title: "Modern React Patterns and Best Practices (Edition 7)",
+    excerpt: "Exploring the latest React patterns for building scalable applications...",
+    author: "Emma Thompson",
+    date: "2024-06-14",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["React", "JavaScript", "Frontend"]
+  },
+  {
+    id: 8,
+    title: "Building Responsive Web Applications with CSS Grid (Edition 8)",
+    excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
+    author: "Carlos Martinez",
+    date: "2024-06-13",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["CSS", "Grid", "Responsive Design"]
+  },
+  {
+    id: 9,
+    title: "Node.js Performance Optimization Techniques (Edition 9)",
+    excerpt: "Learn how to optimize your Node.js applications for better performance...",
+    author: "Ryan Kim",
+    date: "2024-06-12",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["Node.js", "Performance", "Backend"]
+  },
+  {
+    id: 10,
+    title: "TypeScript Advanced Features and Use Cases (Edition 10)",
+    excerpt: "Diving deep into TypeScript's advanced features for better code quality...",
+    author: "Sarah Miller",
+    date: "2024-06-11",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["TypeScript", "JavaScript", "Development"]
+  },
+  {
+    id: 11,
+    title: "Progressive Web Apps: The Future of Web Development (Edition 11)",
+    excerpt: "Building PWAs that provide native app experiences on the web...",
+    author: "Alex Chen",
+    date: "2024-06-10",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["PWA", "Web Development", "Mobile"]
+  },
+  {
+    id: 12,
+    title: "GraphQL vs REST: Choosing the Right API Approach (Edition 12)",
+    excerpt: "Comparing GraphQL and REST APIs to help you make the right choice...",
+    author: "Michael Brown",
+    date: "2024-06-09",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["GraphQL", "REST", "API"]
+  },
+  {
+    id: 13,
+    title: "Modern React Patterns and Best Practices (Edition 13)",
+    excerpt: "Exploring the latest React patterns for building scalable applications...",
+    author: "Emma Thompson",
+    date: "2024-06-08",
+    image: "https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=400&h=200&fit=crop",
+    tags: ["React", "JavaScript", "Frontend"]
+  },
+  {
+    id: 14,
+    title: "Building Responsive Web Applications with CSS Grid (Edition 14)",
+    excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
+    author: "Carlos Martinez",
+    date: "2024-06-07",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["CSS", "Grid", "Responsive Design"]
+  },
+  {
+    id: 15,
+    title: "Node.js Performance Optimization Techniques (Edition 15)",
+    excerpt: "Learn how to optimize your Node.js applications for better performance...",
+    author: "Ryan Kim",
+    date: "2024-06-06",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["Node.js", "Performance", "Backend"]
+  },
+  {
+    id: 16,
+    title: "TypeScript Advanced Features and Use Cases (Edition 16)",
+    excerpt: "Diving deep into TypeScript's advanced features for better code quality...",
+    author: "Sarah Miller",
+    date: "2024-06-05",
+    image: "https://images.unsplash.com/photo-1488590528505-98d2b5aba04b?w=400&h=200&fit=crop",
+    tags: ["TypeScript", "JavaScript", "Development"]
+  },
+  {
+    id: 17,
+    title: "Progressive Web Apps: The Future of Web Development (Edition 17)",
+    excerpt: "Building PWAs that provide native app experiences on the web...",
+    author: "Alex Chen",
+    date: "2024-06-04",
+    image: "https://images.unsplash.com/photo-1487058792275-0ad4aaf24ca7?w=400&h=200&fit=crop",
+    tags: ["PWA", "Web Development", "Mobile"]
+  },
+  {
+    id: 18,
+    title: "GraphQL vs REST: Choosing the Right API Approach (Edition 18)",
+    excerpt: "Comparing GraphQL and REST APIs to help you make the right choice...",
+    author: "Michael Brown",
+    date: "2024-06-03",
+    image: "https://images.unsplash.com/photo-1518770660439-4636190af475?w=400&h=200&fit=crop",
+    tags: ["GraphQL", "REST", "API"]
+  },
+  {
+    id: 19,
+    title: "Modern React Patterns and Best Practices (Edition 19)",
+    excerpt: "Exploring the latest React patterns for building scalable applications...",
+    author: "Emma Thompson",
+    date: "2024-06-02",
+    image: "https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?w=400&h=200&fit=crop",
+    tags: ["React", "JavaScript", "Frontend"]
+  },
+  {
+    id: 20,
+    title: "Building Responsive Web Applications with CSS Grid (Edition 20)",
+    excerpt: "Master CSS Grid to create complex, responsive layouts effortlessly...",
+    author: "Carlos Martinez",
+    date: "2024-06-01",
+    image: "https://images.unsplash.com/photo-1531297484001-80022131f5a1?w=400&h=200&fit=crop",
+    tags: ["CSS", "Grid", "Responsive Design"]
+  }
+];
+
 export { blogPosts, blogNews, blogJobs,aiArticle ,internships,techJobs,nonTechJobs,todayJobs,urgentJobs,caseStudies,cultureArticles,trendsArticles ,webDevArticles};
