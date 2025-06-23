@@ -20,6 +20,9 @@ import NonTechJobs from "./pages/jobs/NonTechJobs";
 import Internships from "./pages/jobs/Internships";
 import UrgentRequirements from "./pages/jobs/UrgentRequirements";
 import NotFound from "./pages/NotFound";
+import { LogIn } from "lucide-react";
+import Register from "./components/Register";
+import Login from "./components/Login";
 
 const queryClient = new QueryClient();
 
@@ -45,6 +48,8 @@ const App = () => (
           <Route path="/jobs/non-tech" element={<NonTechJobs />} />
           <Route path="/jobs/internships" element={<Internships />} />
           <Route path="/jobs/urgent" element={<UrgentRequirements />} />
+          <Route path="/login" element={<Login />} /> {/* Default route for jobs */}
+          <Route path="/register" element={<Register />} /> {/* Default route for jobs */}
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />
         </Routes>

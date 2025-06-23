@@ -114,7 +114,10 @@ const Navigation = () => {
             <Button variant="outline" size="sm">
               <Search className="w-4 h-4 mr-2" /> Search
             </Button>
-            <Button className="bg-blue-600 hover:bg-blue-700">Subscribe</Button>
+            <Link to="/login">
+              <Button className="bg-blue-600 hover:bg-blue-700">Login</Button>
+            </Link>
+
           </div>
 
           <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
@@ -157,7 +160,7 @@ const Navigation = () => {
               <Button variant="outline" className="w-full">
                 <Search className="w-4 h-4 mr-2" /> Search
               </Button>
-              <Button className="w-full bg-blue-600 hover:bg-blue-700">Subscribe</Button>
+              <Button className="w-full bg-blue-600 hover:bg-blue-700">Login</Button>
             </div>
           </div>
         )}
