@@ -384,12 +384,12 @@ useEffect(() => {
           </div>
       </section>
 
-      {/* Flyhii Specials Section - New Layout Based on Wireframe */}
+      {/* Vjtha Specials Section - New Layout Based on Wireframe */}
       <section className="py-16 bg-gray-100">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h2 className="text-4xl font-bold text-gray-900 border-b-4 border-black pb-2 inline-block">
-              Flyhii Specials
+              Vjtha Specials
             </h2>
           </div>
           

@@ -52,7 +52,7 @@ const NewsletterSignup = () => {
       <div className="container mx-auto px-2">
         <div className="max-w-2xl mx-auto text-center">
           <Mail className="w-8 h-8 mx-auto mb-2 text-blue-200" />
-          <h2 className="text-4xl font-bold mb-2">Stay Updated with FlyHii Media</h2>
+          <h2 className="text-4xl font-bold mb-2">Stay Updated with Vjtha Media</h2>
           <p className="text-xl text-blue-100 mb-2 max-w-xl mx-auto">
             Get the latest insights on technology, innovation, and digital transformation 
             delivered straight to your inbox. Join thousands of professionals who trust our content.
