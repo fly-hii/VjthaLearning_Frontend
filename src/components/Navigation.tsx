@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -38,6 +38,7 @@ const Navigation = () => {
   ];
 
   const isActive = (path: string) => location.pathname === path;
+  const timeoutRef = useRef(null);
 
   const today = new Date().toLocaleDateString('en-IN', {
     weekday: 'long',
@@ -49,24 +50,6 @@ const Navigation = () => {
   return (
     <nav className="bg-gradient-to-r from-blue-200 to-blue-300  text-dark shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-2">
-        <div className="flex items-center justify-between py-2">
-          <p className="text-xs font-medium">{today}</p>
-          <div className="flex space-x-4">
-            <a href="https://facebook.com" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-blue-600 transition">
-              <Facebook className="w-5 h-5 text-black hover:text-white" />
-            </a>
-            <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-pink-600 transition">
-              <Instagram className="w-5 h-5 text-black hover:text-white" />
-            </a>
-            <a href="https://linkedin.com" target="_blank" rel="noopener noreferrer"
-              className="p-2 rounded-full hover:bg-blue-200 transition">
-              <Linkedin className="w-5 h-5 text-black hover:text-blue-800" />
-            </a>
-          </div>
-        </div>
-
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
             <img 
@@ -74,18 +57,22 @@ const Navigation = () => {
               alt="Vjtha Media Logo" 
               className="w-16 h-16 object-contain"
             />
-            <div>
-              <h1 className="text-xl font-bold text-gray-900">Vjtha Media</h1>
-            </div>
           </Link>
 
           <div className="hidden lg:flex items-center space-x-8">
             {navItems.map((item) => (
-              <div
+             <div
                 key={item.name}
                 className="relative"
-                onMouseEnter={() => setActiveDropdown(item.name)}
-                onMouseLeave={() => setActiveDropdown(null)}
+                onMouseEnter={() => {
+                  if (timeoutRef.current) clearTimeout(timeoutRef.current);
+                  setActiveDropdown(item.name);
+                }}
+                onMouseLeave={() => {
+                  timeoutRef.current = setTimeout(() => {
+                    setActiveDropdown(null);
+                  }, 300); // 0.5 seconds
+                }}
               >
                 {item.dropdown ? (
                   <>
