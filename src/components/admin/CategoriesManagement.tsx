@@ -13,32 +13,100 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
+
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
+// API functions
+const fetchCategories = async () => {
+  const response = await fetch(`${API_BASE_URL}/categories`);
+  if (!response.ok) throw new Error('Failed to fetch categories');
+  return response.json();
+};
+
+const createCategory = async (categoryData: any) => {
+  const response = await fetch(`${API_BASE_URL}/categories`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: JSON.stringify(categoryData),
+  });
+  if (!response.ok) throw new Error('Failed to create category');
+  return response.json();
+};
+
+const deleteCategory = async (id: string) => {
+  const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+  });
+  if (!response.ok) throw new Error('Failed to delete category');
+  return response.json();
+};
 
 const CategoriesManagement: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCategory, setNewCategory] = useState({ name: '', slug: '', description: '' });
+  const queryClient = useQueryClient();
 
-  const categories = [
-    { id: 1, name: 'Web Development', slug: 'web-development', description: 'Frontend and backend development articles', articleCount: 45 },
-    { id: 2, name: 'JavaScript', slug: 'javascript', description: 'JavaScript tutorials and guides', articleCount: 32 },
-    { id: 3, name: 'React', slug: 'react', description: 'React framework and ecosystem', articleCount: 28 },
-    { id: 4, name: 'CSS', slug: 'css', description: 'Styling and design techniques', articleCount: 21 },
-    { id: 5, name: 'Backend', slug: 'backend', description: 'Server-side development', articleCount: 18 },
-    { id: 6, name: 'DevOps', slug: 'devops', description: 'Deployment and infrastructure', articleCount: 12 },
-  ];
+  const { data: categories = [], isLoading } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  const createCategoryMutation = useMutation({
+    mutationFn: createCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success('Category created successfully!');
+      setNewCategory({ name: '', slug: '', description: '' });
+      setShowAddForm(false);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to create category');
+    },
+  });
+
+  const deleteCategoryMutation = useMutation({
+    mutationFn: deleteCategory,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['categories'] });
+      toast.success('Category deleted successfully!');
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to delete category');
+    },
+  });
 
   const handleAddCategory = () => {
     if (newCategory.name) {
-      // Add category logic here
-      console.log('Adding category:', newCategory);
-      setNewCategory({ name: '', slug: '', description: '' });
-      setShowAddForm(false);
+      createCategoryMutation.mutate(newCategory);
+    }
+  };
+
+  const handleDeleteCategory = (id: string) => {
+    if (confirm('Are you sure you want to delete this category?')) {
+      deleteCategoryMutation.mutate(id);
     }
   };
 
   const generateSlug = (name: string) => {
     return name.toLowerCase().replace(/\s+/g, '-').replace(/[^\w-]+/g, '');
   };
+
+  if (isLoading) {
+    return (
+      <div className="text-center py-16">
+        <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+        <p className="mt-4 text-gray-600">Loading categories...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="space-y-6">
@@ -106,8 +174,11 @@ const CategoriesManagement: React.FC = () => {
               >
                 Cancel
               </Button>
-              <Button onClick={handleAddCategory}>
-                Add Category
+              <Button 
+                onClick={handleAddCategory}
+                disabled={createCategoryMutation.isPending}
+              >
+                {createCategoryMutation.isPending ? 'Creating...' : 'Add Category'}
               </Button>
             </div>
           </CardContent>
@@ -134,7 +205,7 @@ const CategoriesManagement: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600">Total Articles</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {categories.reduce((sum, cat) => sum + cat.articleCount, 0)}
+                  {categories.reduce((sum: number, cat: any) => sum + (cat.articleCount || 0), 0)}
                 </p>
               </div>
             </div>
@@ -149,7 +220,7 @@ const CategoriesManagement: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600">Avg Articles/Category</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {Math.round(categories.reduce((sum, cat) => sum + cat.articleCount, 0) / categories.length)}
+                  {categories.length > 0 ? Math.round(categories.reduce((sum: number, cat: any) => sum + (cat.articleCount || 0), 0) / categories.length) : 0}
                 </p>
               </div>
             </div>
@@ -174,8 +245,8 @@ const CategoriesManagement: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((category) => (
-                <TableRow key={category.id}>
+              {categories.map((category: any) => (
+                <TableRow key={category._id}>
                   <TableCell>
                     <div className="flex items-center space-x-2">
                       <FolderOpen className="w-4 h-4 text-blue-600" />
@@ -192,7 +263,7 @@ const CategoriesManagement: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <Badge variant="outline">
-                      {category.articleCount} articles
+                      {category.articleCount || 0} articles
                     </Badge>
                   </TableCell>
                   <TableCell>
@@ -200,7 +271,12 @@ const CategoriesManagement: React.FC = () => {
                       <Button size="sm" variant="outline">
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button 
+                        size="sm" 
+                        variant="outline"
+                        onClick={() => handleDeleteCategory(category._id)}
+                        disabled={deleteCategoryMutation.isPending}
+                      >
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>

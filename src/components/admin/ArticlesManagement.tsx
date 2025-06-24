@@ -27,7 +27,9 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from 'sonner';
+
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 // API functions
 const fetchArticles = async (params?: { search?: string; category?: string; status?: string }) => {
@@ -36,19 +38,24 @@ const fetchArticles = async (params?: { search?: string; category?: string; stat
   if (params?.category && params.category !== 'all') queryParams.append('category', params.category);
   if (params?.status && params.status !== 'all') queryParams.append('status', params.status);
 
-  const response = await fetch(`/api/articles?${queryParams.toString()}`);
+  const response = await fetch(`${API_BASE_URL}/articles?${queryParams.toString()}`);
   if (!response.ok) throw new Error('Failed to fetch articles');
   return response.json();
 };
 
 const deleteArticle = async (id: string) => {
-  const response = await fetch(`/api/articles/${id}`, { method: 'DELETE' });
+  const response = await fetch(`${API_BASE_URL}/articles/${id}`, { 
+    method: 'DELETE',
+    headers: {
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+  });
   if (!response.ok) throw new Error('Failed to delete article');
   return response.json();
 };
 
 const fetchCategories = async () => {
-  const response = await fetch('/api/categories');
+  const response = await fetch(`${API_BASE_URL}/categories`);
   if (!response.ok) throw new Error('Failed to fetch categories');
   return response.json();
 };
@@ -57,7 +64,6 @@ const ArticlesManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
-  const { toast } = useToast();
   const queryClient = useQueryClient();
 
   const { data: articles = [], isLoading } = useQuery({
@@ -78,17 +84,10 @@ const ArticlesManagement: React.FC = () => {
     mutationFn: deleteArticle,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articles'] });
-      toast({
-        title: "Success",
-        description: "Article deleted successfully",
-      });
+      toast.success('Article deleted successfully');
     },
     onError: (error: Error) => {
-      toast({
-        title: "Error",
-        description: error.message,
-        variant: "destructive",
-      });
+      toast.error(error.message || 'Failed to delete article');
     },
   });
 
@@ -244,7 +243,9 @@ const ArticlesManagement: React.FC = () => {
                       </div>
                     </TableCell>
                     <TableCell>
-                      <Badge variant="outline">{article.category?.name || 'Uncategorized'}</Badge>
+                      <Badge variant="outline">
+                        {article.category?.name || article.category || 'Uncategorized'}
+                      </Badge>
                     </TableCell>
                     <TableCell>
                       <Badge 
