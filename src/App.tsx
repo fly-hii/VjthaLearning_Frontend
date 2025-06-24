@@ -27,6 +27,7 @@ import NotFound from "./pages/NotFound";
 import Register from "./components/Register";
 import Login from "./components/Login";
 import SearchResults from "./components/SearchPage";
+import AdminDashboard from "./pages/admin/AdminDashboard";
 
 const queryClient = new QueryClient();
 
@@ -112,6 +113,11 @@ const App = () => (
             <Route path="/jobs/urgent" element={
               <ProtectedRoute>
                 <UrgentRequirements />
+              </ProtectedRoute>
+            } />
+            <Route path="/admin/*" element={
+              <ProtectedRoute>
+                <AdminDashboard />
               </ProtectedRoute>
             } />
             <Route path="*" element={<NotFound />} />
