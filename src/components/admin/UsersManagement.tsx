@@ -73,7 +73,28 @@ const UsersManagement: React.FC = () => {
 
     return matchesSearch && matchesRole 
   });
-  console.log(users)
+  const handleDelete = async (id: string) => {
+    if (!confirm('Are you sure you want to delete this user?')) return;
+
+    try {
+      await usersApi.delete(id);
+      setUsers(prev => prev.filter(user => user._id !== id));
+    } catch (error) {
+      console.error('Delete failed:', error);
+    }
+  };
+
+  const handleEdit = async (id: string, updatedFields: Partial<User>) => {
+    try {
+      const updatedUser = await usersApi.update(id, updatedFields);
+      setUsers(prev =>
+        prev.map(user => (user._id === id ? { ...user, ...updatedUser } : user))
+      );
+    } catch (error) {
+      console.error('Edit failed:', error);
+    }
+  };
+
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -193,10 +214,19 @@ const UsersManagement: React.FC = () => {
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
-                      <Button size="sm" variant="outline" title="Edit User">
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        title="Edit User"
+                        onClick={() => handleEdit(user._id, { name: prompt('Enter new name', user.name) || user.name })}>
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" variant="outline" title="Delete User">
+
+                      <Button
+                        size="sm"
+                        variant="outline"
+                        title="Delete User"
+                        onClick={() => handleDelete(user._id)}>
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
