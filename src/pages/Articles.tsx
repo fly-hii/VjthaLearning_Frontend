@@ -11,6 +11,8 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useQuery } from '@tanstack/react-query';
 
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
 // API function to fetch articles
 const fetchArticles = async (params?: { category?: string; search?: string; sort?: string }) => {
   const queryParams = new URLSearchParams();
@@ -24,7 +26,7 @@ const fetchArticles = async (params?: { category?: string; search?: string; sort
     queryParams.append('sort', params.sort);
   }
 
-  const response = await fetch(`/api/articles?${queryParams.toString()}`);
+  const response = await fetch(`${API_BASE_URL}/articles?${queryParams.toString()}`);
   if (!response.ok) {
     throw new Error('Failed to fetch articles');
   }
@@ -33,7 +35,7 @@ const fetchArticles = async (params?: { category?: string; search?: string; sort
 
 // API function to fetch categories
 const fetchCategories = async () => {
-  const response = await fetch('/api/categories');
+  const response = await fetch(`${API_BASE_URL}/categories`);
   if (!response.ok) {
     throw new Error('Failed to fetch categories');
   }
@@ -169,19 +171,25 @@ const Articles = () => {
                             {article.title}
                           </h3>
                           <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                            {article.excerpt || article.content.substring(0, 150) + '...'}
+                            {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
                           </p>
                           
                           <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                             <div className="flex items-center">
                               <User className="w-3 h-3 mr-1" />
-                              {article.author}
+                              {article.author || 'Unknown Author'}
                             </div>
                             <div className="flex items-center">
                               <Calendar className="w-3 h-3 mr-1" />
                               {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
                             </div>
                           </div>
+                          
+                          {article.category && (
+                            <div className="mb-3">
+                              <Badge variant="outline">{article.category.name || article.category}</Badge>
+                            </div>
+                          )}
                           
                           <Link to={`/article/${article._id}`}>
                             <Button size="sm" className="w-full">
@@ -212,9 +220,11 @@ const Articles = () => {
                         />
                       )}
                       <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
-                          {article.title}
-                        </h4>
+                        <Link to={`/article/${article._id}`}>
+                          <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-blue-600 transition-colors">
+                            {article.title}
+                          </h4>
+                        </Link>
                         <div className="flex items-center text-xs text-gray-500">
                           <Calendar className="w-3 h-3 mr-1" />
                           {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
