@@ -128,7 +128,7 @@ const Register: React.FC = () => {
                                     <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
                                     <Input 
                                       placeholder="Enter your full name" 
-                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md hover:shadow-blue-200"
                                       {...field} 
                                     />
                                   </div>
@@ -150,7 +150,7 @@ const Register: React.FC = () => {
                                     <Input 
                                       placeholder="your@email.com" 
                                       type="email" 
-                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md hover:shadow-blue-200"
                                       {...field} 
                                     />
                                   </div>
@@ -172,7 +172,7 @@ const Register: React.FC = () => {
                                     <Input 
                                       placeholder="Create a strong password" 
                                       type="password" 
-                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      className="pl-10 h-12 border-2 hover:shadow-blue-200 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
                                       {...field} 
                                     />
                                   </div>
@@ -194,7 +194,7 @@ const Register: React.FC = () => {
                                     <Input 
                                       placeholder="Enter your mobile number" 
                                       type="tel" 
-                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all hover:shadow-blue-200 duration-300 hover:shadow-md"
                                       {...field} 
                                       maxLength={10} 
                                     />
