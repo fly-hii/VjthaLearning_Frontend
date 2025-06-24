@@ -89,7 +89,7 @@ const Login = () => {
                                     <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-blue-500 transition-colors" />
                                     <Input
                                       placeholder="your@email.com"
-                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-blue-200"
                                       {...field}
                                     />
                                   </div>
@@ -111,7 +111,7 @@ const Login = () => {
                                     <Input
                                       type={showPassword ? 'text' : 'password'}
                                       placeholder="Enter your password"
-                                      className="pl-10 pr-12 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      className="pl-10 pr-12 h-12 border-2 border-gray-200 focus:border-blue-500 rounded-xl transition-all duration-300 hover:shadow-xl hover:shadow-blue-200"
                                       {...field}
                                     />
                                     <Button
