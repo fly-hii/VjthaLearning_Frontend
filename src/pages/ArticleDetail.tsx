@@ -6,34 +6,57 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import {
-  blogPosts,
-  blogNews,
-  blogJobs,
-  aiArticle,
-  caseStudies,
-  cultureArticles,
-  trendsArticles,
-  webDevArticles
-} from '@/lib/mockdata';
+import { useQuery } from '@tanstack/react-query';
+
+// API function to fetch single article
+const fetchArticle = async (id: string) => {
+  const response = await fetch(`/api/articles/${id}`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch article');
+  }
+  return response.json();
+};
+
+// API function to fetch related articles
+const fetchRelatedArticles = async (category: string, currentId: string) => {
+  const response = await fetch(`/api/articles?category=${category}&exclude=${currentId}&limit=3`);
+  if (!response.ok) {
+    throw new Error('Failed to fetch related articles');
+  }
+  return response.json();
+};
 
 const ArticleDetail = () => {
   const { id } = useParams();
   
-  const allArticles = [
-    ...blogPosts,
-    ...blogNews,
-    ...blogJobs,
-    ...aiArticle,
-    ...caseStudies,
-    ...cultureArticles,
-    ...trendsArticles,
-    ...webDevArticles
-  ];
+  const { data: article, isLoading, error } = useQuery({
+    queryKey: ['article', id],
+    queryFn: () => fetchArticle(id!),
+    enabled: !!id,
+  });
 
-  const article = allArticles.find(a => a.id === parseInt(id || '0'));
+  const { data: relatedArticles } = useQuery({
+    queryKey: ['relatedArticles', article?.category, id],
+    queryFn: () => fetchRelatedArticles(article.category, id!),
+    enabled: !!article?.category && !!id,
+  });
 
-  if (!article) {
+  if (isLoading) {
+    return (
+      <>
+        <Navigation />
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+            <p className="mt-4 text-gray-600">Loading article...</p>
+          </div>
+        </div>
+        <Footer />
+      </>
+    );
+  }
+
+  if (error || !article) {
     return (
       <>
         <Navigation />
@@ -54,11 +77,6 @@ const ArticleDetail = () => {
     );
   }
 
-  const articleCategory = 'category' in article ? article.category : 'General';
-  const relatedArticles = allArticles
-    .filter(a => a.id !== article.id && ('category' in a ? a.category === articleCategory : false))
-    .slice(0, 3);
-
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -74,7 +92,7 @@ const ArticleDetail = () => {
           
           <div className="max-w-4xl">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">
-              {articleCategory}
+              {article.category?.name || 'General'}
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
               {article.title}
@@ -87,7 +105,7 @@ const ArticleDetail = () => {
               </div>
               <div className="flex items-center">
                 <Calendar className="w-5 h-5 mr-2" />
-                {new Date(article.date).toLocaleDateString('en-US', {
+                {new Date(article.publishedAt || article.createdAt).toLocaleDateString('en-US', {
                   year: 'numeric',
                   month: 'long',
                   day: 'numeric'
@@ -115,13 +133,28 @@ const ArticleDetail = () => {
               <Card className="bg-white shadow-lg">
                 <CardContent className="p-8">
                   {/* Featured Image */}
-                  <div className="mb-8">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-64 md:h-96 object-cover rounded-lg shadow-md"
-                    />
-                  </div>
+                  {article.featuredImage && (
+                    <div className="mb-8">
+                      <img
+                        src={article.featuredImage}
+                        alt={article.title}
+                        className="w-full h-64 md:h-96 object-cover rounded-lg shadow-md"
+                      />
+                    </div>
+                  )}
+
+                  {/* Video Embed */}
+                  {article.videoEmbedUrl && (
+                    <div className="mb-8">
+                      <div className="aspect-video">
+                        <iframe
+                          src={article.videoEmbedUrl}
+                          className="w-full h-full rounded-lg"
+                          allowFullScreen
+                        />
+                      </div>
+                    </div>
+                  )}
 
                   {/* Article Actions */}
                   <div className="flex items-center justify-between mb-8 p-4 bg-gray-50 rounded-lg">
@@ -136,7 +169,7 @@ const ArticleDetail = () => {
                       </Button>
                     </div>
                     <div className="flex items-center gap-2">
-                      {article.tags?.map((tag) => (
+                      {article.tags?.map((tag: string) => (
                         <Badge key={tag} variant="secondary">
                           <Tag className="w-3 h-3 mr-1" />
                           {tag}
@@ -145,35 +178,9 @@ const ArticleDetail = () => {
                     </div>
                   </div>
 
-                  {/* Article Text */}
+                  {/* Article Content */}
                   <div className="prose prose-lg max-w-none">
-                    <p className="text-xl text-gray-700 mb-6 font-medium">
-                      {article.excerpt}
-                    </p>
-                    
-                    <p className="text-gray-700 mb-6">
-                      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.
-                    </p>
-
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">Key Insights</h2>
-                    <p className="text-gray-700 mb-6">
-                      Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-                    </p>
-
-                    <h2 className="text-2xl font-bold text-gray-900 mb-4">What This Means</h2>
-                    <p className="text-gray-700 mb-6">
-                      Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam, eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.
-                    </p>
-
-                    <div className="bg-blue-50 border-l-4 border-blue-500 p-6 my-8">
-                      <p className="text-blue-800 font-medium">
-                        "This represents a significant shift in how we approach modern technology solutions."
-                      </p>
-                    </div>
-
-                    <p className="text-gray-700 mb-6">
-                      Nemo enim ipsam voluptatem quia voluptas sit aspernatur aut odit aut fugit, sed quia consequuntur magni dolores eos qui ratione voluptatem sequi nesciunt.
-                    </p>
+                    <div dangerouslySetInnerHTML={{ __html: article.content }} />
                   </div>
 
                   {/* Author Bio */}
@@ -201,25 +208,27 @@ const ArticleDetail = () => {
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-6">Related Articles</h3>
                   <div className="space-y-4">
-                    {relatedArticles.map((relatedArticle) => (
+                    {relatedArticles?.map((relatedArticle: any) => (
                       <Link
-                        key={relatedArticle.id}
-                        to={`/article/${relatedArticle.id}`}
+                        key={relatedArticle._id}
+                        to={`/article/${relatedArticle._id}`}
                         className="block group"
                       >
                         <div className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                          <img
-                            src={relatedArticle.image}
-                            alt={relatedArticle.title}
-                            className="w-16 h-16 object-cover rounded"
-                          />
+                          {relatedArticle.featuredImage && (
+                            <img
+                              src={relatedArticle.featuredImage}
+                              alt={relatedArticle.title}
+                              className="w-16 h-16 object-cover rounded"
+                            />
+                          )}
                           <div className="flex-1">
                             <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
                               {relatedArticle.title}
                             </h4>
                             <div className="flex items-center text-xs text-gray-500 mt-1">
                               <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(relatedArticle.date).toLocaleDateString()}
+                              {new Date(relatedArticle.publishedAt || relatedArticle.createdAt).toLocaleDateString()}
                             </div>
                           </div>
                         </div>
