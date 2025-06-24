@@ -14,13 +14,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import {
-  Card,
-  CardContent,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from '@/components/ui/card';
+import { User, Mail, Lock, Phone, UserPlus, Star, Shield, Zap } from 'lucide-react';
 import Navigation from './Navigation';
 import { useAuth } from '@/contexts/AuthContext';
 
@@ -61,103 +55,185 @@ const Register: React.FC = () => {
   return (
     <>
       <Navigation />
-      <div className="container flex items-center justify-center min-h-[calc(100vh-200px)] py-8">
-        <div className="w-full max-w-5xl px-4">
-          <Card className="shadow-lg bg-blue-50 border border-gray-200"
-           style={{ fontFamily: `'Georgia', 'Times New Roman', serif` }}>
-            <div className="grid grid-cols-1 md:grid-cols-2">
-              {/* Left - Form Section */}
-              <div className="p-6">
-                 <CardHeader className="text-center border-b border-gray-300 pb-4 mb-4">
-                  <CardTitle className="text-2xl font-bold uppercase tracking-wide">
-                    Create a Account
-                  </CardTitle>
-                </CardHeader>
-                <CardContent>
-                  <Form {...form}>
-                    <form className="space-y-4" onSubmit={form.handleSubmit(onSubmit)}>
-                      <FormField
-                        control={form.control}
-                        name="name"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Name</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your name" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="email"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Email</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your email" type="email" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="password"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Password</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your password" type="password" {...field} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <FormField
-                        control={form.control}
-                        name="mobile"
-                        render={({ field }) => (
-                          <FormItem>
-                            <FormLabel>Mobile Number</FormLabel>
-                            <FormControl>
-                              <Input placeholder="Enter your mobile number" type="tel" {...field} maxLength={10} />
-                            </FormControl>
-                            <FormMessage />
-                          </FormItem>
-                        )}
-                      />
-                      <Button type="submit" className="w-full" disabled={loading}>
-                        {loading ? "Registering..." : "Register"}
-                      </Button>
-                    </form>
-                  </Form>
-                </CardContent>
-                <CardFooter className="flex flex-col">
-                  <div className="text-center w-full text-sm">
-                    Already have an account?{' '}
-                    <Link to="/login" className="text-primary hover:underline font-medium">
-                      Login
-                    </Link>
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-100 flex items-center justify-center py-12 px-4">
+        <div className="w-full max-w-6xl">
+          {/* 3D Card Container */}
+          <div className="perspective-1000">
+            <div className="relative transform-style-preserve-3d hover:rotate-y-2 transition-transform duration-700 ease-out">
+              <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 transform hover:scale-105 transition-all duration-500">
+                <div className="grid grid-cols-1 lg:grid-cols-2">
+                  {/* Left - Branding Section */}
+                  <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-8 lg:p-12 flex flex-col justify-center items-center text-white relative overflow-hidden">
+                    {/* Animated Background Elements */}
+                    <div className="absolute inset-0 opacity-10">
+                      <div className="absolute top-16 right-12 w-24 h-24 border border-white rounded-full animate-spin"></div>
+                      <div className="absolute bottom-24 left-8 w-16 h-16 border border-white rounded-full animate-pulse"></div>
+                      <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-32 h-32 border border-white rounded-full animate-ping"></div>
+                    </div>
+                    
+                    <div className="relative z-10 text-center">
+                      <div className="mb-8 transform hover:scale-110 transition-transform duration-300">
+                        <img
+                          src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png"
+                          alt="VJtha Logo"
+                          className="w-32 h-32 mx-auto object-contain bg-white/10 rounded-2xl p-4 backdrop-blur-sm"
+                        />
+                      </div>
+                      
+                      <h2 className="text-3xl font-bold mb-4">Join VJtha Media</h2>
+                      <p className="text-lg opacity-90 mb-8">Become part of our storytelling community</p>
+                      
+                      <div className="space-y-4 text-left max-w-sm">
+                        <div className="flex items-center space-x-3 transform hover:translate-x-2 transition-transform">
+                          <Star className="w-5 h-5 text-yellow-300" />
+                          <span className="text-sm opacity-90">Exclusive premium content</span>
+                        </div>
+                        <div className="flex items-center space-x-3 transform hover:translate-x-2 transition-transform">
+                          <Shield className="w-5 h-5 text-green-300" />
+                          <span className="text-sm opacity-90">Secure & private platform</span>
+                        </div>
+                        <div className="flex items-center space-x-3 transform hover:translate-x-2 transition-transform">
+                          <Zap className="w-5 h-5 text-orange-300" />
+                          <span className="text-sm opacity-90">Real-time notifications</span>
+                        </div>
+                      </div>
+                    </div>
                   </div>
-                </CardFooter>
-              </div>
 
-              {/* Right - Branding / Info Section */}
-              <div className="bg-white border-l border-gray-200 flex flex-col items-center justify-center p-6 text-center">
-                <img
-                  src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png"
-                  alt="VJtha Logo"
-                  className="w-48 h-48 mb-4 object-contain"
-                />
-                <h2 className="text-xl font-semibold mb-2">Welcome to VJtha Media</h2>
-                <p className="text-gray-600 text-sm">
-                  Stay informed. Be inspired. Join the community of truth and voice.
-                </p>
+                  {/* Right - Registration Form */}
+                  <div className="p-8 lg:p-12 relative overflow-hidden">
+                    {/* Animated Background Elements */}
+                    <div className="absolute top-0 right-0 w-28 h-28 bg-purple-100 rounded-full opacity-20 animate-bounce"></div>
+                    <div className="absolute bottom-0 left-0 w-20 h-20 bg-blue-100 rounded-full opacity-20 animate-pulse"></div>
+                    
+                    <div className="relative z-10">
+                      <div className="text-center mb-8">
+                        <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-purple-500 to-blue-600 rounded-full mb-4 animate-pulse">
+                          <UserPlus className="w-8 h-8 text-white" />
+                        </div>
+                        <h1 className="text-3xl font-bold text-gray-900 mb-2">Create Account</h1>
+                        <p className="text-gray-600">Start your journey with us</p>
+                      </div>
+
+                      <Form {...form}>
+                        <form className="space-y-6" onSubmit={form.handleSubmit(onSubmit)}>
+                          <FormField
+                            control={form.control}
+                            name="name"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-700 font-medium">Full Name</FormLabel>
+                                <FormControl>
+                                  <div className="relative group">
+                                    <User className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
+                                    <Input 
+                                      placeholder="Enter your full name" 
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      {...field} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="email"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-700 font-medium">Email</FormLabel>
+                                <FormControl>
+                                  <div className="relative group">
+                                    <Mail className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
+                                    <Input 
+                                      placeholder="your@email.com" 
+                                      type="email" 
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      {...field} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="password"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-700 font-medium">Password</FormLabel>
+                                <FormControl>
+                                  <div className="relative group">
+                                    <Lock className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
+                                    <Input 
+                                      placeholder="Create a strong password" 
+                                      type="password" 
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      {...field} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <FormField
+                            control={form.control}
+                            name="mobile"
+                            render={({ field }) => (
+                              <FormItem>
+                                <FormLabel className="text-gray-700 font-medium">Mobile Number</FormLabel>
+                                <FormControl>
+                                  <div className="relative group">
+                                    <Phone className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 group-focus-within:text-purple-500 transition-colors" />
+                                    <Input 
+                                      placeholder="Enter your mobile number" 
+                                      type="tel" 
+                                      className="pl-10 h-12 border-2 border-gray-200 focus:border-purple-500 rounded-xl transition-all duration-300 hover:shadow-md"
+                                      {...field} 
+                                      maxLength={10} 
+                                    />
+                                  </div>
+                                </FormControl>
+                                <FormMessage />
+                              </FormItem>
+                            )}
+                          />
+                          
+                          <Button 
+                            type="submit" 
+                            className="w-full h-12 bg-gradient-to-r from-purple-500 to-blue-600 hover:from-purple-600 hover:to-blue-700 text-white rounded-xl font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300" 
+                            disabled={loading}
+                          >
+                            {loading ? (
+                              <div className="flex items-center">
+                                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white mr-2"></div>
+                                Creating Account...
+                              </div>
+                            ) : 'Create Account'}
+                          </Button>
+                        </form>
+                      </Form>
+
+                      <div className="mt-8 text-center">
+                        <p className="text-gray-600">
+                          Already have an account?{' '}
+                          <Link to="/login" className="text-purple-600 hover:text-purple-700 font-medium hover:underline transition-colors">
+                            Sign in
+                          </Link>
+                        </p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </Card>
+          </div>
         </div>
       </div>
     </>
