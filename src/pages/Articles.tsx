@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Calendar, User, Clock, ArrowRight } from 'lucide-react';
@@ -9,48 +8,36 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { blogPosts } from '@/lib/mockdata';
+import { useQuery } from '@tanstack/react-query';
+import { articlesApi, categoriesApi } from '@/Services/api';
+import type { Article, Category } from '@/types/api';
 
 const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('latest');
 
-  const categories = [
+  const { data: articles = [], isLoading: articlesLoading } = useQuery({
+    queryKey: ['articles', selectedCategory, searchQuery, sortBy],
+    queryFn: () => articlesApi.getAll({ 
+      category: selectedCategory, 
+      search: searchQuery, 
+      sort: sortBy 
+    }),
+  });
+
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: categoriesApi.getAll,
+  });
+
+  const categoryOptions = [
     { value: 'all', label: 'All Categories' },
-    { value: 'tech-innovation', label: 'Tech Innovation' },
-    { value: 'ai-ml', label: 'AI & Machine Learning' },
-    { value: 'web-development', label: 'Web Development' },
-    { value: 'company-culture', label: 'Company Culture' },
-    { value: 'industry-trends', label: 'Industry Trends' },
-    { value: 'case-studies', label: 'Case Studies' },
+    ...categories.map((cat: Category) => ({
+      value: cat.slug,
+      label: cat.name
+    }))
   ];
-
-  const articles = blogPosts;
-
-  const filteredArticles = articles.filter(article => {
-    const matchesSearch = article.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.excerpt.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.category.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         article.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
-    
-    const matchesCategory = selectedCategory === 'all' || article.category === selectedCategory;
-    
-    return matchesSearch && matchesCategory;
-  });
-
-  const sortedArticles = [...filteredArticles].sort((a, b) => {
-    switch (sortBy) {
-      case 'latest':
-        return new Date(b.date).getTime() - new Date(a.date).getTime();
-      case 'oldest':
-        return new Date(a.date).getTime() - new Date(b.date).getTime();
-      case 'title':
-        return a.title.localeCompare(b.title);
-      default:
-        return 0;
-    }
-  });
 
   return (
     <div className="min-h-screen bg-white">
@@ -83,7 +70,7 @@ const Articles = () => {
                   <SelectValue placeholder="Filter by category" />
                 </SelectTrigger>
                 <SelectContent>
-                  {categories.map((category) => (
+                  {categoryOptions.map((category) => (
                     <SelectItem key={category.value} value={category.value}>
                       {category.label}
                     </SelectItem>
@@ -113,7 +100,12 @@ const Articles = () => {
             {/* Articles Grid - Left Side */}
             <div className="flex-1">
               <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
-                {sortedArticles.length === 0 ? (
+                {articlesLoading ? (
+                  <div className="text-center py-16">
+                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+                    <p className="mt-4 text-gray-600">Loading articles...</p>
+                  </div>
+                ) : articles.length === 0 ? (
                   <div className="text-center py-16">
                     <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
                     <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
@@ -128,15 +120,17 @@ const Articles = () => {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {sortedArticles.slice(0, 9).map((article) => (
-                      <Card key={article.id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
+                    {articles.slice(0, 9).map((article: Article) => (
+                      <Card key={article._id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
                         <div className="relative">
-                          <img
-                            src={article.image}
-                            alt={article.title}
-                            className="w-full h-40 object-cover"
-                          />
-                          {article.featured && (
+                          {article.featuredImage && (
+                            <img
+                              src={article.featuredImage}
+                              alt={article.title}
+                              className="w-full h-40 object-cover"
+                            />
+                          )}
+                          {(article.isFeatured || article.featured) && (
                             <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                               Featured
                             </Badge>
@@ -147,21 +141,29 @@ const Articles = () => {
                             {article.title}
                           </h3>
                           <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                            {article.excerpt}
+                            {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
                           </p>
                           
                           <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
                             <div className="flex items-center">
                               <User className="w-3 h-3 mr-1" />
-                              {article.author}
+                              {article.author || 'Unknown Author'}
                             </div>
                             <div className="flex items-center">
                               <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(article.date).toLocaleDateString()}
+                              {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
                             </div>
                           </div>
                           
-                          <Link to={`/article/${article.id}`}>
+                          {article.category && (
+                            <div className="mb-3">
+                              <Badge variant="outline">
+                                {typeof article.category === 'object' ? article.category.name : article.category}
+                              </Badge>
+                            </div>
+                          )}
+                          
+                          <Link to={`/article/${article._id}`}>
                             <Button size="sm" className="w-full">
                               Read More
                               <ArrowRight className="w-4 h-4 ml-2" />
@@ -180,20 +182,24 @@ const Articles = () => {
               <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Articles</h2>
                 <div className="space-y-4">
-                  {sortedArticles.slice(0, 5).map((article) => (
-                    <div key={article.id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        className="w-16 h-16 object-cover rounded bg-gray-300"
-                      />
+                  {articles.slice(0, 5).map((article: Article) => (
+                    <div key={article._id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
+                      {article.featuredImage && (
+                        <img
+                          src={article.featuredImage}
+                          alt={article.title}
+                          className="w-16 h-16 object-cover rounded bg-gray-300"
+                        />
+                      )}
                       <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
-                          {article.title}
-                        </h4>
+                        <Link to={`/article/${article._id}`}>
+                          <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-blue-600 transition-colors">
+                            {article.title}
+                          </h4>
+                        </Link>
                         <div className="flex items-center text-xs text-gray-500">
                           <Calendar className="w-3 h-3 mr-1" />
-                          {new Date(article.date).toLocaleDateString()}
+                          {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
                         </div>
                       </div>
                     </div>

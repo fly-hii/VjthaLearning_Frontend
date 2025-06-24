@@ -39,17 +39,23 @@ const Login = () => {
     },
   });
 
-  const onSubmit = async (data: FormValues) => {
-    setIsLoading(true);
-    try {
-      await signIn(data.email, data.password);
+const onSubmit = async (data: FormValues) => {
+  setIsLoading(true);
+  try {
+    const response = await signIn(data.email, data.password);
+    if (response?.user?.role === 'Admin') {
+      navigate('/admin');
+    } else {
       navigate('/');
-    } catch (error) {
-      console.error('Login error:', error);
-    } finally {
-      setIsLoading(false);
     }
-  };
+  } catch (error) {
+    console.error('Login error:', error);
+  } finally {
+    setIsLoading(false);
+  }
+};
+
+
 
   return (
     <>

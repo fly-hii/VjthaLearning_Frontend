@@ -94,6 +94,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
       setUser(data.user);
       
       toast.success('Login successful!');
+      
+      return data; // ✅ Return the login data so it can be used in onSubmit
     } catch (error: any) {
       toast.error(error.message || 'Login failed');
       throw error;
