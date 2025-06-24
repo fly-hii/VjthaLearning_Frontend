@@ -146,6 +146,12 @@ export const categoriesApi = {
     });
     if (!response.ok) throw new Error('Failed to delete category');
   },
+  // Get articles by category ID
+  getByCategoryId: async (categoryId: string): Promise<Article[]> => {
+    const response = await fetch(`${API_BASE_URL}/categories/${categoryId}/articles`);
+    if (!response.ok) throw new Error('Failed to fetch articles by category ID');
+    return response.json();
+  },
 };
 // User API Functions
 export const usersApi = {
