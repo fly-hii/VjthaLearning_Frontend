@@ -25,50 +25,88 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { useToast } from '@/hooks/use-toast';
+
+// API functions
+const fetchArticles = async (params?: { search?: string; category?: string; status?: string }) => {
+  const queryParams = new URLSearchParams();
+  if (params?.search) queryParams.append('search', params.search);
+  if (params?.category && params.category !== 'all') queryParams.append('category', params.category);
+  if (params?.status && params.status !== 'all') queryParams.append('status', params.status);
+
+  const response = await fetch(`/api/articles?${queryParams.toString()}`);
+  if (!response.ok) throw new Error('Failed to fetch articles');
+  return response.json();
+};
+
+const deleteArticle = async (id: string) => {
+  const response = await fetch(`/api/articles/${id}`, { method: 'DELETE' });
+  if (!response.ok) throw new Error('Failed to delete article');
+  return response.json();
+};
+
+const fetchCategories = async () => {
+  const response = await fetch('/api/categories');
+  if (!response.ok) throw new Error('Failed to fetch categories');
+  return response.json();
+};
 
 const ArticlesManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
+  const { toast } = useToast();
+  const queryClient = useQueryClient();
 
-  const articles = [
-    {
-      id: 1,
-      title: 'Introduction to React Hooks',
-      author: 'Sarah Johnson',
-      category: 'Web Development',
-      status: 'published',
-      featured: true,
-      views: 2847,
-      publishedDate: '2024-01-15',
-      lastModified: '2024-01-16',
-    },
-    {
-      id: 2,
-      title: 'Building Scalable APIs',
-      author: 'Mike Chen',
-      category: 'Backend',
-      status: 'draft',
-      featured: false,
-      views: 0,
-      publishedDate: null,
-      lastModified: '2024-01-20',
-    },
-    {
-      id: 3,
-      title: 'CSS Grid vs Flexbox',
-      author: 'Emily Davis',
-      category: 'CSS',
-      status: 'published',
-      featured: false,
-      views: 1943,
-      publishedDate: '2024-01-18',
-      lastModified: '2024-01-18',
-    },
-  ];
+  const { data: articles = [], isLoading } = useQuery({
+    queryKey: ['articles', searchTerm, filterCategory, filterStatus],
+    queryFn: () => fetchArticles({ 
+      search: searchTerm, 
+      category: filterCategory, 
+      status: filterStatus 
+    }),
+  });
 
-  const categories = ['All', 'Web Development', 'Backend', 'CSS', 'JavaScript', 'React'];
+  const { data: categories = [] } = useQuery({
+    queryKey: ['categories'],
+    queryFn: fetchCategories,
+  });
+
+  const deleteArticleMutation = useMutation({
+    mutationFn: deleteArticle,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
+      toast({
+        title: "Success",
+        description: "Article deleted successfully",
+      });
+    },
+    onError: (error: Error) => {
+      toast({
+        title: "Error",
+        description: error.message,
+        variant: "destructive",
+      });
+    },
+  });
+
+  const handleDeleteArticle = (id: string) => {
+    if (confirm('Are you sure you want to delete this article?')) {
+      deleteArticleMutation.mutate(id);
+    }
+  };
+
+  const categoryOptions = ['All', ...categories.map((cat: any) => cat.name)];
   const statuses = ['All', 'Published', 'Draft', 'Featured'];
+
+  // Calculate stats from articles
+  const stats = {
+    total: articles.length,
+    drafts: articles.filter((a: any) => !a.isPublished).length,
+    featured: articles.filter((a: any) => a.isFeatured).length,
+    totalViews: articles.reduce((sum: number, a: any) => sum + (a.views || 0), 0),
+  };
 
   return (
     <div className="space-y-6">
@@ -92,7 +130,7 @@ const ArticlesManagement: React.FC = () => {
               <FileText className="w-8 h-8 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Total Articles</p>
-                <p className="text-2xl font-bold text-gray-900">156</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.total}</p>
               </div>
             </div>
           </CardContent>
@@ -103,7 +141,7 @@ const ArticlesManagement: React.FC = () => {
               <Clock className="w-8 h-8 text-orange-600" />
               <div>
                 <p className="text-sm text-gray-600">Drafts</p>
-                <p className="text-2xl font-bold text-gray-900">31</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.drafts}</p>
               </div>
             </div>
           </CardContent>
@@ -114,7 +152,7 @@ const ArticlesManagement: React.FC = () => {
               <Star className="w-8 h-8 text-yellow-600" />
               <div>
                 <p className="text-sm text-gray-600">Featured</p>
-                <p className="text-2xl font-bold text-gray-900">24</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.featured}</p>
               </div>
             </div>
           </CardContent>
@@ -125,7 +163,7 @@ const ArticlesManagement: React.FC = () => {
               <Eye className="w-8 h-8 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Total Views</p>
-                <p className="text-2xl font-bold text-gray-900">847K</p>
+                <p className="text-2xl font-bold text-gray-900">{stats.totalViews.toLocaleString()}</p>
               </div>
             </div>
           </CardContent>
@@ -155,7 +193,7 @@ const ArticlesManagement: React.FC = () => {
               onChange={(e) => setFilterCategory(e.target.value)}
               className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
-              {categories.map(category => (
+              {categoryOptions.map(category => (
                 <option key={category} value={category.toLowerCase()}>{category}</option>
               ))}
             </select>
@@ -171,69 +209,82 @@ const ArticlesManagement: React.FC = () => {
           </div>
 
           {/* Articles Table */}
-          <Table>
-            <TableHeader>
-              <TableRow>
-                <TableHead>Title</TableHead>
-                <TableHead>Author</TableHead>
-                <TableHead>Category</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Views</TableHead>
-                <TableHead>Published</TableHead>
-                <TableHead>Actions</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {articles.map((article) => (
-                <TableRow key={article.id}>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      {article.featured && <Star className="w-4 h-4 text-yellow-500" />}
-                      <span className="font-medium">{article.title}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <User className="w-4 h-4 text-gray-400" />
-                      <span>{article.author}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <Badge variant="outline">{article.category}</Badge>
-                  </TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant={article.status === 'published' ? 'default' : 'secondary'}
-                    >
-                      {article.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-1">
-                      <Eye className="w-4 h-4 text-gray-400" />
-                      <span>{article.views.toLocaleString()}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    {article.publishedDate ? new Date(article.publishedDate).toLocaleDateString() : '-'}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <Button size="sm" variant="outline">
-                        <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Eye className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="outline">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
-                  </TableCell>
+          {isLoading ? (
+            <div className="text-center py-8">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+              <p className="mt-4 text-gray-600">Loading articles...</p>
+            </div>
+          ) : (
+            <Table>
+              <TableHeader>
+                <TableRow>
+                  <TableHead>Title</TableHead>
+                  <TableHead>Author</TableHead>
+                  <TableHead>Category</TableHead>
+                  <TableHead>Status</TableHead>
+                  <TableHead>Views</TableHead>
+                  <TableHead>Published</TableHead>
+                  <TableHead>Actions</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </Table>
+              </TableHeader>
+              <TableBody>
+                {articles.map((article: any) => (
+                  <TableRow key={article._id}>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        {article.isFeatured && <Star className="w-4 h-4 text-yellow-500" />}
+                        <span className="font-medium">{article.title}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <User className="w-4 h-4 text-gray-400" />
+                        <span>{article.author}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant="outline">{article.category?.name || 'Uncategorized'}</Badge>
+                    </TableCell>
+                    <TableCell>
+                      <Badge 
+                        variant={article.isPublished ? 'default' : 'secondary'}
+                      >
+                        {article.isPublished ? 'Published' : 'Draft'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-1">
+                        <Eye className="w-4 h-4 text-gray-400" />
+                        <span>{(article.views || 0).toLocaleString()}</span>
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : 
+                       article.createdAt ? new Date(article.createdAt).toLocaleDateString() : '-'}
+                    </TableCell>
+                    <TableCell>
+                      <div className="flex items-center space-x-2">
+                        <Button size="sm" variant="outline">
+                          <Edit className="w-4 h-4" />
+                        </Button>
+                        <Button size="sm" variant="outline">
+                          <Eye className="w-4 h-4" />
+                        </Button>
+                        <Button 
+                          size="sm" 
+                          variant="outline"
+                          onClick={() => handleDeleteArticle(article._id)}
+                          disabled={deleteArticleMutation.isPending}
+                        >
+                          <Trash2 className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          )}
         </CardContent>
       </Card>
     </div>
