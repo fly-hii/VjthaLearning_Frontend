@@ -90,6 +90,7 @@ export interface User {
   email: string;
   role: 'User' | 'Admin';
   profileImage?: string;
+  lastLogin?: Date | string; // ✅ add lastLogin
   createdAt: Date | string;
   updatedAt: Date | string;
 }

@@ -34,9 +34,7 @@ const UsersManagement: React.FC = () => {
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
-  const roles = ['All', 'Admin', 'Author', 'User'];
-  const statuses = ['All', 'Active', 'Blocked'];
-
+  const roles = ['All', 'Admin', 'User'];
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'admin': return <Crown className="w-4 h-4 text-yellow-600" />;
@@ -52,6 +50,7 @@ const UsersManagement: React.FC = () => {
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+
   useEffect(() => {
     const fetchUsers = async () => {
       try {
@@ -74,7 +73,7 @@ const UsersManagement: React.FC = () => {
 
     return matchesSearch && matchesRole 
   });
-
+  console.log(users)
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -86,14 +85,16 @@ const UsersManagement: React.FC = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="p-4">
             <div className="flex items-center space-x-3">
               <Users className="w-8 h-8 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Total Users</p>
-                <p className="text-2xl font-bold text-gray-900">2,847</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {users.filter(user => user.role === 'User').length}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -104,19 +105,9 @@ const UsersManagement: React.FC = () => {
               <Crown className="w-8 h-8 text-yellow-600" />
               <div>
                 <p className="text-sm text-gray-600">Admins</p>
-                <p className="text-2xl font-bold text-gray-900">3</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-        <Card>
-          <CardContent className="p-4">
-            <div className="flex items-center space-x-3">
-              <Edit className="w-8 h-8 text-purple-600" />
-              <div>
-                <p className="text-sm text-gray-600">Authors</p>
-                <p className="text-2xl font-bold text-gray-900">45</p>
-              </div>
+                <p className="text-2xl font-bold text-gray-900">
+                  {users.filter(user => user.role === 'Admin').length}
+                </p>              </div>
             </div>
           </CardContent>
         </Card>
@@ -126,7 +117,7 @@ const UsersManagement: React.FC = () => {
               <UserCheck className="w-8 h-8 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Active Users</p>
-                <p className="text-2xl font-bold text-gray-900">2,799</p>
+                <p className="text-2xl font-bold text-gray-900">{users.length}</p>
               </div>
             </div>
           </CardContent>
@@ -158,15 +149,6 @@ const UsersManagement: React.FC = () => {
             >
               {roles.map(role => (
                 <option key={role} value={role.toLowerCase()}>{role}</option>
-              ))}
-            </select>
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {statuses.map(status => (
-                <option key={status} value={status.toLowerCase()}>{status}</option>
               ))}
             </select>
           </div>
