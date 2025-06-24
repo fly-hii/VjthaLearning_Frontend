@@ -54,8 +54,9 @@ const ArticleDetail = () => {
     );
   }
 
+  const articleCategory = 'category' in article ? article.category : 'General';
   const relatedArticles = allArticles
-    .filter(a => a.id !== article.id && a.category === article.category)
+    .filter(a => a.id !== article.id && ('category' in a ? a.category === articleCategory : false))
     .slice(0, 3);
 
   return (
@@ -73,7 +74,7 @@ const ArticleDetail = () => {
           
           <div className="max-w-4xl">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">
-              {article.category}
+              {articleCategory}
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
               {article.title}

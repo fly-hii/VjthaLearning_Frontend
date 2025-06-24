@@ -108,6 +108,10 @@ const JobApplication = () => {
     );
   }
 
+  // Helper functions to safely access properties
+  const isUrgent = 'isUrgent' in job ? job.isUrgent : false;
+  const jobExperience = 'experience' in job ? job.experience : ('duration' in job ? job.duration : 'Not specified');
+
   return (
     <div className="min-h-screen bg-gray-50">
       <Navigation />
@@ -124,10 +128,10 @@ const JobApplication = () => {
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-4">
                 <Badge className="bg-white/20 text-white border-white/30">
-                  {job.isUrgent ? 'Urgent' : 'Open'}
+                  {isUrgent ? 'Urgent' : 'Open'}
                 </Badge>
                 <Badge className="bg-white/20 text-white border-white/30">
-                  {job.type || 'Full-time'}
+                  {'type' in job ? job.type : 'Full-time'}
                 </Badge>
               </div>
               
@@ -145,7 +149,7 @@ const JobApplication = () => {
                 </div>
                 <div className="flex items-center">
                   <Briefcase className="w-5 h-5 mr-2" />
-                  {job.experience || 'Experience Required'}
+                  {jobExperience}
                 </div>
               </div>
             </div>
