@@ -55,8 +55,8 @@ const Register: React.FC = () => {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-100 flex items-center justify-center py-12 px-4">
-        <div className="w-full max-w-6xl">
+      <div className="min-h-screen bg-gradient-to-br from-purple-50 via-white to-blue-100 flex items-center justify-center py-20 px-4">
+        <div className="w-full max-w-5xl">
           {/* 3D Card Container */}
           <div className="perspective-1000">
             <div className="relative transform-style-preserve-3d hover:rotate-y-2 transition-transform duration-700 ease-out">
