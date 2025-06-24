@@ -66,13 +66,18 @@ const UsersManagement: React.FC = () => {
 
     fetchUsers();
   }, []);
-  const filteredUsers = users.filter(user => {
-    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesRole = filterRole === 'all' || user.role.toLowerCase() === filterRole;
+ const filteredUsers = users.filter(user => {
+  const name = user.name?.toLowerCase() || '';
+  const email = user.email?.toLowerCase() || '';
+  const role = user.role?.toLowerCase() || '';
 
-    return matchesSearch && matchesRole 
-  });
+  const matchesSearch = name.includes(searchTerm.toLowerCase()) ||
+                        email.includes(searchTerm.toLowerCase());
+  const matchesRole = filterRole === 'all' || role === filterRole;
+
+  return matchesSearch && matchesRole;
+});
+
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this user?')) return;
 
@@ -191,7 +196,7 @@ const UsersManagement: React.FC = () => {
                     <div className="flex items-center space-x-2">
                       <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
                         <span className="text-sm font-medium text-blue-600">
-                          {user.name.split(' ').map(n => n[0]).join('')}
+                          {user.name?.split(' ').map(n => n[0]).join('') || 'U'}
                         </span>
                       </div>
                       <div>

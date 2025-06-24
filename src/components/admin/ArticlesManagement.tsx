@@ -25,6 +25,13 @@ import {
   TableHeader,
   TableRow,
 } from '@/components/ui/table';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -65,6 +72,8 @@ const ArticlesManagement: React.FC = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const [filterCategory, setFilterCategory] = useState('all');
   const queryClient = useQueryClient();
+  const [viewArticle, setViewArticle] = useState<any | null>(null);
+  const [editArticle, setEditArticle] = useState<any | null>(null);
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ['articles', searchTerm, filterCategory, filterStatus],
@@ -121,7 +130,6 @@ const ArticlesManagement: React.FC = () => {
           <span>New Article</span>
         </Button>
       </div>
-
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
@@ -266,14 +274,14 @@ const ArticlesManagement: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <div className="flex items-center space-x-2">
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => setEditArticle(article)}>
                           <Edit className="w-4 h-4" />
                         </Button>
-                        <Button size="sm" variant="outline">
+                        <Button size="sm" variant="outline" onClick={() => setViewArticle(article)}>
                           <Eye className="w-4 h-4" />
                         </Button>
-                        <Button 
-                          size="sm" 
+                        <Button
+                          size="sm"
                           variant="outline"
                           onClick={() => handleDeleteArticle(article._id)}
                           disabled={deleteArticleMutation.isPending}
@@ -289,6 +297,110 @@ const ArticlesManagement: React.FC = () => {
           )}
         </CardContent>
       </Card>
+    {/* 🔍 View Article Dialog */}
+      <Dialog open={!!viewArticle} onOpenChange={(open) => !open && setViewArticle(null)}>
+      <DialogContent
+        className="sm:max-w-3xl bg-white/90 dark:bg-zinc-900/80 backdrop-blur-xl rounded-2xl shadow-2xl
+                  animate-in zoom-in-95 fade-in duration-300 transition-all border border-gray-200 dark:border-zinc-700"
+      >
+        <DialogHeader>
+          <DialogTitle className="text-3xl font-bold tracking-tight text-blue-600 dark:text-blue-400 mb-1">
+            📄 {viewArticle?.title}
+          </DialogTitle>
+          <p className="text-sm text-muted-foreground">✨ A closer look at this gem of an article</p>
+        </DialogHeader>
+
+        <div className="space-y-3 mt-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+          <div className="border-b border-dashed pb-2">
+            <p><strong>👤 Author:</strong> <span className="text-blue-700 dark:text-blue-300">{viewArticle?.author}</span></p>
+            <p><strong>🏷️ Category:</strong> <span className="italic">{viewArticle?.category?.name || '—'}</span></p>
+            <p className="flex items-center gap-2">
+              <strong>📌 Status:</strong>
+              <span
+                className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white tracking-wide animate-pulse transition-all duration-300 ${
+                  viewArticle?.isPublished ? 'bg-emerald-600' : 'bg-gray-500'
+                }`}
+              >
+                {viewArticle?.isPublished ? 'Published' : 'Draft'}
+              </span>
+            </p>
+            <p><strong>👁️ Views:</strong> <span className="font-medium">{viewArticle?.views}</span></p>
+            <p><strong>🗓️ Published:</strong> {viewArticle?.createdAt && new Date(viewArticle.createdAt).toLocaleDateString()}</p>
+          </div>
+
+          <div className="mt-4">
+            <h2 className="text-xl font-semibold mb-2 text-indigo-700 dark:text-indigo-300">📝 Content</h2>
+            <div
+              className="prose max-w-none prose-sm prose-blue dark:prose-invert transition-all"
+              dangerouslySetInnerHTML={{ __html: viewArticle?.content || '' }}
+            />
+          </div>
+        </div>
+
+        <DialogFooter className="mt-8">
+          <Button
+            variant="outline"
+            onClick={() => setViewArticle(null)}
+            className="transition-colors bg-white hover:bg-blue-50 text-blue-600 border-blue-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-blue-300"
+          >
+            ✖ Close Preview
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+
+      {/* ✏️ Edit Article Dialog */}
+      <Dialog open={!!editArticle} onOpenChange={(open) => !open && setEditArticle(null)}>
+        <DialogContent className="sm:max-w-3xl bg-white dark:bg-zinc-900 rounded-2xl shadow-xl transition-all duration-300 animate-in fade-in-90 slide-in-from-bottom-2">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-semibold mb-2">✏️ Edit Article: {editArticle?.title}</DialogTitle>
+            <p className="text-sm text-muted-foreground">Make changes to the article below</p>
+          </DialogHeader>
+
+          <div className="space-y-4 mt-4">
+            <div>
+              <label className="text-sm font-medium block mb-1">Title</label>
+              <Input
+                value={editArticle?.title}
+                onChange={(e) =>
+                  setEditArticle((prev) => ({ ...prev, title: e.target.value }))
+                }
+                placeholder="Article title"
+                className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+              />
+            </div>
+            <div>
+              <label className="text-sm font-medium block mb-1">Content</label>
+              <textarea
+                rows={8}
+                className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
+                value={editArticle?.content}
+                onChange={(e) =>
+                  setEditArticle((prev) => ({ ...prev, content: e.target.value }))
+                }
+                placeholder="Write article content..."
+              />
+            </div>
+          </div>
+
+          <DialogFooter className="mt-6">
+            <Button variant="outline" onClick={() => setEditArticle(null)} className="transition hover:bg-gray-100 dark:hover:bg-zinc-800">
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                // TODO: Replace with actual update logic
+                toast.success('Update API not implemented yet');
+                setEditArticle(null);
+              }}
+              className="bg-blue-600 text-white hover:bg-blue-700 transition-colors"
+            >
+              Save Changes
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
     </div>
   );
 };
