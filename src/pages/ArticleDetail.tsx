@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, ArrowLeft, Share2, Bookmark, Eye, Clock, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,37 +6,24 @@ import { Card, CardContent } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useQuery } from '@tanstack/react-query';
-
-// API function to fetch single article
-const fetchArticle = async (id: string) => {
-  const response = await fetch(`/api/articles/${id}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch article');
-  }
-  return response.json();
-};
-
-// API function to fetch related articles
-const fetchRelatedArticles = async (category: string, currentId: string) => {
-  const response = await fetch(`/api/articles?category=${category}&exclude=${currentId}&limit=3`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch related articles');
-  }
-  return response.json();
-};
+import { articlesApi } from '@/Services/api';
+import type { Article } from '@/types/api';
 
 const ArticleDetail = () => {
   const { id } = useParams();
   
   const { data: article, isLoading, error } = useQuery({
     queryKey: ['article', id],
-    queryFn: () => fetchArticle(id!),
+    queryFn: () => articlesApi.getById(id!),
     enabled: !!id,
   });
 
   const { data: relatedArticles } = useQuery({
     queryKey: ['relatedArticles', article?.category, id],
-    queryFn: () => fetchRelatedArticles(article.category, id!),
+    queryFn: () => {
+      const categoryId = typeof article?.category === 'object' ? article.category._id : article?.category;
+      return articlesApi.getRelated(categoryId, id!, 3);
+    },
     enabled: !!article?.category && !!id,
   });
 
@@ -92,7 +78,7 @@ const ArticleDetail = () => {
           
           <div className="max-w-4xl">
             <Badge className="mb-4 bg-white/20 text-white border-white/30">
-              {article.category?.name || 'General'}
+              {typeof article.category === 'object' ? article.category?.name : article.category || 'General'}
             </Badge>
             <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
               {article.title}
@@ -117,7 +103,7 @@ const ArticleDetail = () => {
               </div>
               <div className="flex items-center">
                 <Eye className="w-5 h-5 mr-2" />
-                1.2k views
+                {(article.views || 0).toLocaleString()} views
               </div>
             </div>
           </div>
@@ -208,7 +194,7 @@ const ArticleDetail = () => {
                 <CardContent className="p-6">
                   <h3 className="text-xl font-bold mb-6">Related Articles</h3>
                   <div className="space-y-4">
-                    {relatedArticles?.map((relatedArticle: any) => (
+                    {relatedArticles?.map((relatedArticle: Article) => (
                       <Link
                         key={relatedArticle._id}
                         to={`/article/${relatedArticle._id}`}

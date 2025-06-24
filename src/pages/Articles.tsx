@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Calendar, User, Clock, ArrowRight } from 'lucide-react';
@@ -10,37 +9,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { useQuery } from '@tanstack/react-query';
-
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
-// API function to fetch articles
-const fetchArticles = async (params?: { category?: string; search?: string; sort?: string }) => {
-  const queryParams = new URLSearchParams();
-  if (params?.category && params.category !== 'all') {
-    queryParams.append('category', params.category);
-  }
-  if (params?.search) {
-    queryParams.append('search', params.search);
-  }
-  if (params?.sort) {
-    queryParams.append('sort', params.sort);
-  }
-
-  const response = await fetch(`${API_BASE_URL}/articles?${queryParams.toString()}`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch articles');
-  }
-  return response.json();
-};
-
-// API function to fetch categories
-const fetchCategories = async () => {
-  const response = await fetch(`${API_BASE_URL}/categories`);
-  if (!response.ok) {
-    throw new Error('Failed to fetch categories');
-  }
-  return response.json();
-};
+import { articlesApi, categoriesApi } from '@/Services/api';
+import type { Article, Category } from '@/types/api';
 
 const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
@@ -49,7 +19,7 @@ const Articles = () => {
 
   const { data: articles = [], isLoading: articlesLoading } = useQuery({
     queryKey: ['articles', selectedCategory, searchQuery, sortBy],
-    queryFn: () => fetchArticles({ 
+    queryFn: () => articlesApi.getAll({ 
       category: selectedCategory, 
       search: searchQuery, 
       sort: sortBy 
@@ -58,12 +28,12 @@ const Articles = () => {
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories,
+    queryFn: categoriesApi.getAll,
   });
 
   const categoryOptions = [
     { value: 'all', label: 'All Categories' },
-    ...categories.map((cat: any) => ({
+    ...categories.map((cat: Category) => ({
       value: cat.slug,
       label: cat.name
     }))
@@ -150,7 +120,7 @@ const Articles = () => {
                   </div>
                 ) : (
                   <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {articles.slice(0, 9).map((article: any) => (
+                    {articles.slice(0, 9).map((article: Article) => (
                       <Card key={article._id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
                         <div className="relative">
                           {article.featuredImage && (
@@ -160,7 +130,7 @@ const Articles = () => {
                               className="w-full h-40 object-cover"
                             />
                           )}
-                          {article.isFeatured && (
+                          {(article.isFeatured || article.featured) && (
                             <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                               Featured
                             </Badge>
@@ -187,7 +157,9 @@ const Articles = () => {
                           
                           {article.category && (
                             <div className="mb-3">
-                              <Badge variant="outline">{article.category.name || article.category}</Badge>
+                              <Badge variant="outline">
+                                {typeof article.category === 'object' ? article.category.name : article.category}
+                              </Badge>
                             </div>
                           )}
                           
@@ -210,7 +182,7 @@ const Articles = () => {
               <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Articles</h2>
                 <div className="space-y-4">
-                  {articles.slice(0, 5).map((article: any) => (
+                  {articles.slice(0, 5).map((article: Article) => (
                     <div key={article._id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
                       {article.featuredImage && (
                         <img

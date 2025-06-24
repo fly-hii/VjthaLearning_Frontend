@@ -28,37 +28,8 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
-// API functions
-const fetchArticles = async (params?: { search?: string; category?: string; status?: string }) => {
-  const queryParams = new URLSearchParams();
-  if (params?.search) queryParams.append('search', params.search);
-  if (params?.category && params.category !== 'all') queryParams.append('category', params.category);
-  if (params?.status && params.status !== 'all') queryParams.append('status', params.status);
-
-  const response = await fetch(`${API_BASE_URL}/articles?${queryParams.toString()}`);
-  if (!response.ok) throw new Error('Failed to fetch articles');
-  return response.json();
-};
-
-const deleteArticle = async (id: string) => {
-  const response = await fetch(`${API_BASE_URL}/articles/${id}`, { 
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-    },
-  });
-  if (!response.ok) throw new Error('Failed to delete article');
-  return response.json();
-};
-
-const fetchCategories = async () => {
-  const response = await fetch(`${API_BASE_URL}/categories`);
-  if (!response.ok) throw new Error('Failed to fetch categories');
-  return response.json();
-};
+import { articlesApi, categoriesApi } from '@/Services/api';
+import type { Article } from '@/types/api';
 
 const ArticlesManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
@@ -68,7 +39,7 @@ const ArticlesManagement: React.FC = () => {
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ['articles', searchTerm, filterCategory, filterStatus],
-    queryFn: () => fetchArticles({ 
+    queryFn: () => articlesApi.getAll({ 
       search: searchTerm, 
       category: filterCategory, 
       status: filterStatus 
@@ -77,11 +48,11 @@ const ArticlesManagement: React.FC = () => {
 
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories,
+    queryFn: categoriesApi.getAll,
   });
 
   const deleteArticleMutation = useMutation({
-    mutationFn: deleteArticle,
+    mutationFn: articlesApi.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['articles'] });
       toast.success('Article deleted successfully');
@@ -103,9 +74,9 @@ const ArticlesManagement: React.FC = () => {
   // Calculate stats from articles
   const stats = {
     total: articles.length,
-    drafts: articles.filter((a: any) => !a.isPublished).length,
-    featured: articles.filter((a: any) => a.isFeatured).length,
-    totalViews: articles.reduce((sum: number, a: any) => sum + (a.views || 0), 0),
+    drafts: articles.filter((a: Article) => !a.isPublished).length,
+    featured: articles.filter((a: Article) => a.isFeatured || a.featured).length,
+    totalViews: articles.reduce((sum: number, a: Article) => sum + (a.views || 0), 0),
   };
 
   return (
@@ -228,11 +199,11 @@ const ArticlesManagement: React.FC = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {articles.map((article: any) => (
+                {articles.map((article: Article) => (
                   <TableRow key={article._id}>
                     <TableCell>
                       <div className="flex items-center space-x-2">
-                        {article.isFeatured && <Star className="w-4 h-4 text-yellow-500" />}
+                        {(article.isFeatured || article.featured) && <Star className="w-4 h-4 text-yellow-500" />}
                         <span className="font-medium">{article.title}</span>
                       </div>
                     </TableCell>
@@ -244,7 +215,7 @@ const ArticlesManagement: React.FC = () => {
                     </TableCell>
                     <TableCell>
                       <Badge variant="outline">
-                        {article.category?.name || article.category || 'Uncategorized'}
+                        {typeof article.category === 'object' ? article.category?.name : article.category || 'Uncategorized'}
                       </Badge>
                     </TableCell>
                     <TableCell>

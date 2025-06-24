@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { Plus, Edit, Trash2, FolderOpen, FileText } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -15,52 +14,21 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
-
-const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
-
-// API functions
-const fetchCategories = async () => {
-  const response = await fetch(`${API_BASE_URL}/categories`);
-  if (!response.ok) throw new Error('Failed to fetch categories');
-  return response.json();
-};
-
-const createCategory = async (categoryData: any) => {
-  const response = await fetch(`${API_BASE_URL}/categories`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-    },
-    body: JSON.stringify(categoryData),
-  });
-  if (!response.ok) throw new Error('Failed to create category');
-  return response.json();
-};
-
-const deleteCategory = async (id: string) => {
-  const response = await fetch(`${API_BASE_URL}/categories/${id}`, {
-    method: 'DELETE',
-    headers: {
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
-    },
-  });
-  if (!response.ok) throw new Error('Failed to delete category');
-  return response.json();
-};
+import { categoriesApi } from '@/Services/api';
+import type { Category, CreateCategoryData } from '@/types/api';
 
 const CategoriesManagement: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
-  const [newCategory, setNewCategory] = useState({ name: '', slug: '', description: '' });
+  const [newCategory, setNewCategory] = useState<CreateCategoryData>({ name: '', slug: '', description: '' });
   const queryClient = useQueryClient();
 
   const { data: categories = [], isLoading } = useQuery({
     queryKey: ['categories'],
-    queryFn: fetchCategories,
+    queryFn: categoriesApi.getAll,
   });
 
   const createCategoryMutation = useMutation({
-    mutationFn: createCategory,
+    mutationFn: categoriesApi.create,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Category created successfully!');
@@ -73,7 +41,7 @@ const CategoriesManagement: React.FC = () => {
   });
 
   const deleteCategoryMutation = useMutation({
-    mutationFn: deleteCategory,
+    mutationFn: categoriesApi.delete,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['categories'] });
       toast.success('Category deleted successfully!');
@@ -151,7 +119,7 @@ const CategoriesManagement: React.FC = () => {
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">Slug</label>
                 <Input
-                  value={newCategory.slug}
+                  value={newCategory.slug || ''}
                   onChange={(e) => setNewCategory({ ...newCategory, slug: e.target.value })}
                   placeholder="category-slug"
                 />
@@ -159,7 +127,7 @@ const CategoriesManagement: React.FC = () => {
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-gray-700 mb-2">Description</label>
                 <textarea
-                  value={newCategory.description}
+                  value={newCategory.description || ''}
                   onChange={(e) => setNewCategory({ ...newCategory, description: e.target.value })}
                   placeholder="Brief description of the category"
                   className="w-full px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
@@ -205,7 +173,7 @@ const CategoriesManagement: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600">Total Articles</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {categories.reduce((sum: number, cat: any) => sum + (cat.articleCount || 0), 0)}
+                  {categories.reduce((sum: number, cat: Category) => sum + (cat.articleCount || 0), 0)}
                 </p>
               </div>
             </div>
@@ -220,7 +188,7 @@ const CategoriesManagement: React.FC = () => {
               <div>
                 <p className="text-sm text-gray-600">Avg Articles/Category</p>
                 <p className="text-2xl font-bold text-gray-900">
-                  {categories.length > 0 ? Math.round(categories.reduce((sum: number, cat: any) => sum + (cat.articleCount || 0), 0) / categories.length) : 0}
+                  {categories.length > 0 ? Math.round(categories.reduce((sum: number, cat: Category) => sum + (cat.articleCount || 0), 0) / categories.length) : 0}
                 </p>
               </div>
             </div>
@@ -245,7 +213,7 @@ const CategoriesManagement: React.FC = () => {
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((category: any) => (
+              {categories.map((category: Category) => (
                 <TableRow key={category._id}>
                   <TableCell>
                     <div className="flex items-center space-x-2">

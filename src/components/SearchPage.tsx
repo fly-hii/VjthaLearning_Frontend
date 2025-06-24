@@ -2,24 +2,17 @@
 import { Link, useLocation } from 'react-router-dom';
 import Navigation from './Navigation';
 import Footer from './Footer';
-import { Calendar, User, MapPin, Building } from 'lucide-react';
+import { Calendar, User } from 'lucide-react';
 import { useQuery } from '@tanstack/react-query';
-
-// API function to search articles
-const searchArticles = async (query: string) => {
-  const response = await fetch(`/api/articles?search=${encodeURIComponent(query)}`);
-  if (!response.ok) {
-    throw new Error('Failed to search articles');
-  }
-  return response.json();
-};
+import { articlesApi } from '@/Services/api';
+import type { Article } from '@/types/api';
 
 const SearchResults = () => {
   const query = new URLSearchParams(useLocation().search).get('q') || '';
 
   const { data: results = [], isLoading } = useQuery({
     queryKey: ['search', query],
-    queryFn: () => searchArticles(query),
+    queryFn: () => articlesApi.search(query),
     enabled: !!query,
   });
 
@@ -40,7 +33,7 @@ const SearchResults = () => {
           <p className="text-gray-600">No articles found.</p>
         ) : (
           <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-            {results.map((article: any) => (
+            {results.map((article: Article) => (
               <div
                 key={article._id}
                 className="bg-white rounded-xl overflow-hidden border border-gray-200 shadow hover:shadow-md transition-shadow"
