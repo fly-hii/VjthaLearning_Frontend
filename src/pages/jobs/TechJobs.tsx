@@ -3,6 +3,7 @@ import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign } from 'luci
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Link } from 'react-router-dom';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { techJobs} from '@/lib/mockdata';
@@ -87,10 +88,12 @@ const TechJobs = () => {
                           </div>
                         </div>
                         
-                        <Button size="sm" className="w-full">
-                          Apply Now
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
+                        <Link to={`/job/${job.id}/apply`}>
+                          <Button size="sm" className="w-full">
+                            Apply Now
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
                       </CardContent>
                     </Card>
                   ))}

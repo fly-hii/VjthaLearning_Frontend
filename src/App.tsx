@@ -8,6 +8,8 @@ import { AuthProvider } from "@/contexts/AuthContext";
 import ProtectedRoute from "@/components/ProtectedRoute";
 import Index from "./pages/Index";
 import Articles from "./pages/Articles";
+import ArticleDetail from "./pages/ArticleDetail";
+import JobApplication from "./pages/JobApplication";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
 import TechInnovation from "./pages/category/TechInnovation";
@@ -40,6 +42,16 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<SearchResults />} />
+            <Route path="/article/:id" element={
+              <ProtectedRoute>
+                <ArticleDetail />
+              </ProtectedRoute>
+            } />
+            <Route path="/job/:id/apply" element={
+              <ProtectedRoute>
+                <JobApplication />
+              </ProtectedRoute>
+            } />
             <Route path="/articles" element={
               <ProtectedRoute>
                 <Articles />
