@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-empty-object-type */
 
 // Article Types
 export interface ArticleSEO {
@@ -82,3 +83,24 @@ export interface ArticleQueryParams {
   limit?: number;
   exclude?: string;
 }
+// User Types
+export interface User {
+  _id: string;
+  name: string;
+  email: string;
+  role: 'User' | 'Admin';
+  profileImage?: string;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface CreateUserData {
+  name: string;
+  email: string;
+  password: string;
+  role?: 'User' | 'Admin';
+  profileImage?: string;
+}
+
+export interface UpdateUserData extends Partial<CreateUserData> {}
+

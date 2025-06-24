@@ -6,7 +6,10 @@ import {
   Category, 
   CreateCategoryData, 
   UpdateCategoryData,
-  ArticleQueryParams 
+  ArticleQueryParams, 
+  UpdateUserData,
+  User,
+  CreateUserData
 } from '@/types/api';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -142,5 +145,56 @@ export const categoriesApi = {
       headers: getAuthHeaders(),
     });
     if (!response.ok) throw new Error('Failed to delete category');
+  },
+};
+// User API Functions
+export const usersApi = {
+  // Get all users
+  getAll: async (): Promise<User[]> => {
+    const response = await fetch(`${API_BASE_URL}/users`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch users');
+    return response.json();
+  },
+
+  // Get single user by ID
+  getById: async (id: string): Promise<User> => {
+    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to fetch user');
+    return response.json();
+  },
+
+  // Create new user
+  create: async (data: CreateUserData): Promise<User> => {
+    const response = await fetch(`${API_BASE_URL}/users`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to create user');
+    return response.json();
+  },
+
+  // Update user
+  update: async (id: string, data: UpdateUserData): Promise<User> => {
+    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to update user');
+    return response.json();
+  },
+
+  // Delete user
+  delete: async (id: string): Promise<void> => {
+    const response = await fetch(`${API_BASE_URL}/users/${id}`, {
+      method: 'DELETE',
+      headers: getAuthHeaders(),
+    });
+    if (!response.ok) throw new Error('Failed to delete user');
   },
 };
