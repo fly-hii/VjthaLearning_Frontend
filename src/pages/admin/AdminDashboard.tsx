@@ -16,8 +16,11 @@ import AuditLogs from '@/components/admin/AuditLogs';
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
 
-  // Check if user is admin
-  if (!user || user.role !== 'admin') {
+  // Fallback: Get user from localStorage if not available in context
+  const storedUser = user || JSON.parse(localStorage.getItem('userData') || 'null');
+
+  // Check if the user is not logged in or not an admin
+  if (!storedUser || storedUser.role !== 'Admin') {
     return <Navigate to="/login" replace />;
   }
 
