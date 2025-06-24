@@ -1,5 +1,7 @@
 
-import React, { useState } from 'react';
+import { useEffect, useState } from 'react';
+import { usersApi } from '@/Services/api'; // adjust the import based on your API utility structure
+import { User } from '@/types/api';
 import { 
   Users, 
   Search, 
@@ -29,59 +31,8 @@ const UsersManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
   const [filterStatus, setFilterStatus] = useState('all');
-
-  const users = [
-    {
-      id: 1,
-      name: 'Sarah Johnson',
-      email: 'sarah.johnson@example.com',
-      role: 'admin',
-      status: 'active',
-      joinedDate: '2023-08-15',
-      lastLogin: '2024-01-20',
-      articlesCount: 23
-    },
-    {
-      id: 2,
-      name: 'Mike Chen',
-      email: 'mike.chen@example.com',
-      role: 'author',
-      status: 'active',
-      joinedDate: '2023-09-22',
-      lastLogin: '2024-01-19',
-      articlesCount: 15
-    },
-    {
-      id: 3,
-      name: 'Emily Davis',
-      email: 'emily.davis@example.com',
-      role: 'author',
-      status: 'active',
-      joinedDate: '2023-10-10',
-      lastLogin: '2024-01-18',
-      articlesCount: 8
-    },
-    {
-      id: 4,
-      name: 'John Smith',
-      email: 'john.smith@example.com',
-      role: 'user',
-      status: 'blocked',
-      joinedDate: '2023-11-05',
-      lastLogin: '2024-01-10',
-      articlesCount: 0
-    },
-    {
-      id: 5,
-      name: 'Alex Rivera',
-      email: 'alex.rivera@example.com',
-      role: 'user',
-      status: 'active',
-      joinedDate: '2023-12-01',
-      lastLogin: '2024-01-20',
-      articlesCount: 0
-    },
-  ];
+  const [users, setUsers] = useState<User[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
   const roles = ['All', 'Admin', 'Author', 'User'];
   const statuses = ['All', 'Active', 'Blocked'];
@@ -101,6 +52,28 @@ const UsersManagement: React.FC = () => {
       default: return 'bg-gray-100 text-gray-800';
     }
   };
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        setIsLoading(true);
+        const data = await usersApi.getAll();
+        setUsers(data);
+      } catch (error) {
+        console.error('Failed to fetch users:', error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    fetchUsers();
+  }, []);
+  const filteredUsers = users.filter(user => {
+    const matchesSearch = user.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+                          user.email.toLowerCase().includes(searchTerm.toLowerCase());
+    const matchesRole = filterRole === 'all' || user.role.toLowerCase() === filterRole;
+
+    return matchesSearch && matchesRole 
+  });
 
   return (
     <div className="space-y-6">
@@ -203,72 +176,43 @@ const UsersManagement: React.FC = () => {
               <TableRow>
                 <TableHead>User</TableHead>
                 <TableHead>Role</TableHead>
-                <TableHead>Status</TableHead>
-                <TableHead>Articles</TableHead>
                 <TableHead>Joined</TableHead>
                 <TableHead>Last Login</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {users.map((user) => (
-                <TableRow key={user.id}>
+              {filteredUsers.map((user) => (
+                <TableRow key={user._id}>
                   <TableCell>
-                    <div>
-                      <div className="flex items-center space-x-2">
-                        <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
-                          <span className="text-sm font-medium text-blue-600">
-                            {user.name.split(' ').map(n => n[0]).join('')}
-                          </span>
-                        </div>
-                        <div>
-                          <p className="font-medium text-gray-900">{user.name}</p>
-                          <p className="text-sm text-gray-600">{user.email}</p>
-                        </div>
+                    <div className="flex items-center space-x-2">
+                      <div className="w-8 h-8 bg-blue-100 rounded-full flex items-center justify-center">
+                        <span className="text-sm font-medium text-blue-600">
+                          {user.name.split(' ').map(n => n[0]).join('')}
+                        </span>
+                      </div>
+                      <div>
+                        <p className="font-medium text-gray-900">{user.name}</p>
+                        <p className="text-sm text-gray-600">{user.email}</p>
                       </div>
                     </div>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
                       {getRoleIcon(user.role)}
-                      <Badge className={getRoleBadgeColor(user.role)}>
-                        {user.role}
-                      </Badge>
+                      <Badge className={getRoleBadgeColor(user.role)}>{user.role}</Badge>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge 
-                      variant={user.status === 'active' ? 'default' : 'destructive'}
-                    >
-                      {user.status}
-                    </Badge>
+                    {user.createdAt ? new Date(user.createdAt).toLocaleDateString() : '—'}
                   </TableCell>
                   <TableCell>
-                    <span className="font-medium">{user.articlesCount}</span>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(user.joinedDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    {new Date(user.lastLogin).toLocaleDateString()}
+                    {user.lastLogin ? new Date(user.lastLogin).toLocaleDateString() : '—'}
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-2">
                       <Button size="sm" variant="outline" title="Edit User">
                         <Edit className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="outline" title="Promote/Demote">
-                        <Shield className="w-4 h-4" />
-                      </Button>
-                      <Button 
-                        size="sm" 
-                        variant="outline" 
-                        title={user.status === 'active' ? 'Block User' : 'Activate User'}
-                      >
-                        {user.status === 'active' ? 
-                          <UserX className="w-4 h-4" /> : 
-                          <UserCheck className="w-4 h-4" />
-                        }
                       </Button>
                       <Button size="sm" variant="outline" title="Delete User">
                         <Trash2 className="w-4 h-4" />
