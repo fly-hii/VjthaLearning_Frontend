@@ -1,3 +1,4 @@
+
 import { Link, useLocation } from 'react-router-dom';
 import Navigation from './Navigation';
 import Footer from './Footer';
@@ -16,7 +17,7 @@ import {
   trendsArticles,
   webDevArticles
 } from '../lib/mockdata';
-import { Calendar, User } from 'lucide-react';
+import { Calendar, User, MapPin, Building } from 'lucide-react';
 
 const SearchResults = () => {
   const query = new URLSearchParams(useLocation().search).get('q') || '';
@@ -42,12 +43,22 @@ const SearchResults = () => {
       item.title.toLowerCase().includes(query.toLowerCase()) 
   );
 
+  // Type guard to check if item is an article
+  const isArticle = (item: any): item is { excerpt: string; author: string; date: string } => {
+    return 'excerpt' in item && 'author' in item && 'date' in item;
+  };
+
+  // Type guard to check if item is a job
+  const isJob = (item: any): item is { company: string; location: string; salary?: string; postedTime?: string } => {
+    return 'company' in item && 'location' in item;
+  };
+
   return (
     <>
       <Navigation />
       <div className="container mx-auto py-10 px-4">
         <h1 className="text-3xl font-bold mb-6">
-          Search Results for “{query}”
+          Search Results for "{query}"
         </h1>
 
         {results.length === 0 ? (
@@ -75,18 +86,58 @@ const SearchResults = () => {
                       {article.title}
                     </Link>
                   </h2>
-                  <p className="text-sm text-gray-600 line-clamp-3 mb-4">
-                    {article?.excerpt}
-                  </p>
+                  
+                  {/* Conditional rendering based on item type */}
+                  {isArticle(article) && (
+                    <p className="text-sm text-gray-600 line-clamp-3 mb-4">
+                      {article.excerpt}
+                    </p>
+                  )}
+                  
+                  {isJob(article) && (
+                    <div className="text-sm text-gray-600 mb-4 space-y-1">
+                      <div className="flex items-center">
+                        <Building className="w-4 h-4 mr-1" />
+                        {article.company}
+                      </div>
+                      <div className="flex items-center">
+                        <MapPin className="w-4 h-4 mr-1" />
+                        {article.location}
+                      </div>
+                      {article.salary && (
+                        <div className="text-green-600 font-medium">
+                          {article.salary}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                  
                   <div className="flex justify-between items-center text-xs text-gray-500">
-                    <div className="flex items-center">
-                      <User className="w-4 h-4 mr-1" />
-                      {article.author}
-                    </div>
-                    <div className="flex items-center">
-                      <Calendar className="w-4 h-4 mr-1" />
-                      {new Date(article.date).toLocaleDateString()}
-                    </div>
+                    {isArticle(article) && (
+                      <>
+                        <div className="flex items-center">
+                          <User className="w-4 h-4 mr-1" />
+                          {article.author}
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          {new Date(article.date).toLocaleDateString()}
+                        </div>
+                      </>
+                    )}
+                    
+                    {isJob(article) && (
+                      <>
+                        <div className="flex items-center">
+                          <Building className="w-4 h-4 mr-1" />
+                          Job Listing
+                        </div>
+                        <div className="flex items-center">
+                          <Calendar className="w-4 h-4 mr-1" />
+                          {article.postedTime ? new Date(article.postedTime).toLocaleDateString() : 'Recently'}
+                        </div>
+                      </>
+                    )}
                   </div>
                 </div>
               </div>
