@@ -1,3 +1,4 @@
+
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Calendar, User, Clock, ArrowRight } from 'lucide-react';
@@ -8,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import CommonSidebar from '@/components/CommonSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { articlesApi, categoriesApi } from '@/Services/api';
 import type { Article, Category } from '@/types/api';
@@ -97,124 +99,90 @@ const Articles = () => {
       <section className="py-8">
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
-            {/* Articles Grid - Left Side */}
-            <div className="flex-1">
-              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
-                {articlesLoading ? (
-                  <div className="text-center py-16">
-                    <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-                    <p className="mt-4 text-gray-600">Loading articles...</p>
-                  </div>
-                ) : articles.length === 0 ? (
-                  <div className="text-center py-16">
-                    <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
-                    <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
-                    <Button
-                      onClick={() => {
-                        setSearchQuery('');
-                        setSelectedCategory('all');
-                      }}
-                    >
-                      Show All Articles
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                    {articles.slice(0, 9).map((article: Article) => (
-                      <Card key={article._id} className="bg-white border-2 border-gray-300 hover:shadow-lg transition-shadow">
-                        <div className="relative">
-                          {article.featuredImage && (
-                            <img
-                              src={article.featuredImage}
-                              alt={article.title}
-                              className="w-full h-40 object-cover"
-                            />
-                          )}
-                          {(article.isFeatured || article.featured) && (
-                            <Badge className="absolute top-2 left-2 bg-red-600 text-white">
-                              Featured
-                            </Badge>
-                          )}
-                        </div>
-                        <CardContent className="p-4">
-                          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
-                            {article.title}
-                          </h3>
-                          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                            {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
-                          </p>
-                          
-                          <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                            <div className="flex items-center">
-                              <User className="w-3 h-3 mr-1" />
-                              {article.author || 'Unknown Author'}
-                            </div>
-                            <div className="flex items-center">
-                              <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
-                            </div>
-                          </div>
-                          
-                          {article.category && (
-                            <div className="mb-3">
-                              <Badge variant="outline">
-                                {typeof article.category === 'object' ? article.category.name : article.category}
-                              </Badge>
-                            </div>
-                          )}
-                          
-                          <Link to={`/article/${article._id}`}>
-                            <Button size="sm" className="w-full">
-                              Read More
-                              <ArrowRight className="w-4 h-4 ml-2" />
-                            </Button>
-                          </Link>
-                        </CardContent>
-                      </Card>
-                    ))}
-                  </div>
-                )}
-              </div>
-            </div>
-
-            {/* Latest Articles Sidebar - Right Side */}
-            <div className="w-80">
-              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-6">
-                <h2 className="text-xl font-bold mb-6 text-center">Latest Articles</h2>
-                <div className="space-y-4">
-                  {articles.slice(0, 5).map((article: Article) => (
-                    <div key={article._id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
-                      {article.featuredImage && (
-                        <img
-                          src={article.featuredImage}
-                          alt={article.title}
-                          className="w-16 h-16 object-cover rounded bg-gray-300"
-                        />
-                      )}
-                      <div className="flex-1">
-                        <Link to={`/article/${article._id}`}>
-                          <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1 hover:text-blue-600 transition-colors">
-                            {article.title}
-                          </h4>
-                        </Link>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <Calendar className="w-3 h-3 mr-1" />
-                          {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
-                        </div>
+            {/* Articles Grid - 75% Width */}
+            <div className="flex-1" style={{ width: '75%' }}>
+              {articlesLoading ? (
+                <div className="text-center py-16">
+                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+                  <p className="mt-4 text-gray-600">Loading articles...</p>
+                </div>
+              ) : articles.length === 0 ? (
+                <div className="text-center py-16">
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
+                  <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
+                  <Button
+                    onClick={() => {
+                      setSearchQuery('');
+                      setSelectedCategory('all');
+                    }}
+                  >
+                    Show All Articles
+                  </Button>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                  {articles.map((article: Article) => (
+                    <Card key={article._id} className="bg-white border-2 border-gray-200 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
+                      <div className="relative">
+                        {article.featuredImage && (
+                          <img
+                            src={article.featuredImage}
+                            alt={article.title}
+                            className="w-full h-48 object-cover rounded-t-lg"
+                          />
+                        )}
+                        {(article.isFeatured || article.featured) && (
+                          <Badge className="absolute top-2 left-2 bg-red-600 text-white">
+                            Featured
+                          </Badge>
+                        )}
                       </div>
-                    </div>
+                      <CardContent className="p-6">
+                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors">
+                          <Link to={`/article/${article._id}`}>
+                            {article.title}
+                          </Link>
+                        </h3>
+                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                          {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
+                        </p>
+                        
+                        <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+                          <div className="flex items-center">
+                            <User className="w-4 h-4 mr-1" />
+                            {article.author || 'Unknown Author'}
+                          </div>
+                          <div className="flex items-center">
+                            <Calendar className="w-4 h-4 mr-1" />
+                            {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
+                          </div>
+                        </div>
+                        
+                        {article.category && (
+                          <div className="mb-4">
+                            <Badge variant="outline">
+                              {typeof article.category === 'object' ? article.category.name : article.category}
+                            </Badge>
+                          </div>
+                        )}
+                        
+                        <Link to={`/article/${article._id}`}>
+                          <Button size="sm" className="w-full">
+                            Read More
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
+                      </CardContent>
+                    </Card>
                   ))}
                 </div>
-                
-                {/* Navigation arrows at bottom */}
-                <div className="flex justify-center mt-6 gap-4">
-                  <Button variant="outline" size="icon">
-                    <ArrowRight className="w-4 h-4 rotate-180" />
-                  </Button>
-                  <Button variant="outline" size="icon">
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </div>
+              )}
+            </div>
+
+            {/* Common Sidebar - 25% Width */}
+            <div style={{ width: '25%' }} className="min-w-80">
+              <div className="sticky top-8">
+                <CommonSidebar />
               </div>
             </div>
           </div>
