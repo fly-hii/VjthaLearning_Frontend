@@ -117,7 +117,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <div>
                 <img 
                 src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
-                alt="Vjtha Media Logo" 
+                alt="Vjtha Learning Logo" 
                 className="w-16 h-16 object-contain"
               />            
               </div>

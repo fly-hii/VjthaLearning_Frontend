@@ -55,7 +55,7 @@ const Navigation = () => {
           <Link to="/" className="flex items-center space-x-2">
             <img 
               src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
-              alt="Vjtha Media Logo" 
+              alt="Vjtha Learning Logo" 
               className="w-16 h-16 object-contain"
             />
           </Link>

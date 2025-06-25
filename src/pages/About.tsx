@@ -76,7 +76,7 @@ const About = () => {
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-5xl font-bold mb-6">About Vjtha Media</h1>
+            <h1 className="text-5xl font-bold mb-6">About Vjtha Learning</h1>
             <p className="text-xl text-blue-100 leading-relaxed">
               We're a team of passionate technology experts, writers, and innovators dedicated to 
               sharing insights that drive digital transformation and business growth.
@@ -113,7 +113,7 @@ const About = () => {
             
             <div className="grid md:grid-cols-2 gap-12 items-center">
               <div>
-                <h3 className="text-2xl font-bold text-gray-900 mb-6">Why We Started Vjtha Media</h3>
+                <h3 className="text-2xl font-bold text-gray-900 mb-6">Why We Started Vjtha Learning</h3>
                 <div className="space-y-4 text-gray-600">
                   <p>
                     In 2019, we recognized a significant gap in the tech content landscape. While there was 
@@ -126,7 +126,7 @@ const About = () => {
                     that they could immediately apply to their work.
                   </p>
                   <p>
-                    Today, Vjtha Media has grown into a trusted resource for thousands of professionals 
+                    Today, Vjtha Learning has grown into a trusted resource for thousands of professionals 
                     worldwide, helping them navigate the ever-evolving technology landscape.
                   </p>
                 </div>

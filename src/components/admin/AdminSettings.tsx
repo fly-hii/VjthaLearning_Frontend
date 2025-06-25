@@ -24,7 +24,7 @@ const AdminSettings: React.FC = () => {
     smtpPort: '',
     smtpUser: '',
     smtpPassword: '',
-    siteTitle: 'VJtha Media',
+    siteTitle: 'VJtha Learning',
     siteDescription: 'Tech blog and job platform',
     enableComments: true,
     enableNotifications: true,

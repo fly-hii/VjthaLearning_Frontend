@@ -57,7 +57,7 @@ const Index = () => {
       id: 5,
       title: 'Digital World',
       description: 'Social platform and interactive games',
-      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=300&fit=crop',
+      image: 'https://images.unsplash.com/photo-1589804845133-49b5e06cc415?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
       bgColor: 'bg-gradient-to-br from-purple-400 to-indigo-500',
       link: '/digital-world'
     },
@@ -385,9 +385,6 @@ useEffect(() => {
           <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
             Vjtha makes it easy to explore and share knowledge
           </h1>
-          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
-            Discover the latest in technology, find your next career opportunity, and connect with like-minded professionals
-          </p>
           
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
@@ -410,64 +407,66 @@ useEffect(() => {
       </section>
 
       {/* Category Cards Slider */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
-          <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-gray-900 mb-4">Explore Categories</h2>
-            <p className="text-xl text-gray-600">Discover content across different domains</p>
-          </div>
-          
-          <Carousel className="w-full max-w-7xl mx-auto">
-            <CarouselContent className="-ml-4">
-              {categoryCards.map((category) => (
-              // <CarouselPrevious className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
-                <CarouselItem key={category.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/6">
-                  <Link to={category.link} className="group block">
-                    <Card className={`overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 h-80 ${category.bgColor} border-0`}>
-                      <CardContent className="p-0 h-full relative">
-                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
-                        
-                        {/* Background Image */}
-                        <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300">
-                          <img
-                            src={category.image}
-                            alt={category.title}
-                            className="w-full h-full object-cover"
-                          />
+          <Carousel className="w-full max-w-7xl mx-auto relative">
+          {/* Left Arrow */}
+          <CarouselPrevious className="absolute  -left-10 top-1/2 -translate-y-1/2 z-10 bg-blue-200 hover:bg-gray-50 border shadow-lg" />
+          <CarouselContent className="-ml-4">
+            {categoryCards.map((category) => (
+              <CarouselItem
+                key={category.id}
+                className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/6"
+              >
+                <Link to={category.link} className="group block">
+                  <Card
+                    className={`overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 h-80 ${category.bgColor} border-0`}
+                  >
+                    <CardContent className="p-0 h-full relative">
+                      <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+
+                      {/* Background Image */}
+                      <div className="absolute inset-0 opacity-40 group-hover:opacity-50 transition-opacity duration-300">
+                        <img
+                          src={category.image}
+                          alt={category.title}
+                          className="w-full h-full object-cover"
+                        />
+                      </div>
+
+                      {/* Content */}
+                      <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                        <div>
+                          <h3 className="text-2xl font-bold mb-3 group-hover:scale-110 transition-transform duration-300">
+                            {category.title}
+                          </h3>
+                          <p className="text-white/90 text-sm leading-relaxed">
+                            {category.description}
+                          </p>
                         </div>
-                        
-                        {/* Content */}
-                        <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
-                          <div>
-                            <h3 className="text-2xl font-bold mb-3 group-hover:scale-110 transition-transform duration-300">
-                              {category.title}
-                            </h3>
-                            <p className="text-white/90 text-sm leading-relaxed">
-                              {category.description}
-                            </p>
+
+                        <div className="flex items-center justify-between">
+                          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                            <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
-                          
-                          <div className="flex items-center justify-between">
-                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
-                              <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform duration-300" />
-                            </div>
-                            <div className="text-right">
-                              <span className="text-xs text-white/80 uppercase tracking-wide font-medium">
-                                Explore
-                              </span>
-                            </div>
+                          <div className="text-right">
+                            <span className="text-xs text-white/80 uppercase tracking-wide font-medium">
+                              Explore
+                            </span>
                           </div>
                         </div>
-                      </CardContent>
-                    </Card>
-                  </Link>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <div className="flex justify-center mt-8 space-x-4">
-              <CarouselNext className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
-            </div>
-          </Carousel>
+                      </div>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+
+          {/* Right Arrow */}
+          <CarouselNext className="absolute -right-10 top-1/2 -translate-y-1/2 z-10 bg-blue-200 hover:bg-gray-50 border shadow-lg" />
+        </Carousel>
+
         </div>
       </section>
 

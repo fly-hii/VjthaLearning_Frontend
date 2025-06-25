@@ -35,11 +35,11 @@ const Footer = () => {
             <div className="flex items-center space-x-2 mb-2">
               <img 
                 src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
-                alt="Vjtha Media Logo" 
+                alt="Vjtha Learning Logo" 
                 className="w-18 h-16 object-contain"
               />
               <div>
-                <h3 className="text-xl font-bold">Vjtha Media</h3>
+                <h3 className="text-xl font-bold">Vjtha Learning</h3>
                 <p className="text-sm text-black-400">Digital Insights & Innovation</p>
               </div>
             </div>
@@ -103,7 +103,7 @@ const Footer = () => {
             {/* Column 1 - Copyright */}
             <div>
               <p className="text-black-400 text-sm">
-                © {currentYear} Vjtha Media. All rights reserved.
+                © {currentYear} Vjtha Learning. All rights reserved.
               </p>
             </div>
 

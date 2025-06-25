@@ -80,7 +80,7 @@ const Register: React.FC = () => {
                         />
                       </div>
                       
-                      <h2 className="text-3xl font-bold mb-4">Join VJtha Media</h2>
+                      <h2 className="text-3xl font-bold mb-4">Join VJtha Learning</h2>
                       <p className="text-lg opacity-90 mb-8">Become part of our storytelling community</p>
                       
                       <div className="space-y-4 text-left max-w-sm">

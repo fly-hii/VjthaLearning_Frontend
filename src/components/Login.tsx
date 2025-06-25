@@ -180,7 +180,7 @@ const onSubmit = async (data: FormValues) => {
                         />
                       </div>
                       
-                      <h2 className="text-3xl font-bold mb-4">VJtha Media</h2>
+                      <h2 className="text-3xl font-bold mb-4">VJtha Learning</h2>
                       <p className="text-lg opacity-90 mb-6">Your gateway to insightful stories</p>
                       
                       <div className="space-y-4 text-left max-w-sm">
