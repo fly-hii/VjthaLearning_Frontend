@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Plus, Heart, MessageCircle, Share2, Bookmark, MoreHorizontal, Sparkles } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -27,7 +26,7 @@ interface Post {
 
 const TechHub = () => {
   const [posts, setPosts] = useState<Post[]>([
-    {
+     {
       id: 1,
       author: 'Alex Chen',
       avatar: 'https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=40&h=40&fit=crop&crop=face',
@@ -103,21 +102,20 @@ const TechHub = () => {
       tags: ['Blockchain', 'Sustainability', 'DeFi']
     }
   ]);
-
   const [selectedPost, setSelectedPost] = useState<Post | null>(null);
   const [showCreatePost, setShowCreatePost] = useState(false);
 
   const handleLike = (postId: number) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
+    setPosts(posts.map(post =>
+      post.id === postId
         ? { ...post, likes: post.isLiked ? post.likes - 1 : post.likes + 1, isLiked: !post.isLiked }
         : post
     ));
   };
 
   const handleBookmark = (postId: number) => {
-    setPosts(posts.map(post => 
-      post.id === postId 
+    setPosts(posts.map(post =>
+      post.id === postId
         ? { ...post, isBookmarked: !post.isBookmarked }
         : post
     ));
@@ -139,12 +137,19 @@ const TechHub = () => {
   };
 
   return (
-    <div className="max-w-4xl mx-auto space-y-6">
-      {/* Header Section */}
-      <div className="text-center py-8 px-4 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-2xl text-white mb-8">
-        <h2 className="text-4xl font-bold mb-2">Tech Hub</h2>
-        <p className="text-lg opacity-90">Share your innovations, inspire others</p>
-        <div className="flex justify-center items-center mt-4 space-x-4">
+    <div className="max-w-7xl mx-auto space-y-6 px-4">
+      {/* Header */}
+     <div className="py-4 px-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-2xl text-white mb-8">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+        
+        {/* Left side: Title and description */}
+        <div>
+          <h2 className="text-4xl font-bold mb-2">Tech Hub</h2>
+          <p className="text-lg opacity-90">Share your innovations, inspire others</p>
+        </div>
+
+        {/* Right side: Badges */}
+        <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 mt-2 md:mt-0">
           <Badge variant="secondary" className="bg-white/20 text-white border-none">
             <Sparkles className="w-4 h-4 mr-1" />
             Trending
@@ -156,44 +161,27 @@ const TechHub = () => {
             💡 Ideas
           </Badge>
         </div>
+        <Button
+          onClick={() => setShowCreatePost(true)}
+          className="w-42 h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+        >
+          <Plus className="w-6 h-6 mr-2" />
+          Share Your Innovation
+        </Button>
+
       </div>
+    </div>
 
-      {/* Create Post Section */}
-      <Card className="bg-gradient-to-r from-blue-50 to-purple-50 border-2 border-dashed border-blue-200 hover:border-blue-300 transition-colors">
-        <CardContent className="p-6">
-          <Dialog open={showCreatePost} onOpenChange={setShowCreatePost}>
-            <DialogTrigger asChild>
-              <Button className="w-full h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
-                <Plus className="w-6 h-6 mr-2" />
-                Share Your Innovation
-              </Button>
-            </DialogTrigger>
-            <DialogContent className="max-w-2xl">
-              <DialogHeader>
-                <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-                  Create New Post
-                </DialogTitle>
-              </DialogHeader>
-              <PostCreation onCreatePost={handleCreatePost} />
-            </DialogContent>
-          </Dialog>
-        </CardContent>
-      </Card>
-
-      {/* Posts Feed */}
-      <div className="space-y-6">
+      {/* Posts Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
         {posts.map((post) => (
           <Card key={post.id} className="overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 bg-white border-l-4 border-l-gradient-to-b from-blue-500 to-purple-500">
-            <CardContent className="p-0">
-              {/* Post Header */}
+            <CardContent className="p-0 flex flex-col h-full">
+              {/* Header */}
               <div className="p-6 flex items-center justify-between">
                 <div className="flex items-center space-x-4">
                   <div className="relative">
-                    <img
-                      src={post.avatar}
-                      alt={post.author}
-                      className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-200"
-                    />
+                    <img src={post.avatar} alt={post.author} className="w-12 h-12 rounded-full object-cover ring-2 ring-blue-200" />
                     {post.trending && (
                       <div className="absolute -top-1 -right-1 w-6 h-6 bg-gradient-to-r from-orange-400 to-pink-500 rounded-full flex items-center justify-center">
                         <Sparkles className="w-3 h-3 text-white" />
@@ -210,11 +198,9 @@ const TechHub = () => {
                 </Button>
               </div>
 
-              {/* Post Content */}
-              <div className="px-6 pb-4">
+              {/* Content */}
+              <div className="px-6 pb-4 flex-1">
                 <p className="text-gray-800 text-lg leading-relaxed mb-4">{post.content}</p>
-                
-                {/* Tags */}
                 <div className="flex flex-wrap gap-2 mb-4">
                   {post.tags.map((tag, index) => (
                     <Badge key={index} variant="secondary" className="bg-blue-100 text-blue-700 hover:bg-blue-200 transition-colors">
@@ -224,42 +210,29 @@ const TechHub = () => {
                 </div>
 
                 {post.media && (
-                  <div 
-                    className="cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
+                  <div className="cursor-pointer rounded-xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow"
                     onClick={() => setSelectedPost(post)}
                   >
                     {post.mediaType === 'image' ? (
-                      <img
-                        src={post.media}
-                        alt="Post media"
-                        className="w-full object-cover max-h-96 hover:scale-105 transition-transform duration-300"
-                      />
+                      <img src={post.media} alt="Post media" className="w-full object-cover max-h-60 hover:scale-105 transition-transform duration-300" />
                     ) : (
-                      <video
-                        src={post.media}
-                        className="w-full object-cover max-h-96"
-                        controls
-                      />
+                      <video src={post.media} className="w-full object-cover max-h-60" controls />
                     )}
                   </div>
                 )}
               </div>
 
-              {/* Post Actions */}
+              {/* Actions */}
               <div className="px-6 py-4 border-t border-gray-100 bg-gray-50/50">
                 <div className="flex items-center justify-between">
                   <div className="flex items-center space-x-8">
-                    <button
-                      onClick={() => handleLike(post.id)}
-                      className={`group flex items-center space-x-2 ${post.isLiked ? 'text-red-500' : 'text-gray-500'} hover:text-red-500 transition-all duration-200`}
-                    >
+                    <button onClick={() => handleLike(post.id)}
+                      className={`group flex items-center space-x-2 ${post.isLiked ? 'text-red-500' : 'text-gray-500'} hover:text-red-500 transition-all duration-200`}>
                       <Heart className={`w-6 h-6 group-hover:scale-110 transition-transform ${post.isLiked ? 'fill-current' : ''}`} />
                       <span className="font-medium">{post.likes}</span>
                     </button>
-                    <button 
-                      onClick={() => setSelectedPost(post)}
-                      className="group flex items-center space-x-2 text-gray-500 hover:text-blue-500 transition-all duration-200"
-                    >
+                    <button onClick={() => setSelectedPost(post)}
+                      className="group flex items-center space-x-2 text-gray-500 hover:text-blue-500 transition-all duration-200">
                       <MessageCircle className="w-6 h-6 group-hover:scale-110 transition-transform" />
                       <span className="font-medium">{post.comments}</span>
                     </button>
@@ -268,10 +241,8 @@ const TechHub = () => {
                       <span className="font-medium">{post.shares}</span>
                     </button>
                   </div>
-                  <button
-                    onClick={() => handleBookmark(post.id)}
-                    className={`${post.isBookmarked ? 'text-blue-500' : 'text-gray-400'} hover:text-blue-500 transition-colors`}
-                  >
+                  <button onClick={() => handleBookmark(post.id)}
+                    className={`${post.isBookmarked ? 'text-blue-500' : 'text-gray-400'} hover:text-blue-500 transition-colors`}>
                     <Bookmark className={`w-6 h-6 ${post.isBookmarked ? 'fill-current' : ''}`} />
                   </button>
                 </div>
@@ -281,7 +252,7 @@ const TechHub = () => {
         ))}
       </div>
 
-      {/* Post Detail Modal */}
+      {/* Post Detail Dialog */}
       {selectedPost && (
         <PostDetail
           post={selectedPost}
@@ -290,6 +261,26 @@ const TechHub = () => {
           onLike={() => handleLike(selectedPost.id)}
         />
       )}
+      <Dialog open={showCreatePost} onOpenChange={setShowCreatePost}>
+  <DialogTrigger asChild>
+    <Button
+      className="w-42 h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+    >
+      <Plus className="w-6 h-6 mr-2" />
+      Share Your Innovation
+    </Button>
+  </DialogTrigger>
+
+  <DialogContent className="max-w-2xl">
+    <DialogHeader>
+      <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+        Create New Post
+      </DialogTitle>
+    </DialogHeader>
+    <PostCreation onCreatePost={handleCreatePost} />
+  </DialogContent>
+</Dialog>
+
     </div>
   );
 };
