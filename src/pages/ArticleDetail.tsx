@@ -1,3 +1,4 @@
+
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, ArrowLeft, Share2, Bookmark, Eye, Clock, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import CommonSidebar from '@/components/CommonSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
@@ -114,8 +116,8 @@ const ArticleDetail = () => {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
-            {/* Main Content */}
-            <div className="flex-1 max-w-4xl">
+            {/* Main Content - 75% Width */}
+            <div style={{ width: '75%' }}>
               <Card className="bg-white shadow-lg">
                 <CardContent className="p-8">
                   {/* Featured Image */}
@@ -184,45 +186,54 @@ const ArticleDetail = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Related Articles */}
+                  {relatedArticles && relatedArticles.length > 0 && (
+                    <div className="mt-12">
+                      <h3 className="text-xl font-bold mb-6">Related Articles</h3>
+                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        {relatedArticles.map((relatedArticle: Article) => (
+                          <Link
+                            key={relatedArticle._id}
+                            to={`/article/${relatedArticle._id}`}
+                            className="block group"
+                          >
+                            <Card className="hover:shadow-lg transition-shadow">
+                              <CardContent className="p-4">
+                                <div className="flex gap-3">
+                                  {relatedArticle.featuredImage && (
+                                    <img
+                                      src={relatedArticle.featuredImage}
+                                      alt={relatedArticle.title}
+                                      className="w-16 h-16 object-cover rounded"
+                                    />
+                                  )}
+                                  <div className="flex-1">
+                                    <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
+                                      {relatedArticle.title}
+                                    </h4>
+                                    <div className="flex items-center text-xs text-gray-500 mt-1">
+                                      <Calendar className="w-3 h-3 mr-1" />
+                                      {new Date(relatedArticle.publishedAt || relatedArticle.createdAt).toLocaleDateString()}
+                                    </div>
+                                  </div>
+                                </div>
+                              </CardContent>
+                            </Card>
+                          </Link>
+                        ))}
+                      </div>
+                    </div>
+                  )}
                 </CardContent>
               </Card>
             </div>
 
-            {/* Sidebar */}
-            <div className="w-80">
-              <Card className="bg-white shadow-lg sticky top-8">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-6">Related Articles</h3>
-                  <div className="space-y-4">
-                    {relatedArticles?.map((relatedArticle: Article) => (
-                      <Link
-                        key={relatedArticle._id}
-                        to={`/article/${relatedArticle._id}`}
-                        className="block group"
-                      >
-                        <div className="flex gap-3 p-3 rounded-lg hover:bg-gray-50 transition-colors">
-                          {relatedArticle.featuredImage && (
-                            <img
-                              src={relatedArticle.featuredImage}
-                              alt={relatedArticle.title}
-                              className="w-16 h-16 object-cover rounded"
-                            />
-                          )}
-                          <div className="flex-1">
-                            <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">
-                              {relatedArticle.title}
-                            </h4>
-                            <div className="flex items-center text-xs text-gray-500 mt-1">
-                              <Calendar className="w-3 h-3 mr-1" />
-                              {new Date(relatedArticle.publishedAt || relatedArticle.createdAt).toLocaleDateString()}
-                            </div>
-                          </div>
-                        </div>
-                      </Link>
-                    ))}
-                  </div>
-                </CardContent>
-              </Card>
+            {/* Common Sidebar - 25% Width */}
+            <div style={{ width: '25%' }} className="min-w-80">
+              <div className="sticky top-8">
+                <CommonSidebar />
+              </div>
             </div>
           </div>
         </div>

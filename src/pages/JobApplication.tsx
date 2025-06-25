@@ -8,6 +8,7 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
+import CommonSidebar from '@/components/CommonSidebar';
 import {
   internships,
   techJobs,
@@ -169,8 +170,8 @@ const JobApplication = () => {
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
-            {/* Application Form */}
-            <div className="flex-1 max-w-2xl">
+            {/* Application Form - 75% Width */}
+            <div style={{ width: '75%' }}>
               <Card className="shadow-lg">
                 <CardHeader>
                   <CardTitle className="text-2xl">Apply for this Position</CardTitle>
@@ -288,72 +289,42 @@ const JobApplication = () => {
                       Submit Application
                     </Button>
                   </form>
-                </CardContent>
-              </Card>
-            </div>
 
-            {/* Job Details Sidebar */}
-            <div className="w-80">
-              <Card className="shadow-lg sticky top-8">
-                <CardContent className="p-6">
-                  <h3 className="text-xl font-bold mb-6">Job Details</h3>
-                  
-                  <div className="space-y-4">
-                    <div className="flex items-start gap-3">
-                      <Building className="w-5 h-5 text-gray-400 mt-1" />
+                  {/* Job Details in Form */}
+                  <div className="mt-8 p-6 bg-gray-50 rounded-lg">
+                    <h3 className="text-xl font-bold mb-4">Job Summary</h3>
+                    <div className="grid grid-cols-2 gap-4 text-sm">
                       <div>
                         <p className="font-medium text-gray-900">Company</p>
                         <p className="text-gray-600">{job.company}</p>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <MapPin className="w-5 h-5 text-gray-400 mt-1" />
                       <div>
                         <p className="font-medium text-gray-900">Location</p>
                         <p className="text-gray-600">{job.location}</p>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <DollarSign className="w-5 h-5 text-gray-400 mt-1" />
                       <div>
                         <p className="font-medium text-gray-900">Salary</p>
                         <p className="text-gray-600">{job.salary}</p>
                       </div>
-                    </div>
-                    
-                    <div className="flex items-start gap-3">
-                      <Clock className="w-5 h-5 text-gray-400 mt-1" />
                       <div>
                         <p className="font-medium text-gray-900">Posted</p>
                         <p className="text-gray-600">{job.postedTime}</p>
                       </div>
                     </div>
-                  </div>
-
-                  <div className="mt-6 pt-6 border-t">
-                    <h4 className="font-medium text-gray-900 mb-3">Job Description</h4>
-                    <p className="text-gray-600 text-sm leading-relaxed">
-                      {job.description}
-                    </p>
-                  </div>
-
-                  <div className="mt-6 pt-6 border-t">
-                    <h4 className="font-medium text-gray-900 mb-3">Quick Actions</h4>
-                    <div className="space-y-2">
-                      <Button variant="outline" className="w-full justify-start">
-                        <Briefcase className="w-4 h-4 mr-2" />
-                        Save Job
-                      </Button>
-                      <Button variant="outline" className="w-full justify-start">
-                        <Building className="w-4 h-4 mr-2" />
-                        View Company
-                      </Button>
+                    <div className="mt-4">
+                      <p className="font-medium text-gray-900 mb-2">Description</p>
+                      <p className="text-gray-600 text-sm">{job.description}</p>
                     </div>
                   </div>
                 </CardContent>
               </Card>
+            </div>
+
+            {/* Common Sidebar - 25% Width */}
+            <div style={{ width: '25%' }} className="min-w-80">
+              <div className="sticky top-8">
+                <CommonSidebar />
+              </div>
             </div>
           </div>
         </div>
