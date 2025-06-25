@@ -1,7 +1,6 @@
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Calendar, User, ArrowRight, ChevronRight, Clock, TrendingUp, Star, ChevronLeft } from 'lucide-react';
+import { Search, Calendar, User, ArrowRight, ChevronRight, Clock, TrendingUp, Star, ChevronLeft, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader } from '@/components/ui/card';
@@ -21,6 +20,72 @@ import { BackToTop } from './BacktoTop';
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
+  const categoryCards = [
+    {
+      id: 1,
+      title: 'Tech Articles',
+      description: 'Latest technology insights and innovations',
+      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-cyan-400 to-blue-500',
+      link: '/articles'
+    },
+    {
+      id: 2,
+      title: 'Web Development',
+      description: 'Modern web development tutorials',
+      image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-green-400 to-emerald-500',
+      link: '/category/web-development'
+    },
+    {
+      id: 3,
+      title: 'AI & Machine Learning',
+      description: 'Artificial intelligence breakthroughs',
+      image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-yellow-400 to-orange-500',
+      link: '/category/ai-machine-learning'
+    },
+    {
+      id: 4,
+      title: 'Career & Jobs',
+      description: 'Job opportunities and career guidance',
+      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-red-400 to-pink-500',
+      link: '/jobs/tech'
+    },
+    {
+      id: 5,
+      title: 'Digital World',
+      description: 'Social platform and interactive games',
+      image: 'https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-purple-400 to-indigo-500',
+      link: '/digital-world'
+    },
+    {
+      id: 6,
+      title: 'Tech Innovation',
+      description: 'Latest innovations and startup stories',
+      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-blue-400 to-purple-500',
+      link: '/category/tech-innovation'
+    },
+    {
+      id: 7,
+      title: 'Case Studies',
+      description: 'Real-world project analysis',
+      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-teal-400 to-green-500',
+      link: '/category/case-studies'
+    },
+    {
+      id: 8,
+      title: 'Industry Trends',
+      description: 'Market insights and future predictions',
+      image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=300&fit=crop',
+      bgColor: 'bg-gradient-to-br from-indigo-400 to-blue-500',
+      link: '/category/industry-trends'
+    }
+  ];
 
   const highlightArticles = [
     {
@@ -314,75 +379,96 @@ useEffect(() => {
     <div className="bg-white text-black">
       <Navigation />
 
-      {/* Search Bar */}
-      <section className="py-6 bg-blue-50 border-b">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
+      {/* Hero Section with Search */}
+      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+        <div className="container mx-auto px-4 text-center">
+          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
+            Vjtha makes it easy to explore and share knowledge
+          </h1>
+          <p className="text-xl text-gray-600 mb-8 max-w-3xl mx-auto">
+            Discover the latest in technology, find your next career opportunity, and connect with like-minded professionals
+          </p>
+          
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto mb-12">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5" />
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
               <Input
                 type="text"
-                placeholder="Scrollings of Hot Topics"
+                placeholder="Search articles, jobs, technologies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-12 pr-4 py-3 text-lg border-2 border-blue-200 focus:border-blue-500 rounded-full bg-white"
+                className="pl-14 pr-6 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 rounded-2xl bg-white shadow-lg"
               />
             </div>
           </div>
+
+          <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+            Start Exploring
+          </Button>
         </div>
       </section>
 
-      {/* Highlights Section */}
-      <section className="py-8 bg-gradient-to-br from-blue-50 to-purple-50">
-        <div className="container mx-auto px-2 text-center">
-          <div className="relative max-w-4xl mx-auto bg-white shadow-xl rounded-xl p-8 transition-all duration-500">
-            <h3 className="text-2xl font-semibold text-blue-700 mb-2">
-              {highlights[currentSlide].title}
-            </h3>
-            <p className="text-gray-600">{highlights[currentSlide].subtitle}</p>
+      {/* Category Cards Slider */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-4xl font-bold text-gray-900 mb-4">Explore Categories</h2>
+            <p className="text-xl text-gray-600">Discover content across different domains</p>
           </div>
-
-          {/* Optional: Dots for slide indicators */}
-          <div className="flex justify-center mt-4 mb-4 space-x-2">
-            {highlights.map((_, index) => (
-              <span
-                key={index}
-                className={`h-2 w-2 rounded-full ${
-                  index === currentSlide ? 'bg-blue-600' : 'bg-gray-300'
-                }`}
-              ></span>
-            ))}
-          </div>
-        </div>
           
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 px-16 gap-6">
-            {highlightArticles.slice(0, 8).map((article) => (
-              <Link key={article.id} to={`/article/${article.id}`} className="group">
-                <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full bg-white/80 backdrop-blur-sm">
-                  <div className="relative">
-                    <img
-                      src={article.image}
-                      alt={article.title}
-                      className="w-full h-40 object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                    <Badge className="absolute top-2 right-2 bg-blue-600 text-white text-xs">
-                      {article.category}
-                    </Badge>
-                  </div>
-                  <CardContent className="p-4">
-                    <h3 className="font-bold text-gray-900 mb-2 group-hover:text-blue-600 transition-colors line-clamp-2 text-sm">
-                      {article.title}
-                    </h3>
-                    <p className="text-gray-600 text-xs mb-3 line-clamp-2">{article.excerpt}</p>
-                    <div className="flex items-center justify-between text-xs text-gray-500">
-                      <span>{article.author}</span>
-                      <span>{article.readTime}</span>
-                    </div>
-                  </CardContent>
-                </Card>
-              </Link>
-            ))}
-          </div>
+          <Carousel className="w-full max-w-7xl mx-auto">
+            <CarouselContent className="-ml-4">
+              {categoryCards.map((category) => (
+                <CarouselItem key={category.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+                  <Link to={category.link} className="group block">
+                    <Card className={`overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 h-80 ${category.bgColor} border-0`}>
+                      <CardContent className="p-0 h-full relative">
+                        <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
+                        
+                        {/* Background Image */}
+                        <div className="absolute inset-0 opacity-30 group-hover:opacity-50 transition-opacity duration-300">
+                          <img
+                            src={category.image}
+                            alt={category.title}
+                            className="w-full h-full object-cover"
+                          />
+                        </div>
+                        
+                        {/* Content */}
+                        <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                          <div>
+                            <h3 className="text-2xl font-bold mb-3 group-hover:scale-110 transition-transform duration-300">
+                              {category.title}
+                            </h3>
+                            <p className="text-white/90 text-sm leading-relaxed">
+                              {category.description}
+                            </p>
+                          </div>
+                          
+                          <div className="flex items-center justify-between">
+                            <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                              <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform duration-300" />
+                            </div>
+                            <div className="text-right">
+                              <span className="text-xs text-white/80 uppercase tracking-wide font-medium">
+                                Explore
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </CardContent>
+                    </Card>
+                  </Link>
+                </CarouselItem>
+              ))}
+            </CarouselContent>
+            <div className="flex justify-center mt-8 space-x-4">
+              <CarouselPrevious className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
+              <CarouselNext className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
+            </div>
+          </Carousel>
+        </div>
       </section>
 
       {/* Vjtha Specials Section - New Layout Based on Wireframe */}
