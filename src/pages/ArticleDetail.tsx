@@ -70,9 +70,9 @@ const ArticleDetail = () => {
       <Navigation />
       
       {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-600 to-purple-700 text-white">
+      <section className="relative bg-gradient-to-r from-blue-300 to-purple-700 text-white">
         <div className="absolute inset-0 bg-black/20"></div>
-        <div className="relative container mx-auto px-4 py-16">
+        <div className="relative container mx-auto px-4 py-8">
           <Link to="/articles" className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors">
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Articles
@@ -82,7 +82,7 @@ const ArticleDetail = () => {
             <Badge className="mb-4 bg-white/20 text-white border-white/30">
               {typeof article.category === 'object' ? article.category?.name : article.category || 'General'}
             </Badge>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-3xl font-bold mb-6 leading-tight">
               {article.title}
             </h1>
             
