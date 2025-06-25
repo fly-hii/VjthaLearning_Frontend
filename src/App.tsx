@@ -12,6 +12,7 @@ import ArticleDetail from "./pages/ArticleDetail";
 import JobApplication from "./pages/JobApplication";
 import About from "./pages/About";
 import Contact from "./pages/Contact";
+import DigitalWorld from "./pages/DigitalWorld";
 import TechInnovation from "./pages/category/TechInnovation";
 import AIMachineLearning from "./pages/category/AIMachineLearning";
 import WebDevelopment from "./pages/category/WebDevelopment";
@@ -43,6 +44,7 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<SearchResults />} />
+            <Route path="/digital-world" element={<DigitalWorld />} />
             <Route path="/article/:id" element={
               <ProtectedRoute>
                 <ArticleDetail />
