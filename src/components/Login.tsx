@@ -43,7 +43,7 @@ const onSubmit = async (data: FormValues) => {
   setIsLoading(true);
   try {
     const response = await signIn(data.email, data.password);
-    if (response?.user?.role === 'Admin') {
+    if (response && typeof response === 'object' && 'user' in response && response.user?.role === 'Admin') {
       navigate('/admin');
     } else {
       navigate('/');
