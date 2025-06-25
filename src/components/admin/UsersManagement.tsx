@@ -113,7 +113,7 @@ const UsersManagement: React.FC = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Users className="w-8 h-8 text-blue-600" />
               <div>
@@ -126,7 +126,7 @@ const UsersManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Crown className="w-8 h-8 text-yellow-600" />
               <div>
@@ -138,7 +138,7 @@ const UsersManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <UserCheck className="w-8 h-8 text-green-600" />
               <div>

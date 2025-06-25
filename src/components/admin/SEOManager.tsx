@@ -65,8 +65,8 @@ const SEOManager: React.FC = () => {
       {/* SEO Stats */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         {seoStats.map((stat, index) => (
-          <Card key={index}>
-            <CardContent className="p-4">
+          <Card key={index} className='hover:shadow-lg hover:shadow-blue-400/40 transition-shadow'>
+            <CardContent className="p-4 ">
               <div className="flex items-center space-x-3">
                 <Search className={`w-8 h-8 text-${stat.color}-600`} />
                 <div>
@@ -82,17 +82,17 @@ const SEOManager: React.FC = () => {
       {/* SEO Overview */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
         {/* SEO Issues */}
-        <Card>
-          <CardHeader>
+        <Card >
+          <CardHeader >
             <CardTitle className="flex items-center space-x-2">
               <AlertTriangle className="w-5 h-5 text-orange-500" />
               <span>SEO Issues</span>
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="space-y-4">
+            <div className="space-y-4' ">
               {seoIssues.map((issue) => (
-                <div key={issue.id} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50">
+                <div key={issue.id} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50 ">
                   <div className={`w-3 h-3 rounded-full mt-2 ${
                     issue.severity === 'high' ? 'bg-red-500' :
                     issue.severity === 'medium' ? 'bg-yellow-500' : 'bg-green-500'

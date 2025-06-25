@@ -254,7 +254,7 @@ const CategoriesManagement: React.FC = () => {
       {/* Categories Stats */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <FolderOpen className="w-8 h-8 text-blue-600" />
               <div>
@@ -265,7 +265,7 @@ const CategoriesManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <FileText className="w-8 h-8 text-green-600" />
               <div>
@@ -278,7 +278,7 @@ const CategoriesManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Badge className="w-8 h-8 flex items-center justify-center text-purple-600 bg-purple-100">
                 Avg

@@ -58,7 +58,7 @@ const DashboardHome: React.FC = () => {
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         {stats.map((stat, index) => (
-          <Card key={index} className="hover:shadow-lg transition-shadow">
+          <Card key={index} className="hover:shadow-xl hover:shadow-blue-400/40 transition-shadow">
             <CardContent className="p-6">
               <div className="flex items-center justify-between">
                 <div>
@@ -93,7 +93,7 @@ const DashboardHome: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               {recentActivity.map((activity, index) => (
-                <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50">
+                <div key={index} className="flex items-start space-x-3 p-3 rounded-lg bg-gray-50 hover:bg-red-100 hover:shadow-lg hover:shadow-blue-400/40 transition-shadow">
                   <div className={`w-2 h-2 rounded-full mt-2 ${
                     activity.type === 'success' ? 'bg-green-500' :
                     activity.type === 'warning' ? 'bg-yellow-500' :
@@ -121,7 +121,7 @@ const DashboardHome: React.FC = () => {
           <CardContent>
             <div className="space-y-4">
               {topArticles.map((article, index) => (
-                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-gray-50">
+                <div key={index} className="flex items-center justify-between p-3 rounded-lg bg-gray-200 hover:bg-blue-400 hover:shadow-lg hover:shadow-blue-400/40 transition-shadow">
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-gray-900 truncate">{article.title}</p>
                     <p className="text-xs text-gray-600">by {article.author}</p>

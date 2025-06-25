@@ -83,7 +83,7 @@ const JobsManagement: React.FC = () => {
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Briefcase className="w-8 h-8 text-blue-600" />
               <div>
@@ -94,7 +94,7 @@ const JobsManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Clock className="w-8 h-8 text-green-600" />
               <div>
@@ -105,7 +105,7 @@ const JobsManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Building className="w-8 h-8 text-purple-600" />
               <div>
@@ -116,7 +116,7 @@ const JobsManagement: React.FC = () => {
           </CardContent>
         </Card>
         <Card>
-          <CardContent className="p-4">
+          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <DollarSign className="w-8 h-8 text-yellow-600" />
               <div>
