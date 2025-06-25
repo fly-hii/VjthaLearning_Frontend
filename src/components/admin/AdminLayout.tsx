@@ -115,11 +115,12 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
               <span className="hidden sm:inline">Toggle Sidebar</span>
             </Button>
               <div>
-<img 
-              src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
-              alt="Vjtha Media Logo" 
-              className="w-16 h-16 object-contain"
-            />              </div>
+                <img 
+                src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png" 
+                alt="Vjtha Media Logo" 
+                className="w-16 h-16 object-contain"
+              />            
+              </div>
             <div className="flex items-center space-x-4">
               <div className="text-sm text-gray-500">
                 Welcome back, <span className="font-medium text-gray-900">{user?.name}</span>

@@ -420,7 +420,8 @@ useEffect(() => {
           <Carousel className="w-full max-w-7xl mx-auto">
             <CarouselContent className="-ml-4">
               {categoryCards.map((category) => (
-                <CarouselItem key={category.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/4">
+              // <CarouselPrevious className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
+                <CarouselItem key={category.id} className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/6">
                   <Link to={category.link} className="group block">
                     <Card className={`overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 h-80 ${category.bgColor} border-0`}>
                       <CardContent className="p-0 h-full relative">
@@ -464,7 +465,6 @@ useEffect(() => {
               ))}
             </CarouselContent>
             <div className="flex justify-center mt-8 space-x-4">
-              <CarouselPrevious className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
               <CarouselNext className="relative inset-auto translate-y-0 translate-x-0 bg-white hover:bg-gray-50 border-2 shadow-lg" />
             </div>
           </Carousel>
