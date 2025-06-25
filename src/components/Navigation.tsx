@@ -121,13 +121,6 @@ const Navigation = () => {
               }}
               className="flex items-center space-x-2"
             >
-              <input
-                type="text"
-                placeholder="Search..."
-                className="px-2 py-2  border border-gray-300 rounded-md text-sm"
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-              />
               <Button variant="outline" size="sm" type="submit" className="bg-blue-400">
                 <Search className="w-4 h-4" />
               </Button>
@@ -135,11 +128,12 @@ const Navigation = () => {
             {user ? (
               <div className="flex items-center space-x-2">
                 <span className="text-sm text-gray-700">
-                  Welcome, {user.name || user.email}
+                  Welcome, {user.name 
+                    ? user.name.split(' ').map(n => n[0]).join('').toUpperCase()
+                    : user.name || user.email}
                 </span>
                 <Button onClick={handleSignOut} variant="outline" size="sm">
-                  <LogOut className="w-4 h-4 mr-2" />
-                  Logout
+                  <LogOut className="w-2 h-4 " />
                 </Button>
               </div>
             ) : (
