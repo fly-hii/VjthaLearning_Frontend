@@ -380,11 +380,12 @@ useEffect(() => {
       <Navigation />
 
       {/* Hero Section with Search */}
-      <section className="py-16 bg-gradient-to-br from-gray-50 to-blue-50">
+      <section className="py-16 to-blue min-xl-screen from-gray-50 to-blue-50">
         <div className="container mx-auto px-4 text-center">
-          <h1 className="text-5xl md:text-6xl font-bold text-gray-900 mb-6">
-            Vjtha makes it easy to explore and share knowledge
-          </h1>
+          <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 via-red-500 via-orange-400 via-yellow-400 via-green-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
+  Vjtha makes it easy to explore and share knowledge
+</h1>
+
           
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
@@ -395,7 +396,7 @@ useEffect(() => {
                 placeholder="Search articles, jobs, technologies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="pl-14 pr-6 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 rounded-2xl bg-white shadow-lg"
+                className="pl-14 pr-6 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 rounded-2xl bg-white shadow-xl shadow-[0_20px_25px_-5px_rgba(0,2,245,0.5)]"
               />
             </div>
           </div>
