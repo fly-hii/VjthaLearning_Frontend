@@ -8,7 +8,9 @@ import {
   ArticleQueryParams, 
   UpdateUserData,
   User,
-  CreateUserData
+  CreateUserData,
+  Comment,
+  CreateCommentData
 } from '@/types/api';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -98,6 +100,27 @@ export const articlesApi = {
   getRelated: async (category: string, currentId: string, limit: number = 3): Promise<Article[]> => {
     const response = await fetch(`${API_BASE_URL}/articles?category=${category}&exclude=${currentId}&limit=${limit}`);
     if (!response.ok) throw new Error('Failed to fetch related articles');
+    return response.json();
+  },
+
+  // Get comments for an article
+  getComments: async (articleId: string): Promise<Comment[]> => {
+    const response = await fetch(`${API_BASE_URL}/articles/${articleId}/comments`);
+    if (!response.ok) throw new Error('Failed to fetch comments');
+    return response.json();
+  },
+
+  // Add comment to an article
+  addComment: async (articleId: string, data: CreateCommentData): Promise<Comment> => {
+    const response = await fetch(`${API_BASE_URL}/articles/${articleId}/comments`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+      },
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to add comment');
     return response.json();
   },
 };

@@ -105,3 +105,20 @@ export interface CreateUserData {
 
 export interface UpdateUserData extends Partial<CreateUserData> {}
 
+// Comment Types
+export interface Comment {
+  _id: string;
+  article: string;
+  name: string;
+  email: string;
+  message: string;
+  approved: boolean;
+  createdAt: Date | string;
+  updatedAt: Date | string;
+}
+
+export interface CreateCommentData {
+  name: string;
+  email: string;
+  message: string;
+}

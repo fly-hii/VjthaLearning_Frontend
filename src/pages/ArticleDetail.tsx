@@ -1,4 +1,3 @@
-
 import { useParams, Link } from 'react-router-dom';
 import { Calendar, User, ArrowLeft, Share2, Bookmark, Eye, Clock, Tag } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -10,6 +9,7 @@ import CommonSidebar from '@/components/CommonSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
+import Comments from '@/components/Comments';
 
 const ArticleDetail = () => {
   const { id } = useParams();
@@ -186,6 +186,9 @@ const ArticleDetail = () => {
                       </div>
                     </div>
                   </div>
+
+                  {/* Comments Section */}
+                  <Comments articleId={article._id} />
 
                   {/* Related Articles */}
                   {relatedArticles && relatedArticles.length > 0 && (
