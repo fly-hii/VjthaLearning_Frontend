@@ -17,6 +17,7 @@ import { Input } from '@/components/ui/input';
 import { Eye, EyeOff, Lock, Mail, BookOpen, Newspaper } from 'lucide-react';
 import Navigation from './Navigation';
 import { useAuth } from '@/contexts/AuthContext';
+import { SubmitHandler } from 'react-hook-form';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -39,11 +40,11 @@ const Login = () => {
     },
   });
 
-const onSubmit = async (data: FormValues) => {
+const onSubmit: SubmitHandler<FormValues> = async (data) => {
   setIsLoading(true);
   try {
     const response = await signIn(data.email, data.password);
-    if (response?.user?.role === 'Admin') {
+    if (response.user?.role === 'Admin') {
       navigate('/admin');
     } else {
       navigate('/');

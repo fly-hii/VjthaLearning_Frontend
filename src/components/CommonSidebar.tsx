@@ -161,7 +161,7 @@ const CommonSidebar = () => {
             Get the latest articles and job opportunities delivered to your inbox.
           </p>
           <div className="space-y-2">
-            <Input placeholder="Enter your email" size="sm" />
+            <Input placeholder="Enter your email" />
             <Button size="sm" className="w-full">
               Subscribe
             </Button>
