@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -16,7 +17,6 @@ import { Input } from '@/components/ui/input';
 import { Eye, EyeOff, Lock, Mail, BookOpen, Newspaper } from 'lucide-react';
 import Navigation from './Navigation';
 import { useAuth } from '@/contexts/AuthContext';
-import { SubmitHandler } from 'react-hook-form';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -39,17 +39,23 @@ const Login = () => {
     },
   });
 
-const onSubmit: SubmitHandler<FormValues> = async (data) => {
+const onSubmit = async (data: FormValues) => {
   setIsLoading(true);
   try {
-    await signIn(data.email, data.password);
-    navigate('/');
+    const response = await signIn(data.email, data.password);
+    if (response?.user?.role === 'Admin') {
+      navigate('/admin');
+    } else {
+      navigate('/');
+    }
   } catch (error) {
     console.error('Login error:', error);
   } finally {
     setIsLoading(false);
   }
 };
+
+
 
   return (
     <>
