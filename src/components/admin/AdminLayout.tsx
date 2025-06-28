@@ -34,7 +34,6 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
     { path: '/admin/categories', icon: FolderOpen, label: 'Categories' },
     { path: '/admin/users', icon: Users, label: 'Users' },
     { path: '/admin/jobs', icon: Briefcase, label: 'Jobs' },
-    { path: '/admin/comments', icon: MessageSquare, label: 'Comments' },
     { path: '/admin/seo', icon: Search, label: 'SEO Manager' },
     { path: '/admin/audit', icon: Shield, label: 'Audit Logs' },
     { path: '/admin/settings', icon: Settings, label: 'Settings' },

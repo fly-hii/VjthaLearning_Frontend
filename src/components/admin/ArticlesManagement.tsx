@@ -12,7 +12,8 @@ import {
   Star,
   Clock,
   User,
-  Tag
+  Tag,
+  MessageSquare
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -386,7 +387,7 @@ const createArticleMutationn = useMutation({
                   <TableHead>Author</TableHead>
                   <TableHead>Category</TableHead>
                   <TableHead>Status</TableHead>
-                  <TableHead>Views</TableHead>
+                  <TableHead>Views/Comments</TableHead>
                   <TableHead>Published</TableHead>
                   <TableHead>Actions</TableHead>
                 </TableRow>
@@ -419,9 +420,15 @@ const createArticleMutationn = useMutation({
                       </Badge>
                     </TableCell>
                     <TableCell>
-                      <div className="flex items-center space-x-1">
-                        <Eye className="w-4 h-4 text-gray-400" />
-                        <span>{(article.views || 0).toLocaleString()}</span>
+                      <div className="flex items-center space-x-4 text-gray-600">
+                        <div className="flex items-center space-x-1">
+                          <Eye className="w-4 h-4 text-blue-500" />
+                          <span>{(article.views || 0).toLocaleString()}</span>
+                        </div>
+                        <div className="flex items-center space-x-1">
+                          <MessageSquare className="w-4 h-4 text-green-500" />
+                          <span>{(article.comments?.length || 0).toLocaleString()}</span>
+                        </div>
                       </div>
                     </TableCell>
                     <TableCell>
@@ -481,6 +488,10 @@ const createArticleMutationn = useMutation({
               </span>
             </p>
             <p><strong>👁️ Views:</strong> <span className="font-medium">{viewArticle?.views}</span></p>
+            <p className="flex items-center gap-2">
+              <strong>💬 Comments:</strong>
+              <span className="font-medium">{viewArticle?.comments?.length || 0}</span>
+            </p>
             <p><strong>🗓️ Published:</strong> {viewArticle?.createdAt && new Date(viewArticle.createdAt).toLocaleDateString()}</p>
           </div>
 

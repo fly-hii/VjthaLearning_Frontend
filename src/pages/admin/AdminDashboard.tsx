@@ -8,7 +8,7 @@ import ArticlesManagement from '@/components/admin/ArticlesManagement';
 import CategoriesManagement from '@/components/admin/CategoriesManagement';
 import UsersManagement from '@/components/admin/UsersManagement';
 import JobsManagement from '@/components/admin/JobsManagement';
-import CommentsManagement from '@/components/admin/CommentsManagement';
+// import CommentsManagement from '@/components/admin/CommentsManagement';
 import SEOManager from '@/components/admin/SEOManager';
 import AdminSettings from '@/components/admin/AdminSettings';
 import AuditLogs from '@/components/admin/AuditLogs';
@@ -32,7 +32,7 @@ const AdminDashboard: React.FC = () => {
         <Route path="/categories" element={<CategoriesManagement />} />
         <Route path="/users" element={<UsersManagement />} />
         <Route path="/jobs" element={<JobsManagement />} />
-        <Route path="/comments" element={<CommentsManagement />} />
+        {/* <Route path="/comments" element={<CommentsManagement />} /> */}
         <Route path="/seo" element={<SEOManager />} />
         <Route path="/settings" element={<AdminSettings />} />
         <Route path="/audit" element={<AuditLogs />} />
