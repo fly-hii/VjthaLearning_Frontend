@@ -1,5 +1,6 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { 
   Briefcase, 
   Plus, 
@@ -9,7 +10,8 @@ import {
   MapPin, 
   DollarSign,
   Clock,
-  Building
+  Building,
+  IndianRupee
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -23,48 +25,69 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { jobsApi } from '@/Services/api';
+import { Job } from '@/types/api';
+import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
+import { Textarea } from '../ui/textarea';
+import JobDialog from './JobDialog';
 
-const JobsManagement: React.FC = () => {
+const JobsManagement: React.FC = (initialData) => {
+   const [jobs, setJobs] = useState<Job[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [showDialog, setShowDialog] = useState(false);
+  const [editingJob, setEditingJob] = useState<Partial<Job> | undefined>(undefined);
 
-  const jobs = [
-    {
-      id: 1,
-      title: 'Senior React Developer',
-      company: 'TechCorp Inc.',
-      location: 'San Francisco, CA',
-      type: 'Full-time',
-      salary: '$120,000 - $150,000',
-      postedDate: '2024-01-18',
-      status: 'active',
-      applications: 25,
-      isUrgent: true
-    },
-    {
-      id: 2,
-      title: 'UX Designer',
-      company: 'Design Studio',
-      location: 'Remote',
-      type: 'Contract',
-      salary: '$80,000 - $100,000',
-      postedDate: '2024-01-17',
-      status: 'active',
-      applications: 18,
-      isUrgent: false
-    },
-    {
-      id: 3,
-      title: 'Product Manager',
-      company: 'StartupXYZ',
-      location: 'New York, NY',
-      type: 'Full-time',
-      salary: '$110,000 - $130,000',
-      postedDate: '2024-01-16',
-      status: 'closed',
-      applications: 42,
-      isUrgent: false
-    },
-  ];
+  const fetchJobs = async () => {
+    try {
+      setLoading(true);
+      const data = await jobsApi.getAll();
+      setJobs(data);
+    } catch (err) {
+      console.error('Error fetching jobs:', err);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleDelete = async (id: string) => {
+    try {
+      await jobsApi.delete(id);
+      fetchJobs();
+    } catch (err) {
+      console.error('Error deleting job:', err);
+    }
+  };
+
+  // Open the dialog when Post New Job is clicked
+  const handleNewJob = () => {
+    setEditingJob(undefined);  // clear existing form
+    setShowDialog(true);
+  };
+
+  // Save job function (for both create and update)
+  const handleSave = async (data: Partial<Job>) => {
+    try {
+      if (data._id) {
+        await jobsApi.update(data._id, data);
+      } else {
+        await jobsApi.create(data);
+      }
+      fetchJobs();  // refresh job list
+      setShowDialog(false);
+    } catch (error) {
+      console.error('Error saving job:', error);
+    }
+  };
+
+
+  const filteredJobs = jobs.filter((job) =>
+    job.title.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  useEffect(() => {
+    fetchJobs();
+  }, []);
 
   return (
     <div className="space-y-6">
@@ -74,7 +97,7 @@ const JobsManagement: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-900">Job Listings Management</h1>
           <p className="text-gray-600 mt-1">Manage job postings and applications</p>
         </div>
-        <Button className="flex items-center space-x-2">
+        <Button className="flex items-center space-x-2" onClick={handleNewJob}>
           <Plus className="w-4 h-4" />
           <span>Post New Job</span>
         </Button>
@@ -156,17 +179,16 @@ const JobsManagement: React.FC = () => {
                 <TableHead>Location</TableHead>
                 <TableHead>Type</TableHead>
                 <TableHead>Salary</TableHead>
-                <TableHead>Applications</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {jobs.map((job) => (
-                <TableRow key={job.id}>
+              {filteredJobs.map((job) => (
+                <TableRow key={job._id}>
                   <TableCell>
                     <div className="flex items-center space-x-2">
-                      {job.isUrgent && (
+                      {job.urgent == true && (
                         <Badge variant="destructive" className="text-xs">
                           URGENT
                         </Badge>
@@ -187,30 +209,25 @@ const JobsManagement: React.FC = () => {
                     </div>
                   </TableCell>
                   <TableCell>
-                    <Badge variant="outline">{job.type}</Badge>
+                  <TableCell><Badge variant="outline">{job.jobType}</Badge></TableCell>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-1">
-                      <DollarSign className="w-4 h-4 text-gray-400" />
+                      <IndianRupee className="w-4 h-4 text-gray-400" />
                       <span className="text-sm">{job.salary}</span>
                     </div>
                   </TableCell>
                   <TableCell>
-                    <span className="font-medium">{job.applications}</span>
-                  </TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant={job.status === 'active' ? 'default' : 'secondary'}
-                    >
+                    <Badge variant={job.status === 'Active' ? 'default' : 'secondary'}>
                       {job.status}
                     </Badge>
                   </TableCell>
-                  <TableCell>
+                 <TableCell>
                     <div className="flex items-center space-x-2">
-                      <Button size="sm" variant="outline">
+                      <Button size="sm" variant="outline" onClick={() => { setEditingJob(job); setShowDialog(true); }}>
                         <Edit className="w-4 h-4" />
                       </Button>
-                      <Button size="sm" variant="outline">
+                      <Button size="sm" variant="outline" onClick={() => handleDelete(job._id!)}>
                         <Trash2 className="w-4 h-4" />
                       </Button>
                     </div>
@@ -221,6 +238,13 @@ const JobsManagement: React.FC = () => {
           </Table>
         </CardContent>
       </Card>
+
+     <JobDialog
+        open={showDialog}
+        onClose={() => setShowDialog(false)}
+        onSave={handleSave}
+        initialData={editingJob}
+      />
     </div>
   );
 };

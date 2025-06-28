@@ -10,7 +10,10 @@ import {
   User,
   CreateUserData,
   Comment,
-  CreateCommentData
+  CreateCommentData,
+  Job,
+  CreateJobData,
+  UpdateJobData
 } from '@/types/api';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
@@ -242,5 +245,51 @@ export const usersApi = {
       headers: getAuthHeaders(),
     });
     if (!response.ok) throw new Error('Failed to delete user');
+  },
+};
+
+export const jobsApi = {
+  // Get all jobs
+  getAll: async (): Promise<Job[]> => {
+    const res = await fetch(`${API_BASE_URL}/jobs`);
+    if (!res.ok) throw new Error('Failed to fetch jobs');
+    return res.json();
+  },
+
+  // Get a single job by ID
+  getById: async (id: string): Promise<Job> => {
+    const res = await fetch(`${API_BASE_URL}/jobs/${id}`);
+    if (!res.ok) throw new Error('Failed to fetch job');
+    return res.json();
+  },
+
+  // Create a new job
+  create: async (data: CreateJobData): Promise<Job> => {
+    const res = await fetch(`${API_BASE_URL}/jobs`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to create job');
+    return res.json();
+  },
+
+  // Update an existing job
+  update: async (id: string, data: UpdateJobData): Promise<Job> => {
+    const res = await fetch(`${API_BASE_URL}/jobs/${id}`, {
+      method: 'PUT',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) throw new Error('Failed to update job');
+    return res.json();
+  },
+
+  // Delete a job
+  delete: async (id: string): Promise<void> => {
+    const res = await fetch(`${API_BASE_URL}/jobs/${id}`, {
+      method: 'DELETE',
+    });
+    if (!res.ok) throw new Error('Failed to delete job');
   },
 };

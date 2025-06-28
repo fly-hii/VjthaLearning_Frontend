@@ -122,3 +122,32 @@ export interface CreateCommentData {
   email: string;
   message: string;
 }
+export interface Job {
+  _id: string;
+  title: string;
+  company: string;
+  location: string;
+  jobType: string;
+  workMode: string;
+  jobFunctionality: string;
+  experienceFrom: number;
+  experienceTo: number;
+  salary: number;
+  description: string;
+  requirements: string[];
+  skills: string[];
+  postedDate: string;
+  deadline?: string;
+  status: 'Active' | 'Closed';
+  vacancies: number;
+  urgent: boolean;
+  applicants: {
+    userId: string;
+    appliedOn: string;
+  }[];
+}
+
+export interface CreateJobData extends Omit<Job, '_id' | 'postedDate' | 'applicants'> {}
+
+export interface UpdateJobData extends Partial<CreateJobData> {}
+
