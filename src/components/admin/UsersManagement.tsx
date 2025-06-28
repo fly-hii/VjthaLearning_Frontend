@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useEffect, useState } from 'react';
 import { usersApi } from '@/Services/api';
@@ -23,7 +24,7 @@ import {
   TableRow
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
-
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL ;
 const UsersManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
@@ -98,7 +99,7 @@ const UsersManagement: React.FC = () => {
 
   // Dialog States
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const [roleToAdd, setRoleToAdd] = useState<'user' | 'admin'>('user');
+  const [roleToAdd, setRoleToAdd] = useState<'User' | 'Admin'>('User');
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -107,7 +108,7 @@ const UsersManagement: React.FC = () => {
 
   const roleType = roleToAdd;
 
-  const openDialog = (role: 'user' | 'admin') => {
+  const openDialog = (role: 'User' | 'Admin') => {
     setRoleToAdd(role);
     setIsDialogOpen(true);
   };
@@ -127,7 +128,7 @@ const UsersManagement: React.FC = () => {
     }
 
     try {
-      const res = await fetch('http://localhost:8000/api/users', {
+      const res = await fetch(`${API_BASE_URL}/users`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
@@ -143,7 +144,7 @@ const UsersManagement: React.FC = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data.message || 'Failed to add user');
 
-      alert(`${roleType === 'admin' ? 'Admin' : 'User'} created successfully`);
+      alert(`${roleType === 'Admin' ? 'Admin' : 'User'} created successfully`);
       closeDialog();
     } catch (err: any) {
       console.error('Add user failed:', err);
@@ -159,10 +160,10 @@ const UsersManagement: React.FC = () => {
           <p className="text-gray-600 mt-1">Manage user accounts and permissions</p>
         </div>
         <div className="flex justify-end space-x-4 mb-4 pr-4">
-          <Button onClick={() => openDialog('user')} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <Button onClick={() => openDialog('User')} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Add User
           </Button>
-          <Button onClick={() => openDialog('admin')} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+          <Button onClick={() => openDialog('Admin')} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
             Add Admin
           </Button>
         </div>
@@ -172,7 +173,7 @@ const UsersManagement: React.FC = () => {
       {isDialogOpen && (
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <div className="bg-white p-6 rounded shadow-md w-full max-w-md mx-auto">
-            <h2 className="text-lg font-semibold mb-4">Add {roleToAdd === 'admin' ? 'Admin' : 'User'}</h2>
+            <h2 className="text-lg font-semibold mb-4">Add {roleToAdd === 'Admin' ? 'Admin' : 'User'}</h2>
             <form onSubmit={handleSubmit}>
               <input
                 type="text"
