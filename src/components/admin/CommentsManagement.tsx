@@ -1,14 +1,13 @@
-
-import React, { useState } from 'react';
-import { 
-  MessageSquare, 
-  Search, 
-  CheckCircle, 
-  XCircle, 
-  Trash2, 
+import React, { useEffect, useState } from 'react';
+import {
+  MessageSquare,
+  Search,
+  CheckCircle,
+  XCircle,
+  Trash2,
   Flag,
   User,
-  Clock
+  Clock,
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -22,40 +21,55 @@ import {
   TableRow,
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
+import { useParams } from 'react-router-dom';
+import { articlesApi } from '@/Services/api';
+import type { Comment } from '@/types/api';
+import LoadingScreen from '@/pages/LoadingMessage';
 
 const CommentsManagement: React.FC = () => {
+  const { id: articleId } = useParams();
   const [searchTerm, setSearchTerm] = useState('');
+  const [comments, setComments] = useState<Comment[]>([]);
+  const [loading, setLoading] = useState(true);
 
-  const comments = [
-    {
-      id: 1,
-      content: 'Great article! This really helped me understand React hooks better.',
-      author: 'John Doe',
-      articleTitle: 'Introduction to React Hooks',
-      status: 'approved',
-      postedDate: '2024-01-20',
-      isSpam: false
-    },
-    {
-      id: 2,
-      content: 'This is spam content with promotional links...',
-      author: 'Spam User',
-      articleTitle: 'Building Scalable APIs',
-      status: 'pending',
-      postedDate: '2024-01-20',
-      isSpam: true
-    },
-    {
-      id: 3,
-      content: 'Could you explain more about the performance implications?',
-      author: 'Sarah Smith',
-      articleTitle: 'CSS Grid vs Flexbox',
-      status: 'pending',
-      postedDate: '2024-01-19',
-      isSpam: false
-    },
-  ];
+  useEffect(() => {
+    const fetchComments = async () => {
+      try {
+        const fetchedComments = await articlesApi.getComments(articleId || '');
+        setComments(fetchedComments);
+      } catch (error) {
+        console.error('Failed to fetch comments:', error);
+      } finally {
+        setLoading(false);
+      }
+    };
 
+    if (articleId) {
+      fetchComments();
+    }
+  }, [articleId]);
+
+  const filteredComments = comments.filter((comment) =>
+    comment.message.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    comment.name.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
+  const approvedCount = comments.filter((c) => c.approved).length;
+  const pendingCount = comments.filter((c) => !c.approved).length;
+  const spamCount = 0; // Placeholder for now
+
+if (loading) {
+  return (
+      <div className="flex items-center justify-center h-[50vh]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 mx-auto mb-4"></div>
+        <p className="text-gray-600 text-lg font-medium">Loading Comments...</p>
+      </div>
+    </div>
+  );
+}
+console.log(comments)
+console.log(filteredComments)
   return (
     <div className="space-y-6">
       {/* Header */}
@@ -74,7 +88,7 @@ const CommentsManagement: React.FC = () => {
               <MessageSquare className="w-8 h-8 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Total Comments</p>
-                <p className="text-2xl font-bold text-gray-900">1,247</p>
+                <p className="text-2xl font-bold text-gray-900">{comments.length}</p>
               </div>
             </div>
           </CardContent>
@@ -85,7 +99,7 @@ const CommentsManagement: React.FC = () => {
               <Clock className="w-8 h-8 text-orange-600" />
               <div>
                 <p className="text-sm text-gray-600">Pending</p>
-                <p className="text-2xl font-bold text-gray-900">23</p>
+                <p className="text-2xl font-bold text-gray-900">{pendingCount}</p>
               </div>
             </div>
           </CardContent>
@@ -96,7 +110,7 @@ const CommentsManagement: React.FC = () => {
               <CheckCircle className="w-8 h-8 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Approved</p>
-                <p className="text-2xl font-bold text-gray-900">1,198</p>
+                <p className="text-2xl font-bold text-gray-900">{approvedCount}</p>
               </div>
             </div>
           </CardContent>
@@ -107,7 +121,7 @@ const CommentsManagement: React.FC = () => {
               <Flag className="w-8 h-8 text-red-600" />
               <div>
                 <p className="text-sm text-gray-600">Spam</p>
-                <p className="text-2xl font-bold text-gray-900">26</p>
+                <p className="text-2xl font-bold text-gray-900">{spamCount}</p>
               </div>
             </div>
           </CardContent>
@@ -139,68 +153,47 @@ const CommentsManagement: React.FC = () => {
               <TableRow>
                 <TableHead>Comment</TableHead>
                 <TableHead>Author</TableHead>
-                <TableHead>Article</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Date</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {comments.map((comment) => (
-                <TableRow key={comment.id}>
-                  <TableCell className="max-w-xs">
-                    <div className="flex items-start space-x-2">
-                      {comment.isSpam && (
-                        <Flag className="w-4 h-4 text-red-500 mt-1" />
-                      )}
-                      <p className="text-sm truncate">{comment.content}</p>
-                    </div>
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      <User className="w-4 h-4 text-gray-400" />
-                      <span>{comment.author}</span>
-                    </div>
-                  </TableCell>
-                  <TableCell className="max-w-xs">
-                    <p className="text-sm truncate">{comment.articleTitle}</p>
-                  </TableCell>
-                  <TableCell>
-                    <Badge 
-                      variant={
-                        comment.status === 'approved' ? 'default' : 
-                        comment.status === 'pending' ? 'secondary' : 
-                        'destructive'
-                      }
-                    >
-                      {comment.status}
-                    </Badge>
-                  </TableCell>
-                  <TableCell>
-                    {new Date(comment.postedDate).toLocaleDateString()}
-                  </TableCell>
-                  <TableCell>
-                    <div className="flex items-center space-x-2">
-                      {comment.status === 'pending' && (
-                        <>
-                          <Button size="sm" variant="outline" title="Approve">
-                            <CheckCircle className="w-4 h-4 text-green-600" />
-                          </Button>
-                          <Button size="sm" variant="outline" title="Reject">
-                            <XCircle className="w-4 h-4 text-red-600" />
-                          </Button>
-                        </>
-                      )}
-                      <Button size="sm" variant="outline" title="Flag as Spam">
-                        <Flag className="w-4 h-4" />
-                      </Button>
-                      <Button size="sm" variant="outline" title="Delete">
-                        <Trash2 className="w-4 h-4" />
-                      </Button>
-                    </div>
+              {comments.length === 0 ? (
+                <TableRow>
+                  <TableCell colSpan={5} className="text-center text-gray-500">
+                    No comments found.
                   </TableCell>
                 </TableRow>
-              ))}
+              ) : (
+                comments.map((comment) => (
+                  <TableRow key={comment._id}>
+                    <TableCell className="max-w-xs">{comment.message}</TableCell>
+                    <TableCell>
+                      <div className="flex items-center gap-2">
+                        <User className="w-4 h-4 text-gray-500" />
+                        {comment.name}
+                      </div>
+                    </TableCell>
+                    <TableCell>
+                      <Badge
+                        variant="outline"
+                        className={comment.approved ? 'text-green-600 border-green-600' : 'text-yellow-600 border-yellow-600'}
+                      >
+                        {comment.approved ? 'Approved' : 'Pending'}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>
+                      {new Date(comment.createdAt).toLocaleString()}
+                    </TableCell>
+                    <TableCell className="space-x-2">
+                      <Button size="sm" variant="outline">
+                        <Trash2 className="w-4 h-4" />
+                      </Button>
+                    </TableCell>
+                  </TableRow>
+                ))
+              )}
             </TableBody>
           </Table>
         </CardContent>

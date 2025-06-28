@@ -109,7 +109,11 @@ export const articlesApi = {
     if (!response.ok) throw new Error('Failed to fetch comments');
     return response.json();
   },
-
+  getAllComments: async (): Promise<Comment[]> => {
+    const response = await fetch(`${API_BASE_URL}/articles/comments`);
+    if (!response.ok) throw new Error('Failed to fetch comments');
+    return response.json();
+  },
   // Add comment to an article
   addComment: async (articleId: string, data: CreateCommentData): Promise<Comment> => {
     const response = await fetch(`${API_BASE_URL}/articles/${articleId}/comments`, {
