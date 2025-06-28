@@ -11,22 +11,28 @@ import CommonSidebar from '@/components/CommonSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
+import { subcategories } from '@/hooks/categoriesdata';
+import { useGroupedArticlesByCategory } from '@/hooks/useFilteredArticles';
 
 const TechInnovation = () => {
-  const [page, setPage] = useState(1);
-  const articlesPerPage = 20;
-
-  const { data: articles = [], isLoading } = useQuery({
-    queryKey: ['articles', 'tech-innovation', page],
-    queryFn: () => articlesApi.getByCategory('tech-innovation', { limit: articlesPerPage, page }),
-  });
-
-  const totalPages = Math.ceil(articles.length / articlesPerPage);
-  const paginatedArticles = articles.slice((page - 1) * articlesPerPage, page * articlesPerPage);
-
-  useEffect(() => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
-  }, [page]);
+    const [page, setPage] = useState(1);
+    const articlesPerPage = 20;
+    const targetCategories = Object.values(subcategories.techInnovation);
+  
+    const { groupedArticles, isLoading } = useGroupedArticlesByCategory(targetCategories);
+  
+    // Flatten articles across filtered categories
+    const allFilteredArticles = Object.values(groupedArticles).flat();
+  
+    const totalPages = Math.ceil(allFilteredArticles.length / articlesPerPage);
+    const paginatedArticles = allFilteredArticles.slice(
+      (page - 1) * articlesPerPage,
+      page * articlesPerPage
+    );
+  
+    useEffect(() => {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }, [page]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -53,7 +59,7 @@ const TechInnovation = () => {
                   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
                   <p className="mt-4 text-gray-600">Loading articles...</p>
                 </div>
-              ) : articles.length === 0 ? (
+              ) : allFilteredArticles.length === 0 ? (
                 <div className="text-center py-16">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
                   <p className="text-gray-600 mb-8">Check back later for new tech innovation articles.</p>

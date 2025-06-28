@@ -1,27 +1,33 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { articlesApi } from '@/Services/api';
 import { useQuery } from '@tanstack/react-query';
 import { useMemo } from 'react';
 
-// Fetch all articles
-export function useGroupedArticlesByCategory() {
+export function useGroupedArticlesByCategory(
+  filterCategories?: string[] // Optional
+) {
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ['articles'],
     queryFn: () => articlesApi.getAll(),
   });
 
-  // Group articles by category name
   const groupedArticles = useMemo(() => {
     return articles.reduce((acc: Record<string, any[]>, article: any) => {
       const categoryName = article.category?.name || 'Uncategorized';
-      if (!acc[categoryName]) {
-        acc[categoryName] = [];
+
+      if (
+        !filterCategories || // No filter = include all
+        filterCategories.includes(categoryName)
+      ) {
+        if (!acc[categoryName]) {
+          acc[categoryName] = [];
+        }
+        acc[categoryName].push(article);
       }
-      acc[categoryName].push(article);
+
       return acc;
     }, {});
-  }, [articles]);
+  }, [articles, filterCategories]);
 
   return { groupedArticles, isLoading };
 }

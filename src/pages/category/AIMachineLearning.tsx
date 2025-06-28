@@ -11,23 +11,40 @@ import CommonSidebar from '@/components/CommonSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
+import { useGroupedArticlesByCategory } from '@/hooks/useFilteredArticles';
+import { subcategories } from '../../hooks/categoriesdata';
 
 const AIMachineLearning = () => {
-  const [page, setPage] = useState(1);
+   const [page, setPage] = useState(1);
   const articlesPerPage = 20;
+  const targetCategories = Object.values(subcategories.aiAndMachineLearning);
 
-  const { data: articles = [], isLoading } = useQuery({
-    queryKey: ['articles', 'ai-machine-learning', page],
-    queryFn: () => articlesApi.getAll(),
-  });
-  console.log(articles)
-  
-  const totalPages = Math.ceil(articles.length / articlesPerPage);
-  const paginatedArticles = articles.slice((page - 1) * articlesPerPage, page * articlesPerPage);
+  const { groupedArticles, isLoading } = useGroupedArticlesByCategory(targetCategories);
+
+  // Flatten articles across filtered categories
+  const allFilteredArticles = Object.values(groupedArticles).flat();
+
+  const totalPages = Math.ceil(allFilteredArticles.length / articlesPerPage);
+  const paginatedArticles = allFilteredArticles.slice(
+    (page - 1) * articlesPerPage,
+    page * articlesPerPage
+  );
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
+
+if (isLoading) {
+  return (
+          <><Navigation />
+      <div className="flex items-center justify-center h-[50vh]">
+      <div className="text-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-4 border-blue-500 mx-auto mb-4"></div>
+        <p className="text-gray-600 text-lg font-medium">Loading articles...</p>
+      </div>
+    </div></>
+  );
+}
 
   return (
     <div className="min-h-screen bg-white">
@@ -52,7 +69,7 @@ const AIMachineLearning = () => {
                   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
                   <p className="mt-4 text-gray-600">Loading articles...</p>
                 </div>
-              ) : articles.length === 0 ? (
+              ) : allFilteredArticles.length === 0 ? (
                 <div className="text-center py-16">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
                   <p className="text-gray-600 mb-8">Check back later for new AI & ML articles.</p>
