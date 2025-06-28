@@ -1,5 +1,5 @@
 
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Calendar, User, Clock, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -18,16 +18,26 @@ const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('latest');
+  const [page, setPage] = useState(1);
+  const articlesPerPage = 20;
 
-  const { data: articles = [], isLoading: articlesLoading } = useQuery({
-    queryKey: ['articles', selectedCategory, searchQuery, sortBy],
-    queryFn: () => articlesApi.getAll({ 
-      category: selectedCategory, 
-      search: searchQuery, 
-      sort: sortBy 
+
+const { data: articlesData = [], isLoading: articlesLoading } = useQuery({
+  queryKey: ['articles', selectedCategory, searchQuery, sortBy, page],
+  queryFn: () =>
+    articlesApi.getAll({
+      category: selectedCategory,
+      search: searchQuery,
+      sort: sortBy,
     }),
-  });
+});
 
+const articles = Array.isArray(articlesData) ? articlesData : [];
+const totalArticles = articles.length;
+const totalPages = Math.ceil(totalArticles / articlesPerPage);
+const paginatedArticles = articles.slice((page - 1) * articlesPerPage, page * articlesPerPage);
+
+console.log(articlesData);
   const { data: categories = [] } = useQuery({
     queryKey: ['categories'],
     queryFn: categoriesApi.getAll,
@@ -40,6 +50,12 @@ const Articles = () => {
       label: cat.name
     }))
   ];
+
+
+  useEffect(() => {
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}, [page]);
+
 
   return (
     <div className="min-h-screen bg-white">
@@ -106,7 +122,7 @@ const Articles = () => {
                   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
                   <p className="mt-4 text-gray-600">Loading articles...</p>
                 </div>
-              ) : articles.length === 0 ? (
+                  ) : !articles || articles.length === 0 ? (
                 <div className="text-center py-16">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
                   <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
@@ -121,7 +137,7 @@ const Articles = () => {
                 </div>
               ) : (
                 <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {articles.map((article: Article) => (
+                  {paginatedArticles.map((article: Article) => (
                     <Card key={article._id} className="bg-white border-2 border-gray-200 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
                       <div className="relative">
                         {article.featuredImage && (
@@ -175,8 +191,22 @@ const Articles = () => {
                       </CardContent>
                     </Card>
                   ))}
+                  
                 </div>
               )}
+              {totalPages > 1 && (
+                    <div className="flex justify-center mt-8 gap-2 flex-wrap">
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <Button
+                          key={i + 1}
+                          variant={page === i + 1 ? 'default' : 'outline'}
+                          onClick={() => setPage(i + 1)}
+                        >
+                          {i + 1}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
             </div>
 
             {/* Common Sidebar - 25% Width */}
