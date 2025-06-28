@@ -1,4 +1,3 @@
-
 import { 
   Article, 
   CreateArticleData, 
@@ -35,6 +34,18 @@ export const articlesApi = {
 
     const response = await fetch(`${API_BASE_URL}/articles?${queryParams.toString()}`);
     if (!response.ok) throw new Error('Failed to fetch articles');
+    return response.json();
+  },
+
+  // Get articles by category slug
+  getByCategory: async (categorySlug: string, params?: { limit?: number; page?: number }): Promise<Article[]> => {
+    const queryParams = new URLSearchParams();
+    queryParams.append('category', categorySlug);
+    if (params?.limit) queryParams.append('limit', params.limit.toString());
+    if (params?.page) queryParams.append('page', params.page.toString());
+
+    const response = await fetch(`${API_BASE_URL}/articles?${queryParams.toString()}`);
+    if (!response.ok) throw new Error('Failed to fetch articles by category');
     return response.json();
   },
 
@@ -146,6 +157,7 @@ export const categoriesApi = {
     });
     if (!response.ok) throw new Error('Failed to delete category');
   },
+
   // Get articles by category ID
   getByCategoryId: async (categoryId: string): Promise<Article[]> => {
     const response = await fetch(`${API_BASE_URL}/categories/${categoryId}/articles`);
@@ -153,6 +165,7 @@ export const categoriesApi = {
     return response.json();
   },
 };
+
 // User API Functions
 export const usersApi = {
   // Get all users

@@ -1,3 +1,5 @@
+
+import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { ArrowRight, Calendar, User, TrendingUp } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -5,11 +7,26 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { trendsArticles } from '@/lib/mockdata'; // Assuming you have a data file with trends articles
 import CommonSidebar from '@/components/CommonSidebar';
+import { useQuery } from '@tanstack/react-query';
+import { articlesApi } from '@/Services/api';
+import type { Article } from '@/types/api';
 
 const IndustryTrends = () => {
-  const trendsArtices = trendsArticles;
+  const [page, setPage] = useState(1);
+  const articlesPerPage = 20;
+
+  const { data: articles = [], isLoading } = useQuery({
+    queryKey: ['articles', 'industry-trends', page],
+    queryFn: () => articlesApi.getByCategory('industry-trends', { limit: articlesPerPage, page }),
+  });
+
+  const totalPages = Math.ceil(articles.length / articlesPerPage);
+  const paginatedArticles = articles.slice((page - 1) * articlesPerPage, page * articlesPerPage);
+
+  useEffect(() => {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }, [page]);
 
   return (
     <div className="min-h-screen bg-white">
@@ -31,54 +48,83 @@ const IndustryTrends = () => {
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
             {/* Main Content */}
-            <div className="flex-1">
-              <div className="bg-gray-100 p-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {trendsArticles.map((article) => (
-                    <Card key={article.id} className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
-                      <div className="relative">
-                        <img
-                          src={article.image}
-                          alt={article.title}
-                          className="w-full h-40 object-cover"
-                        />
-                        <Badge className="absolute top-2 right-2 bg-orange-600 text-white">
-                          Trending
-                        </Badge>
-                      </div>
-                      <CardContent className="p-4">
-                        <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
-                          {article.title}
-                        </h3>
-                        <p className="text-gray-600 text-sm mb-3 line-clamp-2">
-                          {article.excerpt}
-                        </p>
-
-                        <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
-                          <div className="flex items-center">
-                            <User className="w-3 h-3 mr-1" />
-                            {article.author}
-                          </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-3 h-3 mr-1" />
-                            {new Date(article.date).toLocaleDateString()}
-                          </div>
-                        </div>
-
-                        <Link to={`/article/${article.id}`}>
-                          <Button size="sm" className="w-full">
-                            Read More
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </Button>
-                        </Link>
-                      </CardContent>
-                    </Card>
-                  ))}
+            <div className="flex-1" style={{ width: '75%' }}>
+              {isLoading ? (
+                <div className="text-center py-16">
+                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+                  <p className="mt-4 text-gray-600">Loading articles...</p>
                 </div>
-              </div>
+              ) : articles.length === 0 ? (
+                <div className="text-center py-16">
+                  <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
+                  <p className="text-gray-600 mb-8">Check back later for new industry trend articles.</p>
+                </div>
+              ) : (
+                <div className="bg-gray-100 p-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                    {paginatedArticles.map((article: Article) => (
+                      <Card key={article._id} className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
+                        <div className="relative">
+                          {article.featuredImage && (
+                            <img
+                              src={article.featuredImage}
+                              alt={article.title}
+                              className="w-full h-40 object-cover"
+                            />
+                          )}
+                          <Badge className="absolute top-2 right-2 bg-orange-600 text-white">
+                            Trending
+                          </Badge>
+                        </div>
+                        <CardContent className="p-4">
+                          <h3 className="text-lg font-bold text-gray-900 mb-2 line-clamp-2">
+                            {article.title}
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-3 line-clamp-2">
+                            {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
+                          </p>
+
+                          <div className="flex items-center justify-between text-xs text-gray-500 mb-3">
+                            <div className="flex items-center">
+                              <User className="w-3 h-3 mr-1" />
+                              {article.author || 'Unknown Author'}
+                            </div>
+                            <div className="flex items-center">
+                              <Calendar className="w-3 h-3 mr-1" />
+                              {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
+                            </div>
+                          </div>
+
+                          <Link to={`/article/${article._id}`}>
+                            <Button size="sm" className="w-full">
+                              Read More
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                          </Link>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="flex justify-center mt-8 gap-2 flex-wrap">
+                      {Array.from({ length: totalPages }, (_, i) => (
+                        <Button
+                          key={i + 1}
+                          variant={page === i + 1 ? 'default' : 'outline'}
+                          onClick={() => setPage(i + 1)}
+                        >
+                          {i + 1}
+                        </Button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
 
-           <div style={{ width: '25%' }} className="min-w-80">
+            <div style={{ width: '25%' }} className="min-w-80">
               <div className="sticky top-8">
                 <CommonSidebar />
               </div>
