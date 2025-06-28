@@ -1,4 +1,3 @@
-
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { nonTechJobs} from '@/lib/mockdata'; // Assuming you have a mockdata file with non-tech jobs
+import { Link } from 'react-router-dom';
 
 const NonTechJobs = () => {
   const nonTechJob=nonTechJobs
@@ -87,10 +87,12 @@ const NonTechJobs = () => {
                           </div>
                         </div>
                         
-                        <Button size="sm" className="w-full">
-                          Apply Now
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
+                        <Link to={`/job/${job.id}`}>
+                          <Button size="sm" className="w-full">
+                            Read More
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
                       </CardContent>
                     </Card>
                   ))}

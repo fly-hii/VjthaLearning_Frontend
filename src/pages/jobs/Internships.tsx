@@ -1,4 +1,3 @@
-
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { internships } from '@/lib/mockdata';
+import { Link } from 'react-router-dom';
 
 const Internships = () => {
   const internship = internships;
@@ -86,10 +86,12 @@ const Internships = () => {
                           </div>
                         </div>
                         
-                        <Button size="sm" className="w-full">
-                          Apply Now
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
+                        <Link to={`/job/${internship.id}`}>
+                          <Button size="sm" className="w-full">
+                            Read More
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
                       </CardContent>
                     </Card>
                   ))}

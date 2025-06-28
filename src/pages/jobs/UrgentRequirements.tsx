@@ -1,4 +1,3 @@
-
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -6,6 +5,7 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { urgentJobs } from '@/lib/mockdata'; // Assuming you have a mockdata file with urgent jobs
+import { Link } from 'react-router-dom';
 
 const UrgentRequirements = () => {
   const urgentJob =  urgentJobs;
@@ -88,10 +88,12 @@ const UrgentRequirements = () => {
                           </div>
                         </div>
                         
-                        <Button size="sm" className="w-full bg-red-600 hover:bg-red-700">
-                          Apply Immediately!
-                          <ArrowRight className="w-4 h-4 ml-2" />
-                        </Button>
+                        <Link to={`/job/${job.id}`}>
+                          <Button size="sm" className="w-full bg-red-600 hover:bg-red-700">
+                            View Details
+                            <ArrowRight className="w-4 h-4 ml-2" />
+                          </Button>
+                        </Link>
                       </CardContent>
                     </Card>
                   ))}

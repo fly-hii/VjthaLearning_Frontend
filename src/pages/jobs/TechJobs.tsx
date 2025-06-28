@@ -1,4 +1,3 @@
-
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
@@ -78,9 +77,9 @@ const TechJobs = () => {
                         </div>
                       </div>
                       
-                      <Link to={`/job/${job.id}/apply`}>
+                      <Link to={`/job/${job.id}`}>
                         <Button size="sm" className="w-full">
-                          Apply Now
+                          Read More
                           <ArrowRight className="w-4 h-4 ml-2" />
                         </Button>
                       </Link>
