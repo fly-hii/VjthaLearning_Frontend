@@ -31,6 +31,18 @@ const JobDetail = () => {
     );
   }
 
+  // Helper function to get experience/duration display text
+  const getExperienceText = (job: any) => {
+    if ('experience' in job) return job.experience;
+    if ('duration' in job) return job.duration;
+    return 'Entry Level';
+  };
+
+  // Helper function to check if job is urgent
+  const isJobUrgent = (job: any) => {
+    return 'isUrgent' in job ? job.isUrgent : false;
+  };
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -57,7 +69,7 @@ const JobDetail = () => {
                 </div>
                 <div className="flex items-center">
                   <Briefcase className="w-4 h-4 mr-2" />
-                  {job.experience || job.duration}
+                  {getExperienceText(job)}
                 </div>
                 <div className="flex items-center">
                   <Clock className="w-4 h-4 mr-2" />
@@ -66,7 +78,7 @@ const JobDetail = () => {
               </div>
             </div>
             <div className="flex flex-col gap-3">
-              {job.isUrgent && (
+              {isJobUrgent(job) && (
                 <Badge className="bg-red-600 text-white w-fit">
                   Urgent Hiring
                 </Badge>
@@ -106,7 +118,7 @@ const JobDetail = () => {
                   <h3 className="text-xl font-semibold text-gray-900 mb-3">Requirements</h3>
                   <ul className="list-disc list-inside text-gray-700 space-y-2 mb-6">
                     <li>Bachelor's degree in relevant field or equivalent experience</li>
-                    <li>Minimum {job.experience || '2-3 years'} of professional experience</li>
+                    <li>Minimum {getExperienceText(job)} of professional experience</li>
                     <li>Strong analytical and problem-solving skills</li>
                     <li>Excellent communication and interpersonal abilities</li>
                     <li>Proficiency in relevant tools and technologies</li>
@@ -158,7 +170,7 @@ const JobDetail = () => {
                       <Briefcase className="w-5 h-5 text-gray-500 mt-0.5" />
                       <div>
                         <p className="text-sm text-gray-500">Experience</p>
-                        <p className="font-medium text-gray-900">{job.experience || job.duration || 'Entry Level'}</p>
+                        <p className="font-medium text-gray-900">{getExperienceText(job)}</p>
                       </div>
                     </div>
                     

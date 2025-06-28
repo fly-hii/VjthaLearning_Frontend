@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -43,20 +42,14 @@ const Login = () => {
 const onSubmit: SubmitHandler<FormValues> = async (data) => {
   setIsLoading(true);
   try {
-    const response = await signIn(data.email, data.password);
-    if (response.user?.role === 'Admin') {
-      navigate('/admin');
-    } else {
-      navigate('/');
-    }
+    await signIn(data.email, data.password);
+    navigate('/');
   } catch (error) {
     console.error('Login error:', error);
   } finally {
     setIsLoading(false);
   }
 };
-
-
 
   return (
     <>
