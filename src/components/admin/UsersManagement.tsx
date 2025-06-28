@@ -1,19 +1,16 @@
 
 import { useEffect, useState } from 'react';
-import { usersApi } from '@/Services/api'; // adjust the import based on your API utility structure
+import { usersApi } from '@/Services/api';
 import { User } from '@/types/api';
-import { 
-  Users, 
-  Search, 
-  Filter, 
-  Edit, 
-  Trash2, 
-  Shield, 
-  UserCheck, 
-  UserX,
-  Crown,
-  Mail
+import {
+  Users,
+  Search,
+  Edit,
+  Trash2,
+  UserCheck,
+  Crown
 } from 'lucide-react';
+import { Dialog } from '@/components/ui/dialog';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -23,22 +20,21 @@ import {
   TableCell,
   TableHead,
   TableHeader,
-  TableRow,
+  TableRow
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 
 const UsersManagement: React.FC = () => {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterRole, setFilterRole] = useState('all');
-  const [filterStatus, setFilterStatus] = useState('all');
   const [users, setUsers] = useState<User[]>([]);
   const [isLoading, setIsLoading] = useState(false);
 
   const roles = ['All', 'Admin', 'User'];
+
   const getRoleIcon = (role: string) => {
     switch (role) {
       case 'admin': return <Crown className="w-4 h-4 text-yellow-600" />;
-      case 'author': return <Edit className="w-4 h-4 text-blue-600" />;
       default: return <Users className="w-4 h-4 text-gray-600" />;
     }
   };
@@ -46,7 +42,6 @@ const UsersManagement: React.FC = () => {
   const getRoleBadgeColor = (role: string) => {
     switch (role) {
       case 'admin': return 'bg-yellow-100 text-yellow-800';
-      case 'author': return 'bg-blue-100 text-blue-800';
       default: return 'bg-gray-100 text-gray-800';
     }
   };
@@ -66,17 +61,18 @@ const UsersManagement: React.FC = () => {
 
     fetchUsers();
   }, []);
- const filteredUsers = users.filter(user => {
-  const name = user.name?.toLowerCase() || '';
-  const email = user.email?.toLowerCase() || '';
-  const role = user.role?.toLowerCase() || '';
 
-  const matchesSearch = name.includes(searchTerm.toLowerCase()) ||
-                        email.includes(searchTerm.toLowerCase());
-  const matchesRole = filterRole === 'all' || role === filterRole;
+  const filteredUsers = users.filter(user => {
+    const name = user.name?.toLowerCase() || '';
+    const email = user.email?.toLowerCase() || '';
+    const role = user.role?.toLowerCase() || '';
 
-  return matchesSearch && matchesRole;
-});
+    const matchesSearch = name.includes(searchTerm.toLowerCase()) ||
+      email.includes(searchTerm.toLowerCase());
+    const matchesRole = filterRole === 'all' || role === filterRole;
+
+    return matchesSearch && matchesRole;
+  });
 
   const handleDelete = async (id: string) => {
     if (!confirm('Are you sure you want to delete this user?')) return;
@@ -100,15 +96,118 @@ const UsersManagement: React.FC = () => {
     }
   };
 
+  // Dialog States
+  const [isDialogOpen, setIsDialogOpen] = useState(false);
+  const [roleToAdd, setRoleToAdd] = useState<'user' | 'admin'>('user');
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    password: ''
+  });
+
+  const roleType = roleToAdd;
+
+  const openDialog = (role: 'user' | 'admin') => {
+    setRoleToAdd(role);
+    setIsDialogOpen(true);
+  };
+
+  const closeDialog = () => {
+    setIsDialogOpen(false);
+    setFormData({ name: '', email: '', password: '' });
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const { name, email, password } = formData;
+
+    if (!name || !email || !password || !roleType) {
+      alert('All fields are required');
+      return;
+    }
+
+    try {
+      const res = await fetch('http://localhost:8000/api/users', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          name,
+          email,
+          password,
+          role: roleType
+        })
+      });
+
+      const data = await res.json();
+      if (!res.ok) throw new Error(data.message || 'Failed to add user');
+
+      alert(`${roleType === 'admin' ? 'Admin' : 'User'} created successfully`);
+      closeDialog();
+    } catch (err: any) {
+      console.error('Add user failed:', err);
+      alert(err.message || 'Error adding user');
+    }
+  };
+
   return (
     <div className="space-y-6">
-      {/* Header */}
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Users Management</h1>
           <p className="text-gray-600 mt-1">Manage user accounts and permissions</p>
         </div>
+        <div className="flex justify-end space-x-4 mb-4 pr-4">
+          <Button onClick={() => openDialog('user')} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Add User
+          </Button>
+          <Button onClick={() => openDialog('admin')} className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700">
+            Add Admin
+          </Button>
+        </div>
       </div>
+
+      {/* Add User/Admin Dialog */}
+      {isDialogOpen && (
+        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+          <div className="bg-white p-6 rounded shadow-md w-full max-w-md mx-auto">
+            <h2 className="text-lg font-semibold mb-4">Add {roleToAdd === 'admin' ? 'Admin' : 'User'}</h2>
+            <form onSubmit={handleSubmit}>
+              <input
+                type="text"
+                name="name"
+                placeholder="Name"
+                required
+                className="w-full mb-2 border p-2"
+                value={formData.name}
+                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+              />
+              <input
+                type="email"
+                name="email"
+                placeholder="Email"
+                required
+                className="w-full mb-2 border p-2"
+                value={formData.email}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+              />
+              <input
+                type="password"
+                name="password"
+                placeholder="Password"
+                required
+                className="w-full mb-2 border p-2"
+                value={formData.password}
+                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+              />
+              <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
+                Create {roleToAdd}
+              </button>
+            </form>
+          </div>
+        </Dialog>
+      )}
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -133,7 +232,8 @@ const UsersManagement: React.FC = () => {
                 <p className="text-sm text-gray-600">Admins</p>
                 <p className="text-2xl font-bold text-gray-900">
                   {users.filter(user => user.role === 'Admin').length}
-                </p>              </div>
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>
@@ -226,7 +326,6 @@ const UsersManagement: React.FC = () => {
                         onClick={() => handleEdit(user._id, { name: prompt('Enter new name', user.name) || user.name })}>
                         <Edit className="w-4 h-4" />
                       </Button>
-
                       <Button
                         size="sm"
                         variant="outline"
