@@ -6,6 +6,7 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { trendsArticles } from '@/lib/mockdata'; // Assuming you have a data file with trends articles
+import CommonSidebar from '@/components/CommonSidebar';
 
 const IndustryTrends = () => {
   const trendsArtices = trendsArticles;
@@ -77,39 +78,9 @@ const IndustryTrends = () => {
               </div>
             </div>
 
-            {/* Sidebar */}
-            <div className="w-80">
-              <div className="bg-gray-100 p-6 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
-                <h2 className="text-xl font-bold mb-6 text-center">Trending Topics</h2>
-                <div className="space-y-4">
-                  {trendsArticles.slice(0, 5).map((article) => (
-                    <div key={article.id} className="flex gap-3 pb-4 border-b border-gray-300 last:border-b-0">
-                      <img
-                        src={article.image}
-                        alt={article.title}
-                        className="w-16 h-16 object-cover rounded bg-gray-300"
-                      />
-                      <div className="flex-1">
-                        <h4 className="text-sm font-semibold text-gray-900 line-clamp-2 mb-1">
-                          {article.title}
-                        </h4>
-                        <div className="flex items-center text-xs text-gray-500">
-                          <Calendar className="w-3 h-3 mr-1" />
-                          {new Date(article.date).toLocaleDateString()}
-                        </div>
-                      </div>
-                    </div>
-                  ))}
-                </div>
-
-                <div className="flex justify-center mt-6 gap-4">
-                  <Button variant="outline" size="icon">
-                    <ArrowRight className="w-4 h-4 rotate-180" />
-                  </Button>
-                  <Button variant="outline" size="icon">
-                    <ArrowRight className="w-4 h-4" />
-                  </Button>
-                </div>
+           <div style={{ width: '25%' }} className="min-w-80">
+              <div className="sticky top-8">
+                <CommonSidebar />
               </div>
             </div>
           </div>
