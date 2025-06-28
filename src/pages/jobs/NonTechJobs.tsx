@@ -3,13 +3,21 @@ import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign } from 'luci
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
+import { useState } from 'react';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { nonTechJobs} from '@/lib/mockdata'; // Assuming you have a mockdata file with non-tech jobs
+import { nonTechJobs} from '@/lib/mockdata';
 
 const NonTechJobs = () => {
-  const nonTechJob=nonTechJobs
+  const [currentPage, setCurrentPage] = useState(1);
+  const jobsPerPage = 20;
 
+  // Pagination logic
+  const totalPages = Math.ceil(nonTechJobs.length / jobsPerPage);
+  const startIndex = (currentPage - 1) * jobsPerPage;
+  const endIndex = startIndex + jobsPerPage;
+  const paginatedJobs = nonTechJobs.slice(startIndex, endIndex);
 
   const latestJobs = [
     { id: 1, title: "Account Manager", company: "Salesforce", time: "1h ago" },
@@ -18,6 +26,98 @@ const NonTechJobs = () => {
     { id: 4, title: "Legal Counsel", company: "Tesla", time: "4h ago" },
     { id: 5, title: "Recruiter", company: "LinkedIn", time: "5h ago" }
   ];
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisible = 5;
+    
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink 
+              onClick={() => handlePageChange(i)}
+              isActive={currentPage === i}
+              className="cursor-pointer"
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    } else {
+      // Show first page
+      items.push(
+        <PaginationItem key={1}>
+          <PaginationLink 
+            onClick={() => handlePageChange(1)}
+            isActive={currentPage === 1}
+            className="cursor-pointer"
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+
+      // Show ellipsis if needed
+      if (currentPage > 3) {
+        items.push(
+          <PaginationItem key="ellipsis1">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Show pages around current page
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+      
+      for (let i = start; i <= end; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink 
+              onClick={() => handlePageChange(i)}
+              isActive={currentPage === i}
+              className="cursor-pointer"
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      // Show ellipsis if needed
+      if (currentPage < totalPages - 2) {
+        items.push(
+          <PaginationItem key="ellipsis2">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Show last page
+      if (totalPages > 1) {
+        items.push(
+          <PaginationItem key={totalPages}>
+            <PaginationLink 
+              onClick={() => handlePageChange(totalPages)}
+              isActive={currentPage === totalPages}
+              className="cursor-pointer"
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    }
+
+    return items;
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -37,8 +137,14 @@ const NonTechJobs = () => {
           <div className="flex gap-8">
             <div className="flex-1">
               <div className="bg-gray-100 p-6 ">
+                <div className="mb-6">
+                  <p className="text-gray-600">
+                    Showing {startIndex + 1}-{Math.min(endIndex, nonTechJobs.length)} of {nonTechJobs.length} jobs
+                  </p>
+                </div>
+                
                 <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {nonTechJobs.map((job) => (
+                  {paginatedJobs.map((job) => (
                     <Card key={job.id} className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                       <div className="relative">
                         <img
@@ -95,6 +201,31 @@ const NonTechJobs = () => {
                     </Card>
                   ))}
                 </div>
+
+                {/* Pagination */}
+                {totalPages > 1 && (
+                  <div className="mt-8 flex justify-center">
+                    <Pagination>
+                      <PaginationContent>
+                        <PaginationItem>
+                          <PaginationPrevious 
+                            onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                            className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                          />
+                        </PaginationItem>
+                        
+                        {renderPaginationItems()}
+                        
+                        <PaginationItem>
+                          <PaginationNext 
+                            onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                            className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                          />
+                        </PaginationItem>
+                      </PaginationContent>
+                    </Pagination>
+                  </div>
+                )}
               </div>
             </div>
 

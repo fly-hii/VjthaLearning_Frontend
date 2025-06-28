@@ -7,6 +7,7 @@ import { Input } from '@/components/ui/input';
 import { Card, CardContent } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
+import { Pagination, PaginationContent, PaginationEllipsis, PaginationItem, PaginationLink, PaginationNext, PaginationPrevious } from '@/components/ui/pagination';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CommonSidebar from '@/components/CommonSidebar';
@@ -18,8 +19,10 @@ const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
   const [sortBy, setSortBy] = useState('latest');
+  const [currentPage, setCurrentPage] = useState(1);
+  const articlesPerPage = 20;
 
-  const { data: articles = [], isLoading: articlesLoading } = useQuery({
+  const { data: allArticles = [], isLoading: articlesLoading } = useQuery({
     queryKey: ['articles', selectedCategory, searchQuery, sortBy],
     queryFn: () => articlesApi.getAll({ 
       category: selectedCategory, 
@@ -33,6 +36,12 @@ const Articles = () => {
     queryFn: categoriesApi.getAll,
   });
 
+  // Pagination logic
+  const totalPages = Math.ceil(allArticles.length / articlesPerPage);
+  const startIndex = (currentPage - 1) * articlesPerPage;
+  const endIndex = startIndex + articlesPerPage;
+  const articles = allArticles.slice(startIndex, endIndex);
+
   const categoryOptions = [
     { value: 'all', label: 'All Categories' },
     ...categories.map((cat: Category) => ({
@@ -40,6 +49,98 @@ const Articles = () => {
       label: cat.name
     }))
   ];
+
+  const handlePageChange = (page: number) => {
+    setCurrentPage(page);
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  };
+
+  const renderPaginationItems = () => {
+    const items = [];
+    const maxVisible = 5;
+    
+    if (totalPages <= maxVisible) {
+      for (let i = 1; i <= totalPages; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink 
+              onClick={() => handlePageChange(i)}
+              isActive={currentPage === i}
+              className="cursor-pointer"
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    } else {
+      // Show first page
+      items.push(
+        <PaginationItem key={1}>
+          <PaginationLink 
+            onClick={() => handlePageChange(1)}
+            isActive={currentPage === 1}
+            className="cursor-pointer"
+          >
+            1
+          </PaginationLink>
+        </PaginationItem>
+      );
+
+      // Show ellipsis if needed
+      if (currentPage > 3) {
+        items.push(
+          <PaginationItem key="ellipsis1">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Show pages around current page
+      const start = Math.max(2, currentPage - 1);
+      const end = Math.min(totalPages - 1, currentPage + 1);
+      
+      for (let i = start; i <= end; i++) {
+        items.push(
+          <PaginationItem key={i}>
+            <PaginationLink 
+              onClick={() => handlePageChange(i)}
+              isActive={currentPage === i}
+              className="cursor-pointer"
+            >
+              {i}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+
+      // Show ellipsis if needed
+      if (currentPage < totalPages - 2) {
+        items.push(
+          <PaginationItem key="ellipsis2">
+            <PaginationEllipsis />
+          </PaginationItem>
+        );
+      }
+
+      // Show last page
+      if (totalPages > 1) {
+        items.push(
+          <PaginationItem key={totalPages}>
+            <PaginationLink 
+              onClick={() => handlePageChange(totalPages)}
+              isActive={currentPage === totalPages}
+              className="cursor-pointer"
+            >
+              {totalPages}
+            </PaginationLink>
+          </PaginationItem>
+        );
+      }
+    }
+
+    return items;
+  };
 
   return (
     <div className="min-h-screen bg-white">
@@ -59,14 +160,20 @@ const Articles = () => {
                   type="text"
                   placeholder="Search articles..."
                   value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
+                  onChange={(e) => {
+                    setSearchQuery(e.target.value);
+                    setCurrentPage(1);
+                  }}
                   className="pl-10 border-2 focus:border-blue-500"
                 />
               </div>
             </div>
             
             <div className="flex gap-4">
-              <Select value={selectedCategory} onValueChange={setSelectedCategory}>
+              <Select value={selectedCategory} onValueChange={(value) => {
+                setSelectedCategory(value);
+                setCurrentPage(1);
+              }}>
                 <SelectTrigger className="w-48">
                   <Filter className="w-4 h-4 mr-2" />
                   <SelectValue placeholder="Filter by category" />
@@ -80,7 +187,10 @@ const Articles = () => {
                 </SelectContent>
               </Select>
 
-              <Select value={sortBy} onValueChange={setSortBy}>
+              <Select value={sortBy} onValueChange={(value) => {
+                setSortBy(value);
+                setCurrentPage(1);
+              }}>
                 <SelectTrigger className="w-40">
                   <SelectValue placeholder="Sort by" />
                 </SelectTrigger>
@@ -106,7 +216,7 @@ const Articles = () => {
                   <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
                   <p className="mt-4 text-gray-600">Loading articles...</p>
                 </div>
-              ) : articles.length === 0 ? (
+              ) : allArticles.length === 0 ? (
                 <div className="text-center py-16">
                   <h3 className="text-2xl font-semibold text-gray-900 mb-4">No articles found</h3>
                   <p className="text-gray-600 mb-8">Try adjusting your search terms or filters.</p>
@@ -114,68 +224,102 @@ const Articles = () => {
                     onClick={() => {
                       setSearchQuery('');
                       setSelectedCategory('all');
+                      setCurrentPage(1);
                     }}
                   >
                     Show All Articles
                   </Button>
                 </div>
               ) : (
-                <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
-                  {articles.map((article: Article) => (
-                    <Card key={article._id} className="bg-white border-2 border-gray-200 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
-                      <div className="relative">
-                        {article.featuredImage && (
-                          <img
-                            src={article.featuredImage}
-                            alt={article.title}
-                            className="w-full h-48 object-cover rounded-t-lg"
-                          />
-                        )}
-                        {(article.isFeatured || article.featured) && (
-                          <Badge className="absolute top-2 left-2 bg-red-600 text-white">
-                            Featured
-                          </Badge>
-                        )}
-                      </div>
-                      <CardContent className="p-6">
-                        <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors">
-                          <Link to={`/article/${article._id}`}>
-                            {article.title}
-                          </Link>
-                        </h3>
-                        <p className="text-gray-600 text-sm mb-4 line-clamp-3">
-                          {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
-                        </p>
-                        
-                        <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
-                          <div className="flex items-center">
-                            <User className="w-4 h-4 mr-1" />
-                            {article.author || 'Unknown Author'}
-                          </div>
-                          <div className="flex items-center">
-                            <Calendar className="w-4 h-4 mr-1" />
-                            {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
-                          </div>
-                        </div>
-                        
-                        {article.category && (
-                          <div className="mb-4">
-                            <Badge variant="outline">
-                              {typeof article.category === 'object' ? article.category.name : article.category}
+                <>
+                  <div className="mb-6">
+                    <p className="text-gray-600">
+                      Showing {startIndex + 1}-{Math.min(endIndex, allArticles.length)} of {allArticles.length} articles
+                    </p>
+                  </div>
+                  
+                  <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6">
+                    {articles.map((article: Article) => (
+                      <Card key={article._id} className="bg-white border-2 border-gray-200 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
+                        <div className="relative">
+                          {article.featuredImage && (
+                            <img
+                              src={article.featuredImage}
+                              alt={article.title}
+                              className="w-full h-48 object-cover rounded-t-lg"
+                            />
+                          )}
+                          {(article.isFeatured || article.featured) && (
+                            <Badge className="absolute top-2 left-2 bg-red-600 text-white">
+                              Featured
                             </Badge>
+                          )}
+                        </div>
+                        <CardContent className="p-6">
+                          <h3 className="text-xl font-bold text-gray-900 mb-3 line-clamp-2 hover:text-blue-600 transition-colors">
+                            <Link to={`/article/${article._id}`}>
+                              {article.title}
+                            </Link>
+                          </h3>
+                          <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+                            {article.excerpt || (article.content ? article.content.substring(0, 150) + '...' : 'No preview available')}
+                          </p>
+                          
+                          <div className="flex items-center justify-between text-xs text-gray-500 mb-4">
+                            <div className="flex items-center">
+                              <User className="w-4 h-4 mr-1" />
+                              {article.author || 'Unknown Author'}
+                            </div>
+                            <div className="flex items-center">
+                              <Calendar className="w-4 h-4 mr-1" />
+                              {new Date(article.publishedAt || article.createdAt).toLocaleDateString()}
+                            </div>
                           </div>
-                        )}
-                        
-                        <Link to={`/article/${article._id}`}>
-                          <Button size="sm" className="w-full">
-                            Read More
-                            <ArrowRight className="w-4 h-4 ml-2" />
-                          </Button>
-                        </Link>
-                      </CardContent>
-                    </Card>
-                  ))}
-                </div>
+                          
+                          {article.category && (
+                            <div className="mb-4">
+                              <Badge variant="outline">
+                                {typeof article.category === 'object' ? article.category.name : article.category}
+                              </Badge>
+                            </div>
+                          )}
+                          
+                          <Link to={`/article/${article._id}`}>
+                            <Button size="sm" className="w-full">
+                              Read More
+                              <ArrowRight className="w-4 h-4 ml-2" />
+                            </Button>
+                          </Link>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+
+                  {/* Pagination */}
+                  {totalPages > 1 && (
+                    <div className="mt-8 flex justify-center">
+                      <Pagination>
+                        <PaginationContent>
+                          <PaginationItem>
+                            <PaginationPrevious 
+                              onClick={() => currentPage > 1 && handlePageChange(currentPage - 1)}
+                              className={currentPage === 1 ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                            />
+                          </PaginationItem>
+                          
+                          {renderPaginationItems()}
+                          
+                          <PaginationItem>
+                            <PaginationNext 
+                              onClick={() => currentPage < totalPages && handlePageChange(currentPage + 1)}
+                              className={currentPage === totalPages ? "pointer-events-none opacity-50" : "cursor-pointer"}
+                            />
+                          </PaginationItem>
+                        </PaginationContent>
+                      </Pagination>
+                    </div>
+                  )}
+                </>
               )}
             </div>
 
