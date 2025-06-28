@@ -18,9 +18,10 @@ const AIMachineLearning = () => {
 
   const { data: articles = [], isLoading } = useQuery({
     queryKey: ['articles', 'ai-machine-learning', page],
-    queryFn: () => articlesApi.getByCategory('ai-machine-learning', { limit: articlesPerPage, page }),
+    queryFn: () => articlesApi.getAll(),
   });
-
+  console.log(articles)
+  
   const totalPages = Math.ceil(articles.length / articlesPerPage);
   const paginatedArticles = articles.slice((page - 1) * articlesPerPage, page * articlesPerPage);
 
