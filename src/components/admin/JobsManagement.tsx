@@ -27,12 +27,10 @@ import {
 import { Badge } from '@/components/ui/badge';
 import { jobsApi } from '@/Services/api';
 import { Job } from '@/types/api';
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Textarea } from '../ui/textarea';
 import JobDialog from './JobDialog';
 
 const JobsManagement: React.FC = (initialData) => {
-   const [jobs, setJobs] = useState<Job[]>([]);
+  const [jobs, setJobs] = useState<Job[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
@@ -82,7 +80,12 @@ const JobsManagement: React.FC = (initialData) => {
 
 
   const filteredJobs = jobs.filter((job) =>
-    job.title.toLowerCase().includes(searchTerm.toLowerCase())
+    job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    job.company.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    job.location.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    job.jobType.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    job.salary.toString().includes(searchTerm) ||
+    job.status.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   useEffect(() => {
@@ -104,14 +107,14 @@ const JobsManagement: React.FC = (initialData) => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         <Card>
           <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <Briefcase className="w-8 h-8 text-blue-600" />
               <div>
                 <p className="text-sm text-gray-600">Total Jobs</p>
-                <p className="text-2xl font-bold text-gray-900">89</p>
+                <p className="text-2xl font-bold text-gray-900">{jobs.length}</p>
               </div>
             </div>
           </CardContent>
@@ -122,7 +125,9 @@ const JobsManagement: React.FC = (initialData) => {
               <Clock className="w-8 h-8 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Active Jobs</p>
-                <p className="text-2xl font-bold text-gray-900">67</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {jobs.filter(job => job.status === "Active").length}
+                </p>
               </div>
             </div>
           </CardContent>
@@ -133,12 +138,14 @@ const JobsManagement: React.FC = (initialData) => {
               <Building className="w-8 h-8 text-purple-600" />
               <div>
                 <p className="text-sm text-gray-600">Companies</p>
-                <p className="text-2xl font-bold text-gray-900">34</p>
+                <p className="text-2xl font-bold text-gray-900">
+                  {[...new Set(jobs.map(job => job.company))].length}
+                </p>
               </div>
             </div>
           </CardContent>
         </Card>
-        <Card>
+        {/* <Card>
           <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
             <div className="flex items-center space-x-3">
               <DollarSign className="w-8 h-8 text-yellow-600" />
@@ -148,7 +155,7 @@ const JobsManagement: React.FC = (initialData) => {
               </div>
             </div>
           </CardContent>
-        </Card>
+        </Card> */}
       </div>
 
       {/* Jobs Table */}
