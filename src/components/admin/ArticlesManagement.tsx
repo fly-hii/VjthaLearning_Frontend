@@ -116,6 +116,81 @@ const ArticlesManagement: React.FC = () => {
     featured: articles.filter((a: any) => a.isFeatured).length,
     totalViews: articles.reduce((sum: number, a: any) => sum + (a.views || 0), 0),
   };
+  //creating new article
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+const [newArticle, setNewArticle] = useState<any>({
+  title: '',
+  content: '',
+  tags: '',
+  category: '',
+  author: '',
+  isPublished: false,
+  featuredImage: '', // ✅ Add this line
+});
+
+
+const createArticle = async (article: any) => {
+  const response = await fetch(`${API_BASE_URL}/articles`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: JSON.stringify(article),
+  });
+  if (!response.ok) throw new Error('Failed to create article');
+  return response.json();
+};
+const queryClients = useQueryClient();
+
+const createArticleMutation = useMutation({
+  mutationFn: createArticle,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['articles'] });
+    toast.success('Article created successfully');
+    setIsCreateModalOpen(false);
+    setNewArticle({
+      title: '',
+      content: '',
+      tags: '',
+      category: '',
+      author: '',
+      isPublished: false,
+    });
+  },
+  onError: (error: Error) => {
+    toast.error(error.message || 'Failed to create article');
+  },
+});
+const handleCreateArticle = async (newArticle: any) => {
+  createArticleMutation.mutate(newArticle);
+};
+
+  const queryClientss = useQueryClient();
+
+const createArticleMutationn = useMutation({
+  mutationFn: createArticle,
+  onSuccess: () => {
+    queryClient.invalidateQueries({ queryKey: ['articles'] });
+    toast.success('Article created successfully');
+    setIsCreateModalOpen(false);
+    setNewArticle({
+  title: '',
+  content: '',
+  tags: '',
+  category: '',
+  author: '',
+  isPublished: false,
+  featuredImage: '', // ✅ Clear this too
+});
+
+  },
+  onError: (error: Error) => {
+    toast.error(error.message || 'Failed to create article');
+  },
+});
+
+  
 
   return (
     <div className="space-y-6">
@@ -125,10 +200,91 @@ const ArticlesManagement: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-900">Articles Management</h1>
           <p className="text-gray-600 mt-1">Manage all your blog articles</p>
         </div>
-        <Button className="flex items-center space-x-2">
-          <Plus className="w-4 h-4" />
-          <span>New Article</span>
-        </Button>
+       <Button
+  onClick={() => setIsCreateModalOpen(true)}
+  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
+>
+  <Plus className="w-4 h-4" />
+  <span>New Article</span>
+</Button>
+<Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+  <DialogContent className="sm:max-w-3xl">
+    <DialogHeader>
+      <DialogTitle>Create New Article</DialogTitle>
+    </DialogHeader>
+
+    <div className="space-y-4 mt-4">
+      {/* Title */}
+      <Input
+        placeholder="Title"
+        value={newArticle.title}
+        onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
+      />
+
+      <Input
+  placeholder="Image URL"
+  value={newArticle.featuredImage}
+  onChange={(e) => setNewArticle({ ...newArticle, featuredImage: e.target.value })}
+/>
+
+
+      {/* Content */}
+      <textarea
+        placeholder="Content"
+        className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none"
+        rows={5}
+        value={newArticle.content}
+        onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
+      />
+
+      {/* Tags */}
+      <Input
+        placeholder="Tags (comma separated)"
+        value={newArticle.tags}
+        onChange={(e) => setNewArticle({ ...newArticle, tags: e.target.value })}
+      />
+
+      {/* Author */}
+      <Input
+        placeholder="Author"
+        value={newArticle.author}
+        onChange={(e) => setNewArticle({ ...newArticle, author: e.target.value })}
+      />
+
+      {/* Category Dropdown */}
+      <select
+        className="w-full px-3 py-2 border border-gray-300 rounded-md"
+        value={newArticle.category}
+        onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
+      >
+        <option value="">Select category</option>
+        {categories.map((cat: any) => (
+          <option key={cat._id} value={cat._id}>{cat.name}</option>
+        ))}
+      </select>
+
+      {/* Publish Checkbox */}
+      <div className="flex items-center space-x-2">
+        <input
+          type="checkbox"
+          checked={newArticle.isPublished}
+          onChange={(e) => setNewArticle({ ...newArticle, isPublished: e.target.checked })}
+        />
+        <label>Publish</label>
+      </div>
+    </div>
+
+    {/* Footer Actions */}
+    <DialogFooter className="mt-4">
+      <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>Cancel</Button>
+      <Button onClick={() => handleCreateArticle(newArticle)} className="bg-blue-600 text-white hover:bg-blue-700">
+        Create
+      </Button>
+    </DialogFooter>
+  </DialogContent>
+</Dialog>
+
+
       </div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
