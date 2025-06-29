@@ -16,6 +16,7 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
 import { categoriesApi } from '@/Services/api';
 import type { Category, CreateCategoryData, UpdateCategoryData } from '@/types/api';
+import { Dialog } from '@/components/ui/dialog';
 
 const CategoriesManagement: React.FC = () => {
   const [showAddForm, setShowAddForm] = useState(false);
@@ -144,53 +145,60 @@ const CategoriesManagement: React.FC = () => {
 
       {/* Add Category Form */}
       {showAddForm && (
-        <Card>
-          <CardHeader>
-            <CardTitle>Add New Category</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
-                <Input
-                  value={newCategory.name}
-                  onChange={(e) => {
-                    const name = e.target.value;
-                    setNewCategory({
-                      ...newCategory,
-                      name,
-                      slug: generateSlug(name)
-                    });
-                  }}
-                  placeholder="Category name"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-700 mb-2">Slug</label>
-                <Input
-                  value={newCategory.slug || ''}
-                  onChange={(e) => setNewCategory({ ...newCategory, slug: e.target.value })}
-                  placeholder="category-slug"
-                />
-              </div>
-            </div>
-            <div className="flex justify-end space-x-2 mt-4">
-              <Button 
-                variant="outline" 
-                onClick={() => setShowAddForm(false)}
-              >
-                Cancel
-              </Button>
-              <Button 
-                onClick={handleAddCategory}
-                disabled={createCategoryMutation.isPending}
-              >
-                {createCategoryMutation.isPending ? 'Creating...' : 'Add Category'}
-              </Button>
-            </div>
-          </CardContent>
-        </Card>
-      )}
+  <Dialog open={showAddForm} onOpenChange={setShowAddForm}>
+    {/* Overlay */}
+    <div className="fixed inset-0 bg-black bg-opacity-40" aria-hidden="true" />
+
+    {/* Dialog content */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="relative bg-white rounded-2xl shadow-xl w-full max-w-2xl mx-auto z-50 p-6">
+        <h2 className="text-xl font-bold mb-4">Add New Category</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Name</label>
+          <Input
+            value={newCategory.name}
+            onChange={(e) => {
+              const name = e.target.value;
+              setNewCategory({
+                ...newCategory,
+                name,
+                slug: generateSlug(name)
+              });
+            }}
+            placeholder="Category name"
+          />
+        </div>
+        <div>
+          <label className="block text-sm font-medium text-gray-700 mb-2">Slug</label>
+          <Input
+            value={newCategory.slug || ''}
+            onChange={(e) => setNewCategory({ ...newCategory, slug: e.target.value })}
+            placeholder="category-slug"
+          />
+        </div>
+      </div>
+      <div className="flex justify-end space-x-2 mt-6">
+        <Button
+          variant="outline"
+          onClick={() => setShowAddForm(false)}
+        >
+          Cancel
+        </Button>
+        <Button
+          onClick={handleAddCategory}
+          disabled={createCategoryMutation.isPending}
+        >
+          {createCategoryMutation.isPending ? 'Creating...' : 'Add Category'}
+        </Button>
+      </div>
+      </div>
+    </div>
+  </Dialog>
+)}
+
+
       {editCategory && (
         <Card>
           <CardHeader>

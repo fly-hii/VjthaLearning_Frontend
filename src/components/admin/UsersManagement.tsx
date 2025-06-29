@@ -169,46 +169,68 @@ const UsersManagement: React.FC = () => {
         </div>
       </div>
 
-      {/* Add User/Admin Dialog */}
-      {isDialogOpen && (
-        <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-          <div className="bg-white p-6 rounded shadow-md w-full max-w-md mx-auto">
-            <h2 className="text-lg font-semibold mb-4">Add {roleToAdd === 'Admin' ? 'Admin' : 'User'}</h2>
-            <form onSubmit={handleSubmit}>
-              <input
-                type="text"
-                name="name"
-                placeholder="Name"
-                required
-                className="w-full mb-2 border p-2"
-                value={formData.name}
-                onChange={(e) => setFormData({ ...formData, name: e.target.value })}
-              />
-              <input
-                type="email"
-                name="email"
-                placeholder="Email"
-                required
-                className="w-full mb-2 border p-2"
-                value={formData.email}
-                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-              />
-              <input
-                type="password"
-                name="password"
-                placeholder="Password"
-                required
-                className="w-full mb-2 border p-2"
-                value={formData.password}
-                onChange={(e) => setFormData({ ...formData, password: e.target.value })}
-              />
-              <button type="submit" className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700">
-                Create {roleToAdd}
-              </button>
-            </form>
-          </div>
-        </Dialog>
-      )}
+     {isDialogOpen && (
+  <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+    {/* Background overlay */}
+    <div className="fixed inset-0 bg-black bg-opacity-30 z-40" aria-hidden="true" />
+
+    {/* Dialog panel */}
+    <div className="fixed inset-0 z-50 flex items-center justify-center">
+      <div className="relative bg-white p-6 rounded-2xl shadow-xl w-full max-w-md z-50">
+
+        {/* Close button */}
+        <button
+          onClick={() => setIsDialogOpen(false)}
+          className="absolute top-3 right-3 text-gray-500 hover:text-gray-800 text-xl font-bold"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+        <h2 className="text-xl font-bold mb-4">
+          Add {roleToAdd === 'Admin' ? 'Admin' : 'User'}
+        </h2>
+
+        <form onSubmit={handleSubmit}>
+          <input
+            type="text"
+            name="name"
+            placeholder="Name"
+            required
+            className="w-full mb-3 border border-gray-300 p-2 rounded"
+            value={formData.name}
+            onChange={(e) => setFormData({ ...formData, name: e.target.value })}
+          />
+          <input
+            type="email"
+            name="email"
+            placeholder="Email"
+            required
+            className="w-full mb-3 border border-gray-300 p-2 rounded"
+            value={formData.email}
+            onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+          />
+          <input
+            type="password"
+            name="password"
+            placeholder="Password"
+            required
+            className="w-full mb-4 border border-gray-300 p-2 rounded"
+            value={formData.password}
+            onChange={(e) => setFormData({ ...formData, password: e.target.value })}
+          />
+          <button
+            type="submit"
+            className="w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700 transition"
+          >
+            Create {roleToAdd}
+          </button>
+        </form>
+      </div>
+    </div>
+  </Dialog>
+)}
+
 
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
