@@ -60,7 +60,7 @@ const onSubmit = async (data: FormValues) => {
   return (
     <>
       <Navigation />
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center py-12 px-4">
+      <div className="bg-gradient-to-br from-blue-50 via-white to-blue-100 flex items-center justify-center py-4 px-4 pt-12">
         <div className="w-full max-w-6xl">
           {/* 3D Card Container */}
           <div className="perspective-1000">
@@ -74,7 +74,7 @@ const onSubmit = async (data: FormValues) => {
                     <div className="absolute bottom-0 right-0 w-24 h-24 bg-purple-100 rounded-full opacity-20 animate-bounce"></div>
                     
                     <div className="relative z-10">
-                      <div className="text-center mb-8">
+                      <div className="text-center">
                         <div className="inline-flex items-center justify-center w-16 h-16 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full mb-4 animate-pulse">
                           <BookOpen className="w-8 h-8 text-white" />
                         </div>
@@ -138,7 +138,7 @@ const onSubmit = async (data: FormValues) => {
 
                           <Button 
                             type="submit" 
-                            className="w-full h-12 bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white rounded-xl font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300" 
+                            className="w-full h-12 bg-gradient-to-r from-blue-500 to-blue-300 hover:from-blue-300 hover:to-blue-500 text-white rounded-xl font-medium text-lg shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300" 
                             disabled={isLoading}
                           >
                             {isLoading ? (
@@ -163,7 +163,7 @@ const onSubmit = async (data: FormValues) => {
                   </div>
 
                   {/* Right - Branding Section */}
-                  <div className="bg-gradient-to-br from-blue-500 to-purple-600 p-8 lg:p-12 flex flex-col justify-center items-center text-white relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-blue-200 to-blue-400 p-8 lg:p-12 flex flex-col justify-center items-center text-white relative overflow-hidden">
                     {/* Animated Background Pattern */}
                     <div className="absolute inset-0 opacity-10">
                       <div className="absolute top-10 left-10 w-20 h-20 border border-white rounded-full animate-ping"></div>
@@ -172,11 +172,11 @@ const onSubmit = async (data: FormValues) => {
                     </div>
                     
                     <div className="relative z-10 text-center">
-                      <div className="mb-8 transform hover:scale-110 transition-transform duration-300">
+                      <div className=" transform hover:scale-110 transition-transform duration-300">
                         <img
                           src="/lovable-uploads/Login_Logo.png"
                           alt="VJtha Logo"
-                          className="w-32 h-32 mx-auto object-contain bg-white/10 rounded-2xl p-4 backdrop-blur-sm"
+                          className="w-72 h-72 mx-auto object-contain "
                         />
                       </div>
                       
