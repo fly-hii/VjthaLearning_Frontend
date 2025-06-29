@@ -20,72 +20,6 @@ import { BackToTop } from './BacktoTop';
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-  const categoryCards = [
-    {
-      id: 1,
-      title: 'Tech Articles',
-      description: 'Latest technology insights and innovations',
-      image: 'https://images.unsplash.com/photo-1677442136019-21780ecad995?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-cyan-400 to-blue-500',
-      link: '/articles'
-    },
-    {
-      id: 2,
-      title: 'Web Development',
-      description: 'Modern web development tutorials',
-      image: 'https://images.unsplash.com/photo-1633356122544-f134324a6cee?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-green-400 to-emerald-500',
-      link: '/category/web-development'
-    },
-    {
-      id: 3,
-      title: 'AI & Machine Learning',
-      description: 'Artificial intelligence breakthroughs',
-      image: 'https://images.unsplash.com/photo-1485827404703-89b55fcc595e?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-yellow-400 to-orange-500',
-      link: '/category/ai-machine-learning'
-    },
-    {
-      id: 4,
-      title: 'Career & Jobs',
-      description: 'Job opportunities and career guidance',
-      image: 'https://images.unsplash.com/photo-1600880292203-757bb62b4baf?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-red-400 to-pink-500',
-      link: '/jobs/tech'
-    },
-    {
-      id: 5,
-      title: 'Digital World',
-      description: 'Social platform and interactive games',
-      image: 'https://images.unsplash.com/photo-1589804845133-49b5e06cc415?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D',
-      bgColor: 'bg-gradient-to-br from-purple-400 to-indigo-500',
-      link: '/digital-world'
-    },
-    {
-      id: 6,
-      title: 'Tech Innovation',
-      description: 'Latest innovations and startup stories',
-      image: 'https://images.unsplash.com/photo-1451187580459-43490279c0fa?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-blue-400 to-purple-500',
-      link: '/category/tech-innovation'
-    },
-    {
-      id: 7,
-      title: 'Case Studies',
-      description: 'Real-world project analysis',
-      image: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-teal-400 to-green-500',
-      link: '/category/case-studies'
-    },
-    {
-      id: 8,
-      title: 'Industry Trends',
-      description: 'Market insights and future predictions',
-      image: 'https://images.unsplash.com/photo-1611273426858-450d8e3c9fce?w=400&h=300&fit=crop',
-      bgColor: 'bg-gradient-to-br from-indigo-400 to-blue-500',
-      link: '/category/industry-trends'
-    }
-  ];
 
   const highlightArticles = [
     {
@@ -383,10 +317,8 @@ useEffect(() => {
       <section className="py-16 to-blue min-xl-screen from-gray-50 to-blue-50">
         <div className="container mx-auto px-4 text-center">
           <h1 className="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-purple-500 via-pink-500 via-red-500 via-orange-400 via-yellow-400 via-green-400 via-blue-500 to-indigo-500 bg-clip-text text-transparent">
-  Vjtha makes it easy to explore and share knowledge
-</h1>
-
-          
+            Vjtha makes it easy to explore and share knowledge
+          </h1>
           {/* Search Bar */}
           <div className="max-w-2xl mx-auto mb-12">
             <div className="relative">

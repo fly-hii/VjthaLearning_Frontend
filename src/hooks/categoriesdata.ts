@@ -64,3 +64,34 @@ export const subcategories = {
     'Tech Books & Tools',
   ],
 };
+
+export const cardcategories = {
+  "career-jobs": {
+    name: "Career & Jobs",
+    image: "/lovable-uploads/Career & Jobs.png",
+  },
+  "tech-hub": {
+    name: "Tech Hub",
+    image: "/lovable-uploads/Tech Hub.png",
+  },
+  "games": {
+    name: "Games",
+    image: "/lovable-uploads/Games.png",
+  },
+  "aptitude": {
+    name: "Aptitude",
+    image: "/lovable-uploads/Aptitude.png",
+  },
+  "exams": {
+    name: "Exams",
+    image: "/lovable-uploads/Exams.png",
+  },
+  "tech-industry": {
+    name: "Tech Industry",
+    image: "/lovable-uploads/Tech-Industry.png",
+  },
+  "web-development": {
+    name: "Web Development",
+    image: "/lovable-uploads/Web-development.png",
+  },
+};
