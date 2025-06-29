@@ -16,11 +16,15 @@ import {
   CarouselPrevious,
 } from "@/components/ui/carousel"
 import { BackToTop } from './BacktoTop';
-
+import { cardcategories } from '@/hooks/categoriesdata';
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-
+const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
+  key,
+  name: category.name,
+  image: category.image,
+}));
   const highlightArticles = [
     {
       id: 1,
@@ -359,25 +363,16 @@ useEffect(() => {
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
 
                       {/* Background Image */}
-                      <div className="absolute inset-0 opacity-40 group-hover:opacity-50 transition-opacity duration-300">
+                      <div className="absolute inset-0  group-hover:opacity-50 transition-opacity duration-300">
                         <img
                           src={category.image}
-                          alt={category.title}
+                          alt={category.name}
                           className="w-full h-full object-cover"
                         />
                       </div>
 
                       {/* Content */}
                       <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
-                        <div>
-                          <h3 className="text-2xl font-bold mb-3 group-hover:scale-110 transition-transform duration-300">
-                            {category.title}
-                          </h3>
-                          <p className="text-white/90 text-sm leading-relaxed">
-                            {category.description}
-                          </p>
-                        </div>
-
                         <div className="flex items-center justify-between">
                           <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
                             <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform duration-300" />

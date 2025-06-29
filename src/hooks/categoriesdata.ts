@@ -68,7 +68,7 @@ export const subcategories = {
 export const cardcategories = {
   "career-jobs": {
     name: "Career & Jobs",
-    image: "/lovable-uploads/Career & Jobs.png",
+    image: "/lovable-uploads/Carrer & Jobs.png",
   },
   "tech-hub": {
     name: "Tech Hub",
@@ -84,7 +84,7 @@ export const cardcategories = {
   },
   "exams": {
     name: "Exams",
-    image: "/lovable-uploads/Exams.png",
+    image: "/lovable-uploads/EXAMS.png",
   },
   "tech-industry": {
     name: "Tech Industry",
