@@ -74,7 +74,7 @@ const Register: React.FC = () => {
                     <div className="relative z-10 text-center">
                       <div className="mb-8 transform hover:scale-110 transition-transform duration-300">
                         <img
-                          src="/lovable-uploads/05a5f58f-1680-44ab-ba49-862bbd7cb4e1.png"
+                          src="/lovable-uploads/Register_Logo.png"
                           alt="VJtha Logo"
                           className="w-32 h-32 mx-auto object-contain bg-white/10 rounded-2xl p-4 backdrop-blur-sm"
                         />
