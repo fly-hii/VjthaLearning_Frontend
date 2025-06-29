@@ -63,7 +63,7 @@ const Register: React.FC = () => {
               <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-200 transform hover:scale-105 transition-all duration-500">
                 <div className="grid grid-cols-1 lg:grid-cols-2">
                   {/* Left - Branding Section */}
-                  <div className="bg-gradient-to-br from-purple-500 to-blue-600 p-8 lg:p-12 flex flex-col justify-center items-center text-white relative overflow-hidden">
+                  <div className="bg-gradient-to-br from-blue-400 to-blue-200 p-8 lg:p-12 flex flex-col justify-center items-center text-white relative overflow-hidden">
                     {/* Animated Background Elements */}
                     <div className="absolute inset-0 opacity-10">
                       <div className="absolute top-16 right-12 w-24 h-24 border border-white rounded-full animate-spin"></div>
@@ -76,7 +76,7 @@ const Register: React.FC = () => {
                         <img
                           src="/lovable-uploads/Register_Logo.png"
                           alt="VJtha Logo"
-                          className="w-32 h-32 mx-auto object-contain bg-white/10 rounded-2xl p-4 backdrop-blur-sm"
+                          className="w-72 h-72 mx-auto object-contain rounded-2xl p-4 backdrop-blur-sm"
                         />
                       </div>
                       
