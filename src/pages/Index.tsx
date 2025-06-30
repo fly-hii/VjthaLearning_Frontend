@@ -416,12 +416,12 @@ return (
 
                       {/* Content */}
                       <div className="relative z-10 p-6 h-full flex flex-col justify-between text-white">
-                        <div className="flex items-center justify-between">
-                          <div className="w-12 h-12 bg-white/20 rounded-full flex items-center justify-center group-hover:bg-white/30 transition-colors duration-300">
+                        <div className="flex items-center justify-between mt-60">
+                          <div className="w-12 h-12 bg-white/20 border-black rounded-full flex items-center justify-center group-hover:bg-blue-400 transition-colors duration-300">
                             <ArrowRight className="w-6 h-6 text-white group-hover:translate-x-1 transition-transform duration-300" />
                           </div>
                           <div className="text-right">
-                            <span className="text-xs text-white/80 uppercase tracking-wide font-medium">
+                            <span className="text-xs text-black/80 uppercase tracking-wide font-medium">
                               Explore
                             </span>
                           </div>
