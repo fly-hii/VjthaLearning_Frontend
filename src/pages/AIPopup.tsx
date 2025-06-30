@@ -6,7 +6,7 @@ export const AIPopup = () => {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<{ role: string; text: string }[]>([]);
   const bottomRef = useRef<HTMLDivElement>(null);
-
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL; // Update with your actual API URL
   const askAI = async () => {
     if (!input.trim()) return;
     const userMessage = { role: 'user', text: input };
@@ -15,7 +15,7 @@ export const AIPopup = () => {
     setLoading(true);
 
     try {
-      const res = await fetch('http://localhost:5000/api/ask', {
+      const res = await fetch(`${API_BASE_URL}/ask`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ message: input }),
