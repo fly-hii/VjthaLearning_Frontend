@@ -72,7 +72,7 @@ export const cardcategories = {
   },
   "tech-hub": {
     name: "Tech Hub",
-    image: "/lovable-uploads/Tech Hub.png",
+    image: "/lovable-uploads/Tech hub.png",
   },
   "games": {
     name: "Games",
@@ -84,14 +84,14 @@ export const cardcategories = {
   },
   "exams": {
     name: "Exams",
-    image: "/lovable-uploads/EXAMS.png",
+    image: "/lovable-uploads/Exams.png",
   },
   "tech-industry": {
     name: "Tech Industry",
-    image: "/lovable-uploads/Tech-Industry.png",
+    image: "/lovable-uploads/Tech Industry.png",
   },
   "web-development": {
     name: "Web Development",
-    image: "/lovable-uploads/Web-development.png",
+    image: "/lovable-uploads/Web Developement.png",
   },
 };
