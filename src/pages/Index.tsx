@@ -8,6 +8,8 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import NewsletterSignup from '@/components/NewsletterSignup';
+import { useRef } from 'react';
+import { AIPopup } from './AIPopup';  
 import {
   Carousel,
   CarouselContent,
@@ -24,6 +26,7 @@ const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
   key,
   name: category.name,
   image: category.image,
+  link: (category as { name: string; image: string; link?: string }).link || `/category/${key}`,
 }));
   const highlightArticles = [
     {
@@ -301,6 +304,8 @@ const chunkArray = (array, size) => {
   return result;
 };
 
+
+
 const articleChunks = chunkArray(firstBlogPosts, 6);
 const [currentSlide, setCurrentSlide] = useState(0);
 
@@ -313,9 +318,38 @@ useEffect(() => {
   return () => clearInterval(interval); // cleanup on unmount
 }, []);
 
-  return (
-    <div className="bg-white text-black">
-      <Navigation />
+
+const AISymbolWithPopup = () => {
+  const [isOpen, setIsOpen] = useState(false);
+  const [input, setInput] = useState('');
+  const [responses, setResponses] = useState([]);
+
+  const handleSearch = async () => {
+    if (!input.trim()) return;
+
+    const res = await fetch('http://localhost:5000/api/ask', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ message: input }),
+    });
+
+    const data = await res.json();
+
+    setResponses((prev) => [
+      ...prev,
+      { question: input, answer: data.reply },
+    ]);
+
+    setInput('');
+  };
+};
+
+
+
+
+return (
+  <div className="bg-white text-black">
+    <Navigation />
 
       {/* Hero Section with Search */}
       <section className="py-16 to-blue min-xl-screen from-gray-50 to-blue-50">
@@ -327,14 +361,23 @@ useEffect(() => {
           <div className="max-w-2xl mx-auto mb-12">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
+              
               <Input
                 type="text"
                 placeholder="Search articles, jobs, technologies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-14 pr-6 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 rounded-2xl bg-white shadow-xl shadow-[0_20px_25px_-5px_rgba(0,2,245,0.5)]"
+                
               />
+              
             </div>
+            
+            {/* 🔥 AI Chat is always available */}
+            <AIPopup />
+            
+
+            
           </div>
 
           <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
@@ -352,12 +395,12 @@ useEffect(() => {
           <CarouselContent className="-ml-4">
             {categoryCards.map((category) => (
               <CarouselItem
-                key={category.id}
+                key={category.key}
                 className="pl-4 md:basis-1/2 lg:basis-1/3 xl:basis-1/6"
               >
                 <Link to={category.link} className="group block">
                   <Card
-                    className={`overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 h-80 ${category.bgColor} border-0`}
+                    className="overflow-hidden hover:shadow-2xl transition-all duration-500 transform hover:-translate-y-2 hover:scale-105 h-80 border-0"
                   >
                     <CardContent className="p-0 h-full relative">
                       <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition-colors duration-300" />
