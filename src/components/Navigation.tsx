@@ -14,7 +14,8 @@ const Navigation = () => {
 
   const navItems = [
     { name: 'Trending', path: '/' },
-    { name: 'Digital World', path: '/digital-world' },
+    { name: 'Tech Hub', path: '/digitalworld/TechHub' },
+    { name: 'Gaming jone', path: '/digitalworld/GameZone' },
     {
       name: 'Jobs',
       path: '/jobs',

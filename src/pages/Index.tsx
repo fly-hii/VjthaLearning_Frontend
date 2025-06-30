@@ -9,7 +9,8 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import { useRef } from 'react';
-import { AIPopup } from './AIPopup';  
+import { AIPopup } from './AIPopup';
+import { useNavigate } from "react-router-dom";
 import {
   Carousel,
   CarouselContent,
@@ -150,6 +151,7 @@ const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
       readTime: '9 min read'
     }
   ];
+  
 
   const firstBlogPosts = [
   {
@@ -358,6 +360,7 @@ return (
             Vjtha makes it easy to explore and share knowledge
           </h1>
           {/* Search Bar */}
+          
           <div className="max-w-2xl mx-auto mb-12">
             <div className="relative">
               <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
@@ -380,7 +383,7 @@ return (
             
           </div>
 
-          <Button size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+          <Button  size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
             Start Exploring
           </Button>
         </div>

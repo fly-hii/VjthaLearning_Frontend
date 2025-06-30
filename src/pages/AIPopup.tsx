@@ -38,21 +38,22 @@ export const AIPopup = () => {
       {/* AI Button */}
       <span
   onClick={() => setOpen(true)}
-  className="relative left-[520px] top-[-38px] h-9 w-[150px] px-3 flex items-center justify-center gap-2 text-2xl bg-black border-2 border-cyan-400 shadow-[0_0_15px_#00f7ff] animate-pulse-glow text-white cursor-pointer hover:scale-105 transition-all rounded-full"
+ 
+  className="relative left-[220px]  top-[19px] h-9 w-[230px] px-3 flex items-center justify-center gap-2 text-2xl bg-gradient-to-r from-black via-[#1a0f0f] to-black border-2 border-yellow-500 rounded-full shadow-lg"
 >
-  🤖
-  <span className="text-[14px] font-semibold tracking-widest text-neon-blue animate-flicker">
-    VJTHA AI
+  ✨
+  <span className="text-[10px] font-semibold tracking-widest text-gold animate-flicker">
+    Try VJTHA AI now
   </span>
 </span>
 
 <style>{`
-  .text-neon-blue {
-    color: #00f7ff;
+  .text-gold {
+    color: #FFD700;
     text-shadow:
-      0 0 3px #00f7ff,
-      0 0 6px #00f7ff,
-      0 0 8px #00f7ff;
+      0 0 3px #FFD700,
+      0 0 6px #FFD700,
+      0 0 10px #FFC300;
   }
 
   @keyframes flicker {
@@ -74,13 +75,14 @@ export const AIPopup = () => {
 
   @keyframes pulseGlow {
     0%, 100% {
-      box-shadow: 0 0 8px #00f7ff, 0 0 12px #00f7ff;
+      box-shadow: 0 0 8px #FFD700, 0 0 12px #FFC300;
     }
     50% {
       box-shadow: 0 0 12px #ff00ff, 0 0 18px #ff00ff;
     }
   }
 `}</style>
+
 
 
 

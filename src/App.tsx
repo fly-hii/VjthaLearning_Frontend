@@ -30,6 +30,10 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import SearchResults from "./components/SearchPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
+import TechHub from "./components/digitalworld/TechHub";  
+
+import Navigation from "./components/Navigation"; // adjust path if needed
+
 
 const queryClient = new QueryClient();
 
@@ -40,6 +44,7 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
+          
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
