@@ -6,7 +6,8 @@ export const AIPopup = () => {
   const [loading, setLoading] = useState(false);
   const [messages, setMessages] = useState<{ role: string; text: string }[]>([]);
   const bottomRef = useRef<HTMLDivElement>(null);
-  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL; // Update with your actual API URL
+  const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
+
   const askAI = async () => {
     if (!input.trim()) return;
     const userMessage = { role: 'user', text: input };
@@ -30,61 +31,28 @@ export const AIPopup = () => {
   };
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+    if (bottomRef.current) {
+      requestAnimationFrame(() => {
+        bottomRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' });
+      });
+    }
   }, [messages]);
 
   return (
     <>
       {/* AI Button */}
       <span
-  onClick={() => setOpen(true)}
- 
-  className="relative left-[220px]  top-[19px] h-9 w-[230px] px-3 flex items-center justify-center gap-2 text-2xl bg-gradient-to-r from-black via-[#1a0f0f] to-black border-2 border-yellow-500 rounded-full shadow-lg"
->
-  ✨
-  <span className="text-[10px] font-semibold tracking-widest text-gold animate-flicker">
-    Try VJTHA AI now
-  </span>
-</span>
-
-<style>{`
-  .text-gold {
-    color: #FFD700;
-    text-shadow:
-      0 0 3px #FFD700,
-      0 0 6px #FFD700,
-      0 0 10px #FFC300;
-  }
-
-  @keyframes flicker {
-    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-      opacity: 1;
-    }
-    20%, 22%, 24%, 55% {
-      opacity: 0.4;
-    }
-  }
-
-  .animate-flicker {
-    animation: flicker 2.5s infinite;
-  }
-
-  .animate-pulse-glow {
-    animation: pulseGlow 2s infinite;
-  }
-
-  @keyframes pulseGlow {
-    0%, 100% {
-      box-shadow: 0 0 8px #FFD700, 0 0 12px #FFC300;
-    }
-    50% {
-      box-shadow: 0 0 12px #ff00ff, 0 0 18px #ff00ff;
-    }
-  }
-`}</style>
-
-
-
+        onClick={() => setOpen(true)}
+        className="fixed left-[1250px] top-[450px] z-[9999]
+                   w-16 h-16 flex items-center justify-center
+                   text-3xl cursor-pointer
+                   bg-gradient-to-r from-black via-[#1a0f0f] to-black
+                   border-4 border-yellow-500 rounded-full
+                   shadow-[0_0_15px_#FFD700,0_0_30px_#FFD700]
+                   animate-pulse-glow hover:scale-110 transition-transform duration-300"
+      >
+        🤖
+      </span>
 
       {/* AI Popup */}
       {open && (
@@ -117,10 +85,13 @@ export const AIPopup = () => {
                   </div>
                 ))}
                 {loading && (
-                  <div className="mr-auto bg-gray-700 text-yellow-400 px-4 py-2 rounded animate-pulse w-fit">
-                    🤖 Thinking...
-                  </div>
-                )}
+  <div
+    className="mr-auto bg-gray-800 text-green-300 px-4 py-2 rounded-lg max-w-[80%] text-sm leading-relaxed shadow w-fit a"
+  >
+    🤖 Thinking...
+  </div>
+)}
+
                 <div ref={bottomRef} />
               </div>
 
@@ -136,7 +107,7 @@ export const AIPopup = () => {
                 <button
                   onClick={askAI}
                   disabled={loading}
-                  className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg"
+                  className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg min-w-[70px]"
                 >
                   Ask
                 </button>
@@ -195,5 +166,6 @@ export const AIPopup = () => {
     </>
   );
 };
+
 
 

@@ -6,7 +6,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { nonTechJobs} from '@/lib/mockdata'; // Assuming you have a mockdata file with non-tech jobs
 import { Link } from 'react-router-dom';
-
+import { AIPopup } from '../AIPopup'; // Assuming you have an AI popup component
 const NonTechJobs = () => {
   const nonTechJob=nonTechJobs
 
@@ -22,6 +22,9 @@ const NonTechJobs = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
+      <AIPopup /> {/* AI Assistant Popup */}
+
+      {/* Page Header */}
       
       <section className="py-8 bg-gray-50 ">
         <div className="container mx-auto px-4">

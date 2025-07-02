@@ -7,7 +7,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { todayJobs } from '@/lib/mockdata'; // Assuming you have a mockdata file with today's jobs
 import { Link } from 'react-router-dom';
-
+import { AIPopup } from '../AIPopup'; 
 const TodayJobs = () => {
   const todayJos = todayJobs;
 
@@ -33,6 +33,7 @@ const TodayJobs = () => {
           </p>
         </div>
       </section>
+      <AIPopup /> {/* AI Assistant Popup */}
 
       {/* Main Content */}
       <section className="py-8">

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { useParams, Link } from 'react-router-dom';
 import { ArrowLeft, MapPin, Briefcase, Clock, DollarSign, Building, Users, Calendar, GraduationCap } from 'lucide-react';
@@ -7,6 +8,7 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { techJobs, nonTechJobs, internships, todayJobs, urgentJobs } from '@/lib/mockdata';
+import { AIPopup } from './AIPopup'; // Assuming you have an AI popup component
 
 const JobDetail = () => {
   const { id } = useParams();
@@ -46,6 +48,7 @@ const JobDetail = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
+      <AIPopup /> {/* AI Assistant Popup */}
       
       {/* Header */}
       <section className="py-8 bg-gray-50">

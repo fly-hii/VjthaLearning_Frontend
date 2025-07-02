@@ -14,7 +14,7 @@ import type { Article } from '@/types/api';
 import { useGroupedArticlesByCategory } from '@/hooks/useFilteredArticles';
 import { subcategories } from '../../hooks/categoriesdata';
 import LoadingScreen from '../LoadingMessage';
-
+import { AIPopup } from '../AIPopup'; // Assuming you have an AI popup component
 const AIMachineLearning = () => {
    const [page, setPage] = useState(1);
   const articlesPerPage = 20;
@@ -42,7 +42,9 @@ if (isLoading) {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
+      <AIPopup /> {/* AI Assistant Popup */}
 
+      {/* Header Section */}
       <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">
           <h1 className="text-4xl font-bold text-center mb-4">AI & Machine Learning</h1>

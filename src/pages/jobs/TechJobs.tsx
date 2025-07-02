@@ -7,11 +7,14 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CommonSidebar from '@/components/CommonSidebar';
 import { techJobs} from '@/lib/mockdata';
-
+import { AIPopup } from '../AIPopup'; // Assuming you have an AI popup component
 const TechJobs = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
+      <AIPopup /> {/* AI Assistant Popup */}
+
+      {/* Page Header */}
       
       <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">

@@ -5,7 +5,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-
+import { AIPopup } from '../pages/AIPopup'; // Assuming you have an AI popup component
 const About = () => {
   const teamMembers = [
     {
@@ -71,6 +71,7 @@ const About = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
+      <AIPopup /> {/* AI Assistant Popup */}
       
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">

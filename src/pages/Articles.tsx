@@ -13,7 +13,7 @@ import CommonSidebar from '@/components/CommonSidebar';
 import { useQuery } from '@tanstack/react-query';
 import { articlesApi, categoriesApi } from '@/Services/api';
 import type { Article, Category } from '@/types/api';
-
+import { AIPopup } from './AIPopup';
 const Articles = () => {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
@@ -60,7 +60,7 @@ console.log(articlesData);
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      
+      <AIPopup /> {/* AI Assistant Popup */}
       {/* Page Header */}
       <section className="py-8 bg-gray-50">
         <div className="container mx-auto px-4">

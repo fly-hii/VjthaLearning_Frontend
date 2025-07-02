@@ -10,7 +10,7 @@ import { useQuery } from '@tanstack/react-query';
 import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
 import Comments from '@/components/Comments';
-
+import { AIPopup } from './AIPopup';
 const ArticleDetail = () => {
   const { id } = useParams();
   
@@ -48,6 +48,7 @@ const ArticleDetail = () => {
     return (
       <>
         <Navigation />
+        <AIPopup />
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Article Not Found</h1>

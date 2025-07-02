@@ -30,7 +30,9 @@ import Register from "./components/Register";
 import Login from "./components/Login";
 import SearchResults from "./components/SearchPage";
 import AdminDashboard from "./pages/admin/AdminDashboard";
-import TechHub from "./components/digitalworld/TechHub";  
+  
+import GameZone from "./components/digitalworld/GameZone";
+import TechHub from "./components/digitalworld/TechHub";
 
 import Navigation from "./components/Navigation"; // adjust path if needed
 
@@ -50,7 +52,8 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<SearchResults />} />
-            <Route path="/digital-world" element={<DigitalWorld />} />
+            <Route path="digitalworld/TechHub.tsx" element={<TechHub />} />
+            <Route path="digitalworld/GameZone.tsx" element={<GameZone />} />
             <Route path="/article/:id" element={
               <ProtectedRoute>
                 <ArticleDetail />

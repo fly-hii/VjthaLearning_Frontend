@@ -350,7 +350,7 @@ const AISymbolWithPopup = () => {
 
 
 return (
-  <div className="bg-white text-black">
+  <div className="bg-gray text-black">
     <Navigation />
 
       {/* Hero Section with Search */}
@@ -390,7 +390,7 @@ return (
       </section>
 
       {/* Category Cards Slider */}
-      <section className="py-8 bg-gray-50">
+      <section className="py-8 bg-50">
         <div className="container mx-auto px-4">
           <Carousel className="w-full max-w-7xl mx-auto relative">
           {/* Left Arrow */}
@@ -445,7 +445,7 @@ return (
       </section>
 
       {/* Vjtha Specials Section - New Layout Based on Wireframe */}
-      <section className="py-16 bg-gray-100">
+      <section className="py-16 bg-100">
         <div className="container mx-auto px-4">
           <div className="mb-8">
             <h2 className="text-4xl font-bold text-gray-900 border-b-4 border-black pb-2 inline-block">
@@ -487,7 +487,7 @@ return (
 
             {/* Right Column - Highly Recommended with Slider */}
             <div className="lg:col-span-1" >
-              <div className="bg-white border-2 border-gray-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-4">
+              <div className="bg-white border-2 border-100 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow rounded-lg p-4">
                 <h3 className="text-xl font-bold text-gray-900 mb-6 border-b-2 border-dashed border-gray-400 pb-2">
                   Highly Recommended
                 </h3>
@@ -526,7 +526,7 @@ return (
       </section>
 
       {/* First Blog Section with Slider */}
-      <section className="py-16 bg-white">
+      <section className="py-16 bg-wh">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Technologies Blog</h2>
@@ -575,7 +575,7 @@ return (
       </section>
 
       {/* Second Blog Section with Slider */}
-      <section className="py-16 bg-gray-50">
+      <section className="py-16 bg-g-50">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Education Blog</h2>
@@ -624,7 +624,7 @@ return (
       </section>
 
       {/* Third Blog Section with Slider */}
-      <section className="py-16 bg-white">
+      <section className="py-16 ">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Jobs Blog</h2>

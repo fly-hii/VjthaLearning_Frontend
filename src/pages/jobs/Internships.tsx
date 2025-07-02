@@ -6,7 +6,7 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { internships } from '@/lib/mockdata';
 import { Link } from 'react-router-dom';
-
+import { AIPopup } from '../AIPopup'; // Assuming you have an AI popup component
 const Internships = () => {
   const internship = internships;
 
@@ -19,8 +19,12 @@ const Internships = () => {
   ];
 
   return (
+      
     <div className="min-h-screen bg-white">
       <Navigation />
+      <AIPopup /> {/* AI Assistant Popup */}
+
+      {/* Page Header */}
       
       <section className="py-8 bg-gray-50 ">
         <div className="container mx-auto px-4">
@@ -45,6 +49,7 @@ const Internships = () => {
                           alt={internship.title}
                           className="w-full h-40 object-cover"
                         />
+                        {/* AI Assistant Popup */}
                         {internship.isUrgent && (
                           <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                             Urgent
@@ -74,6 +79,7 @@ const Internships = () => {
                             {internship.duration}
                           </div>
                         </div>
+                          
                         
                         <p className="text-gray-600 text-sm mb-3 line-clamp-2">
                           {internship.description}

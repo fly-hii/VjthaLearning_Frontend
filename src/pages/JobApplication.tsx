@@ -9,6 +9,7 @@ import { Badge } from '@/components/ui/badge';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import CommonSidebar from '@/components/CommonSidebar';
+import { AIPopup } from './AIPopup';
 import {
   internships,
   techJobs,
@@ -58,6 +59,7 @@ const JobApplication = () => {
     return (
       <>
         <Navigation />
+        <AIPopup /> {/* AI Assistant Popup */}
         <div className="min-h-screen bg-gray-50 flex items-center justify-center">
           <div className="text-center">
             <h1 className="text-4xl font-bold text-gray-900 mb-4">Job Not Found</h1>
