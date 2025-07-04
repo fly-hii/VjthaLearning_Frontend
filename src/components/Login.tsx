@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
@@ -41,19 +42,19 @@ const Login = () => {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     try {
-      const response = await signIn(data.email, data.password);
-
-      // ✅ safely get user from response
-      const user = response?.user || response?.data?.user;
-
-      if (!user) throw new Error("User not returned from login");
-
-      // ✅ Store in localStorage before navigation
-      localStorage.setItem('user', JSON.stringify(response.user));
-
-      // ✅ Navigate based on role
-      if (user.role === 'Admin') {
-        navigate('/admin');
+      await signIn(data.email, data.password);
+      
+      // Get user from localStorage after successful sign in
+      const storedUser = localStorage.getItem('user');
+      if (storedUser) {
+        const user = JSON.parse(storedUser);
+        
+        // Navigate based on role
+        if (user.role === 'Admin') {
+          navigate('/admin');
+        } else {
+          navigate('/');
+        }
       } else {
         navigate('/');
       }

@@ -1,5 +1,6 @@
+
 import { Toaster } from "@/components/ui/toaster";
-import { Toaster as Sonner } from "@/components/ui/sonner";
+import { Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -32,15 +33,12 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
   
 import GameZone from "./components/digitalworld/GameZone";
 import TechHub from "./components/digitalworld/TechHub";
-import ProfilePage from './components/digitalworld/profile'; // ✅ Recommended (matches export name)
+import ProfilePage from './components/digitalworld/profile';
 
-
-import Navigation from "./components/Navigation"; // adjust path if needed
-
-
+import Navigation from "./components/Navigation";
 
 const queryClient = new QueryClient();
-const userId = localStorage.getItem('userId');
+
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -48,13 +46,12 @@ const App = () => (
       <Sonner />
       <BrowserRouter>
         <AuthProvider>
-          
           <Routes>
             <Route path="/" element={<Index />} />
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<SearchResults />} />
-            <Route path="/profile" element={<ProfilePage userId={userId} />} />
+            <Route path="/profile" element={<ProfilePage />} />
             <Route path="/techhub" element={<TechHub />} />
             <Route path="/gamezone" element={<GameZone />} />
            

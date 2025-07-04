@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useEffect, useState } from 'react';
@@ -26,15 +27,15 @@ import {
 } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { jobsApi } from '@/Services/api';
-import { Job } from '@/types/api';
+import { Job, CreateJobData, UpdateJobData } from '@/types/api';
 import JobDialog from './JobDialog';
 
-const JobsManagement: React.FC = (initialData) => {
+const JobsManagement: React.FC = () => {
   const [jobs, setJobs] = useState<Job[]>([]);
   const [searchTerm, setSearchTerm] = useState('');
   const [loading, setLoading] = useState(false);
   const [showDialog, setShowDialog] = useState(false);
-  const [editingJob, setEditingJob] = useState<Partial<Job> | undefined>(undefined);
+  const [editingJob, setEditingJob] = useState<Job | undefined>(undefined);
 
   const fetchJobs = async () => {
     try {
@@ -64,12 +65,12 @@ const JobsManagement: React.FC = (initialData) => {
   };
 
   // Save job function (for both create and update)
-  const handleSave = async (data: Partial<Job>) => {
+  const handleSave = async (data: CreateJobData | UpdateJobData) => {
     try {
-      if (data._id) {
-        await jobsApi.update(data._id, data);
+      if (editingJob?._id) {
+        await jobsApi.update(editingJob._id, data as UpdateJobData);
       } else {
-        await jobsApi.create(data);
+        await jobsApi.create(data as CreateJobData);
       }
       fetchJobs();  // refresh job list
       setShowDialog(false);
@@ -77,7 +78,6 @@ const JobsManagement: React.FC = (initialData) => {
       console.error('Error saving job:', error);
     }
   };
-
 
   const filteredJobs = jobs.filter((job) =>
     job.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -145,17 +145,6 @@ const JobsManagement: React.FC = (initialData) => {
             </div>
           </CardContent>
         </Card>
-        {/* <Card>
-          <CardContent className="p-4 hover:shadow-lg hover:shadow-blue-400/40">
-            <div className="flex items-center space-x-3">
-              <DollarSign className="w-8 h-8 text-yellow-600" />
-              <div>
-                <p className="text-sm text-gray-600">Applications</p>
-                <p className="text-2xl font-bold text-gray-900">1,234</p>
-              </div>
-            </div>
-          </CardContent>
-        </Card> */}
       </div>
 
       {/* Jobs Table */}
@@ -216,7 +205,7 @@ const JobsManagement: React.FC = (initialData) => {
                     </div>
                   </TableCell>
                   <TableCell>
-                  <TableCell><Badge variant="outline">{job.jobType}</Badge></TableCell>
+                    <Badge variant="outline">{job.jobType}</Badge>
                   </TableCell>
                   <TableCell>
                     <div className="flex items-center space-x-1">
@@ -229,7 +218,7 @@ const JobsManagement: React.FC = (initialData) => {
                       {job.status}
                     </Badge>
                   </TableCell>
-                 <TableCell>
+                  <TableCell>
                     <div className="flex items-center space-x-2">
                       <Button size="sm" variant="outline" onClick={() => { setEditingJob(job); setShowDialog(true); }}>
                         <Edit className="w-4 h-4" />
@@ -246,7 +235,7 @@ const JobsManagement: React.FC = (initialData) => {
         </CardContent>
       </Card>
 
-     <JobDialog
+      <JobDialog
         open={showDialog}
         onClose={() => setShowDialog(false)}
         onSave={handleSave}
