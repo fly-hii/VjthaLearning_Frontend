@@ -6,6 +6,8 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from 
 import { Badge } from '@/components/ui/badge';
 import PostCreation from './PostCreation';
 import PostDetail from './PostDetail';
+import Navigation from '../Navigation';
+import { AIPopup } from '@/pages/AIPopup';
 
 interface Post {
   id: number;
@@ -138,6 +140,8 @@ const TechHub = () => {
 
   return (
     <div className="max-w-7xl mx-auto space-y-6 px-4">
+      <Navigation />
+      <AIPopup />
       {/* Header */}
      <div className="py-4 px-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-2xl text-white mb-8">
       <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">

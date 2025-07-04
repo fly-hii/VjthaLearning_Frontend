@@ -33,12 +33,15 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
   
 import GameZone from "./components/digitalworld/GameZone";
 import TechHub from "./components/digitalworld/TechHub";
+import ProfilePage from './components/digitalworld/profile'; // ✅ Recommended (matches export name)
+
 
 import Navigation from "./components/Navigation"; // adjust path if needed
 
 
-const queryClient = new QueryClient();
 
+const queryClient = new QueryClient();
+const userId = localStorage.getItem('userId');
 const App = () => (
   <QueryClientProvider client={queryClient}>
     <TooltipProvider>
@@ -52,8 +55,10 @@ const App = () => (
             <Route path="/login" element={<Login />} />
             <Route path="/register" element={<Register />} />
             <Route path="/search" element={<SearchResults />} />
-            <Route path="digitalworld/TechHub.tsx" element={<TechHub />} />
-            <Route path="digitalworld/GameZone.tsx" element={<GameZone />} />
+            <Route path="/profile" element={<ProfilePage userId={userId} />} />
+            <Route path="/techhub" element={<TechHub />} />
+            <Route path="/gamezone" element={<GameZone />} />
+           
             <Route path="/article/:id" element={
               <ProtectedRoute>
                 <ArticleDetail />

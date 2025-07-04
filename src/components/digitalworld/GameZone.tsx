@@ -9,7 +9,8 @@ import ClassicPuzzlesGame from './games/ClassicPuzzlesGame';
 import RockPaperScissorsGame from './games/RockPaperScissorsGame';
 import AshtachammaGame from './games/AshtachammaGame';
 import DaddyGame from './games/DaddyGame';
-
+import Navigation from '../Navigation';
+import { AIPopup } from '@/pages/AIPopup';
 type GameType = 'menu' | 'sudoku' | 'tictactoe' | 'memory' | 'puzzles' | 'rps' | 'ashtachamma' | 'daddy';
 
 const GameZone = () => {
@@ -101,6 +102,10 @@ const GameZone = () => {
   };
 
   return (
+    <div className="bg-gray-100 min-h-screen py-8">
+      <Navigation />
+      <AIPopup />
+      
     <div className="max-w-6xl mx-auto">
       {currentGame === 'menu' && (
         <div className="text-center mb-8">
@@ -110,6 +115,7 @@ const GameZone = () => {
       )}
       
       {renderGame()}
+    </div>
     </div>
   );
 };
