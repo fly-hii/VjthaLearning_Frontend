@@ -13,7 +13,11 @@ import {
   Clock,
   User,
   Tag,
-  MessageSquare
+  MessageSquare,
+  Upload,
+  File,
+  Image,
+  Video
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -33,6 +37,12 @@ import {
   DialogTitle,
   DialogFooter,
 } from '@/components/ui/dialog';
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from '@/components/ui/tabs';
 import { Badge } from '@/components/ui/badge';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { toast } from 'sonner';
@@ -65,6 +75,19 @@ const deleteArticle = async (id: string) => {
 const fetchCategories = async () => {
   const response = await fetch(`${API_BASE_URL}/categories`);
   if (!response.ok) throw new Error('Failed to fetch categories');
+  return response.json();
+};
+
+const createArticle = async (article: any) => {
+  const response = await fetch(`${API_BASE_URL}/articles`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+    },
+    body: JSON.stringify(article),
+  });
+  if (!response.ok) throw new Error('Failed to create article');
   return response.json();
 };
 
@@ -126,22 +149,72 @@ const [newArticle, setNewArticle] = useState<any>({
   category: '',
   author: '',
   isPublished: false,
-  featuredImage: '', // ✅ Add this line
+  featuredImage: '',
+  videoFile: null,
+  documentFile: null,
 });
 
-
-const createArticle = async (article: any) => {
-  const response = await fetch(`${API_BASE_URL}/articles`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+  const [jobApplications, setJobApplications] = useState<any[]>([
+    {
+      id: 1,
+      jobTitle: 'Frontend Developer',
+      applicantName: 'John Doe',
+      applicantEmail: 'john@example.com',
+      appliedDate: '2024-01-15',
+      status: 'pending',
+      resume: 'john_doe_resume.pdf'
     },
-    body: JSON.stringify(article),
-  });
-  if (!response.ok) throw new Error('Failed to create article');
-  return response.json();
-};
+    {
+      id: 2,
+      jobTitle: 'Backend Developer',
+      applicantName: 'Jane Smith',
+      applicantEmail: 'jane@example.com',
+      appliedDate: '2024-01-14',
+      status: 'reviewed',
+      resume: 'jane_smith_resume.pdf'
+    }
+  ]);
+
+  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, fileType: string) => {
+    const file = event.target.files?.[0];
+    if (file) {
+      // Mock file upload - replace with actual upload logic
+      const fileUrl = URL.createObjectURL(file);
+      if (fileType === 'image') {
+        setNewArticle({ ...newArticle, featuredImage: fileUrl });
+      } else if (fileType === 'video') {
+        setNewArticle({ ...newArticle, videoFile: file });
+      } else if (fileType === 'document') {
+        setNewArticle({ ...newArticle, documentFile: file });
+      }
+      toast.success(`${fileType} uploaded successfully`);
+    }
+  };
+
+  const updateApplicationStatus = (applicationId: number, newStatus: string) => {
+    setJobApplications(prev => 
+      prev.map(app => 
+        app.id === applicationId ? { ...app, status: newStatus } : app
+      )
+    );
+    toast.success(`Application status updated to ${newStatus}`);
+  };
+
+  const getStatusColor = (status: string) => {
+    switch (status) {
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-800';
+      case 'reviewed':
+        return 'bg-blue-100 text-blue-800';
+      case 'accepted':
+        return 'bg-green-100 text-green-800';
+      case 'rejected':
+        return 'bg-red-100 text-red-800';
+      default:
+        return 'bg-gray-100 text-gray-800';
+    }
+  };
+
 const queryClients = useQueryClient();
 
 const createArticleMutation = useMutation({
@@ -183,6 +256,8 @@ const createArticleMutationn = useMutation({
   author: '',
   isPublished: false,
   featuredImage: '', // ✅ Clear this too
+  videoFile: null,
+  documentFile: null,
 });
 
   },
@@ -199,94 +274,17 @@ const createArticleMutationn = useMutation({
       <div className="flex items-center justify-between">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Articles Management</h1>
-          <p className="text-gray-600 mt-1">Manage all your blog articles</p>
+          <p className="text-gray-600 mt-1">Manage all your blog articles and job applications</p>
         </div>
-       <Button
-  onClick={() => setIsCreateModalOpen(true)}
-  className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700"
->
-  <Plus className="w-4 h-4" />
-  <span>New Article</span>
-</Button>
-<Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-  <DialogContent className="sm:max-w-3xl">
-    <DialogHeader>
-      <DialogTitle>Create New Article</DialogTitle>
-    </DialogHeader>
-
-    <div className="space-y-4 mt-4">
-      {/* Title */}
-      <Input
-        placeholder="Title"
-        value={newArticle.title}
-        onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
-      />
-
-      <Input
-  placeholder="Image URL"
-  value={newArticle.featuredImage}
-  onChange={(e) => setNewArticle({ ...newArticle, featuredImage: e.target.value })}
-/>
-
-
-      {/* Content */}
-      <textarea
-        placeholder="Content"
-        className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none"
-        rows={5}
-        value={newArticle.content}
-        onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
-      />
-
-      {/* Tags */}
-      <Input
-        placeholder="Tags (comma separated)"
-        value={newArticle.tags}
-        onChange={(e) => setNewArticle({ ...newArticle, tags: e.target.value })}
-      />
-
-      {/* Author */}
-      <Input
-        placeholder="Author"
-        value={newArticle.author}
-        onChange={(e) => setNewArticle({ ...newArticle, author: e.target.value })}
-      />
-
-      {/* Category Dropdown */}
-      <select
-        className="w-full px-3 py-2 border border-gray-300 rounded-md"
-        value={newArticle.category}
-        onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
-      >
-        <option value="">Select category</option>
-        {categories.map((cat: any) => (
-          <option key={cat._id} value={cat._id}>{cat.name}</option>
-        ))}
-      </select>
-
-      {/* Publish Checkbox */}
-      <div className="flex items-center space-x-2">
-        <input
-          type="checkbox"
-          checked={newArticle.isPublished}
-          onChange={(e) => setNewArticle({ ...newArticle, isPublished: e.target.checked })}
-        />
-        <label>Publish</label>
+        <Button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="flex items-center space-x-2 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700 transform hover:scale-105 transition-all duration-200"
+        >
+          <Plus className="w-4 h-4" />
+          <span>New Article</span>
+        </Button>
       </div>
-    </div>
 
-    {/* Footer Actions */}
-    <DialogFooter className="mt-4">
-      <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>Cancel</Button>
-      <Button onClick={() => handleCreateArticle(newArticle)} className="bg-blue-600 text-white hover:bg-blue-700">
-        Create
-      </Button>
-    </DialogFooter>
-  </DialogContent>
-</Dialog>
-
-
-      </div>
       {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
         <Card>
@@ -335,131 +333,345 @@ const createArticleMutationn = useMutation({
         </Card>
       </div>
 
-      {/* Filters and Search */}
-      <Card>
-        <CardHeader>
-          <CardTitle>Articles List</CardTitle>
-        </CardHeader>
-        <CardContent>
-          <div className="flex flex-col md:flex-row gap-4 mb-6">
-            <div className="flex-1">
-              <div className="relative">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  placeholder="Search articles..."
-                  value={searchTerm}
-                  onChange={(e) => setSearchTerm(e.target.value)}
-                  className="pl-10"
-                />
+      {/* Tabs for Articles and Applications */}
+      <Tabs defaultValue="articles" className="space-y-4">
+        <TabsList className="grid w-full grid-cols-2">
+          <TabsTrigger value="articles">Articles</TabsTrigger>
+          <TabsTrigger value="applications">Job Applications</TabsTrigger>
+        </TabsList>
+
+        <TabsContent value="articles" className="space-y-4">
+          {/* Articles Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Articles List</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <div className="flex flex-col md:flex-row gap-4 mb-6">
+                <div className="flex-1">
+                  <div className="relative">
+                    <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
+                    <Input
+                      placeholder="Search articles..."
+                      value={searchTerm}
+                      onChange={(e) => setSearchTerm(e.target.value)}
+                      className="pl-10"
+                    />
+                  </div>
+                </div>
+                <select
+                  value={filterCategory}
+                  onChange={(e) => setFilterCategory(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {categoryOptions.map(category => (
+                    <option key={category} value={category.toLowerCase()}>{category}</option>
+                  ))}
+                </select>
+                <select
+                  value={filterStatus}
+                  onChange={(e) => setFilterStatus(e.target.value)}
+                  className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                >
+                  {statuses.map(status => (
+                    <option key={status} value={status.toLowerCase()}>{status}</option>
+                  ))}
+                </select>
+              </div>
+
+              {/* Articles Table */}
+              {isLoading ? (
+                <div className="text-center py-8">
+                  <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
+                  <p className="mt-4 text-gray-600">Loading articles...</p>
+                </div>
+              ) : (
+                <Table>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Title</TableHead>
+                      <TableHead>Author</TableHead>
+                      <TableHead>Category</TableHead>
+                      <TableHead>Status</TableHead>
+                      <TableHead>Views/Comments</TableHead>
+                      <TableHead>Published</TableHead>
+                      <TableHead>Actions</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {articles.map((article: any) => (
+                      <TableRow key={article._id}>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            {article.isFeatured && <Star className="w-4 h-4 text-yellow-500" />}
+                            <span className="font-medium">{article.title}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <User className="w-4 h-4 text-gray-400" />
+                            <span>{article.author}</span>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          <Badge variant="outline">
+                            {article.category?.name || article.category || 'Uncategorized'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <Badge 
+                            variant={article.isPublished ? 'default' : 'secondary'}
+                          >
+                            {article.isPublished ? 'Published' : 'Draft'}
+                          </Badge>
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-4 text-gray-600">
+                            <div className="flex items-center space-x-1">
+                              <Eye className="w-4 h-4 text-blue-500" />
+                              <span>{(article.views || 0).toLocaleString()}</span>
+                            </div>
+                            <div className="flex items-center space-x-1">
+                              <MessageSquare className="w-4 h-4 text-green-500" />
+                              <span>{(article.comments?.length || 0).toLocaleString()}</span>
+                            </div>
+                          </div>
+                        </TableCell>
+                        <TableCell>
+                          {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : 
+                           article.createdAt ? new Date(article.createdAt).toLocaleDateString() : '-'}
+                        </TableCell>
+                        <TableCell>
+                          <div className="flex items-center space-x-2">
+                            <Button size="sm" variant="outline" onClick={() => setEditArticle(article)}>
+                              <Edit className="w-4 h-4" />
+                            </Button>
+                            <Button size="sm" variant="outline" onClick={() => setViewArticle(article)}>
+                              <Eye className="w-4 h-4" />
+                            </Button>
+                            <Button
+                              size="sm"
+                              variant="outline"
+                              onClick={() => handleDeleteArticle(article._id)}
+                              disabled={deleteArticleMutation.isPending}
+                            >
+                              <Trash2 className="w-4 h-4" />
+                            </Button>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    ))}
+                  </TableBody>
+                </Table>
+              )}
+            </CardContent>
+          </Card>
+        </TabsContent>
+
+        <TabsContent value="applications" className="space-y-4">
+          {/* Job Applications Management */}
+          <Card>
+            <CardHeader>
+              <CardTitle>Job Applications</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <Table>
+                <TableHeader>
+                  <TableRow>
+                    <TableHead>Job Title</TableHead>
+                    <TableHead>Applicant</TableHead>
+                    <TableHead>Email</TableHead>
+                    <TableHead>Applied Date</TableHead>
+                    <TableHead>Status</TableHead>
+                    <TableHead>Resume</TableHead>
+                    <TableHead>Actions</TableHead>
+                  </TableRow>
+                </TableHeader>
+                <TableBody>
+                  {jobApplications.map((application) => (
+                    <TableRow key={application.id}>
+                      <TableCell className="font-medium">{application.jobTitle}</TableCell>
+                      <TableCell>{application.applicantName}</TableCell>
+                      <TableCell>{application.applicantEmail}</TableCell>
+                      <TableCell>{new Date(application.appliedDate).toLocaleDateString()}</TableCell>
+                      <TableCell>
+                        <Badge className={getStatusColor(application.status)}>
+                          {application.status}
+                        </Badge>
+                      </TableCell>
+                      <TableCell>
+                        <Button size="sm" variant="outline">
+                          <File className="w-4 h-4 mr-1" />
+                          View
+                        </Button>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex gap-2">
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateApplicationStatus(application.id, 'reviewed')}
+                            className="text-blue-600 hover:bg-blue-50"
+                          >
+                            Review
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateApplicationStatus(application.id, 'accepted')}
+                            className="text-green-600 hover:bg-green-50"
+                          >
+                            Accept
+                          </Button>
+                          <Button
+                            size="sm"
+                            variant="outline"
+                            onClick={() => updateApplicationStatus(application.id, 'rejected')}
+                            className="text-red-600 hover:bg-red-50"
+                          >
+                            Reject
+                          </Button>
+                        </div>
+                      </TableCell>
+                    </TableRow>
+                  ))}
+                </TableBody>
+              </Table>
+            </CardContent>
+          </Card>
+        </TabsContent>
+      </Tabs>
+
+      {/* Enhanced Create Article Dialog with File Upload */}
+      <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
+        <DialogContent className="sm:max-w-4xl bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl animate-in zoom-in-95 fade-in duration-300">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold text-gray-900">Create New Article</DialogTitle>
+          </DialogHeader>
+
+          <div className="space-y-4 mt-4 max-h-96 overflow-y-auto">
+            {/* Title */}
+            <Input
+              placeholder="Article Title"
+              value={newArticle.title}
+              onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
+              className="transform transition-all duration-200 focus:scale-105"
+            />
+
+            {/* File Upload Section */}
+            <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-medium text-gray-900">Media Upload</h3>
+              
+              {/* Image Upload */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Featured Image</label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="file"
+                    accept="image/*"
+                    onChange={(e) => handleFileUpload(e, 'image')}
+                    className="flex-1"
+                  />
+                  <Button size="sm" variant="outline">
+                    <Image className="w-4 h-4" />
+                  </Button>
+                </div>
+                {newArticle.featuredImage && (
+                  <img src={newArticle.featuredImage} alt="Preview" className="w-20 h-20 object-cover rounded" />
+                )}
+              </div>
+
+              {/* Video Upload */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Video File</label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="file"
+                    accept="video/*"
+                    onChange={(e) => handleFileUpload(e, 'video')}
+                    className="flex-1"
+                  />
+                  <Button size="sm" variant="outline">
+                    <Video className="w-4 h-4" />
+                  </Button>
+                </div>
+              </div>
+
+              {/* Document Upload */}
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">Documents (PDF, PPT, Excel)</label>
+                <div className="flex items-center space-x-2">
+                  <Input
+                    type="file"
+                    accept=".pdf,.ppt,.pptx,.xls,.xlsx,.doc,.docx"
+                    onChange={(e) => handleFileUpload(e, 'document')}
+                    className="flex-1"
+                  />
+                  <Button size="sm" variant="outline">
+                    <Upload className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
             </div>
+
+            {/* Content */}
+            <textarea
+              placeholder="Article Content"
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none transform transition-all duration-200 focus:scale-105"
+              rows={5}
+              value={newArticle.content}
+              onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
+            />
+
+            {/* Tags */}
+            <Input
+              placeholder="Tags (comma separated)"
+              value={newArticle.tags}
+              onChange={(e) => setNewArticle({ ...newArticle, tags: e.target.value })}
+            />
+
+            {/* Author */}
+            <Input
+              placeholder="Author"
+              value={newArticle.author}
+              onChange={(e) => setNewArticle({ ...newArticle, author: e.target.value })}
+            />
+
+            {/* Category Dropdown */}
             <select
-              value={filterCategory}
-              onChange={(e) => setFilterCategory(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+              className="w-full px-3 py-2 border border-gray-300 rounded-md"
+              value={newArticle.category}
+              onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
             >
-              {categoryOptions.map(category => (
-                <option key={category} value={category.toLowerCase()}>{category}</option>
+              <option value="">Select category</option>
+              {categories.map((cat: any) => (
+                <option key={cat._id} value={cat._id}>{cat.name}</option>
               ))}
             </select>
-            <select
-              value={filterStatus}
-              onChange={(e) => setFilterStatus(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
-            >
-              {statuses.map(status => (
-                <option key={status} value={status.toLowerCase()}>{status}</option>
-              ))}
-            </select>
+
+            {/* Publish Checkbox */}
+            <div className="flex items-center space-x-2">
+              <input
+                type="checkbox"
+                checked={newArticle.isPublished}
+                onChange={(e) => setNewArticle({ ...newArticle, isPublished: e.target.checked })}
+              />
+              <label>Publish</label>
+            </div>
           </div>
 
-          {/* Articles Table */}
-          {isLoading ? (
-            <div className="text-center py-8">
-              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-blue-600 mx-auto"></div>
-              <p className="mt-4 text-gray-600">Loading articles...</p>
-            </div>
-          ) : (
-            <Table>
-              <TableHeader>
-                <TableRow>
-                  <TableHead>Title</TableHead>
-                  <TableHead>Author</TableHead>
-                  <TableHead>Category</TableHead>
-                  <TableHead>Status</TableHead>
-                  <TableHead>Views/Comments</TableHead>
-                  <TableHead>Published</TableHead>
-                  <TableHead>Actions</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {articles.map((article: any) => (
-                  <TableRow key={article._id}>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        {article.isFeatured && <Star className="w-4 h-4 text-yellow-500" />}
-                        <span className="font-medium">{article.title}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <User className="w-4 h-4 text-gray-400" />
-                        <span>{article.author}</span>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      <Badge variant="outline">
-                        {article.category?.name || article.category || 'Uncategorized'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <Badge 
-                        variant={article.isPublished ? 'default' : 'secondary'}
-                      >
-                        {article.isPublished ? 'Published' : 'Draft'}
-                      </Badge>
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-4 text-gray-600">
-                        <div className="flex items-center space-x-1">
-                          <Eye className="w-4 h-4 text-blue-500" />
-                          <span>{(article.views || 0).toLocaleString()}</span>
-                        </div>
-                        <div className="flex items-center space-x-1">
-                          <MessageSquare className="w-4 h-4 text-green-500" />
-                          <span>{(article.comments?.length || 0).toLocaleString()}</span>
-                        </div>
-                      </div>
-                    </TableCell>
-                    <TableCell>
-                      {article.publishedAt ? new Date(article.publishedAt).toLocaleDateString() : 
-                       article.createdAt ? new Date(article.createdAt).toLocaleDateString() : '-'}
-                    </TableCell>
-                    <TableCell>
-                      <div className="flex items-center space-x-2">
-                        <Button size="sm" variant="outline" onClick={() => setEditArticle(article)}>
-                          <Edit className="w-4 h-4" />
-                        </Button>
-                        <Button size="sm" variant="outline" onClick={() => setViewArticle(article)}>
-                          <Eye className="w-4 h-4" />
-                        </Button>
-                        <Button
-                          size="sm"
-                          variant="outline"
-                          onClick={() => handleDeleteArticle(article._id)}
-                          disabled={deleteArticleMutation.isPending}
-                        >
-                          <Trash2 className="w-4 h-4" />
-                        </Button>
-                      </div>
-                    </TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </Table>
-          )}
-        </CardContent>
-      </Card>
+          <DialogFooter className="mt-4">
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>Cancel</Button>
+            <Button 
+              onClick={() => handleCreateArticle(newArticle)} 
+              className="bg-blue-600 text-white hover:bg-blue-700 transform hover:scale-105 transition-all duration-200"
+            >
+              Create Article
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
     {/* 🔍 View Article Dialog */}
       <Dialog open={!!viewArticle} onOpenChange={(open) => !open && setViewArticle(null)}>
       <DialogContent

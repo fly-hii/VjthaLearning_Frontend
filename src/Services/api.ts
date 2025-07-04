@@ -61,6 +61,15 @@ export const articlesApi = {
     return response.json();
   },
 
+  // Get article by slug
+  getBySlug: async (slug: string): Promise<Article> => {
+    const response = await fetch(`${API_BASE_URL}/articles/slug/${slug}`);
+    if (!response.ok) {
+      throw new Error('Failed to fetch article');
+    }
+    return response.json();
+  },
+
   // Create new article
   create: async (data: CreateArticleData): Promise<Article> => {
     const response = await fetch(`${API_BASE_URL}/articles`, {

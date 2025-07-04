@@ -11,22 +11,23 @@ import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
 import Comments from '@/components/Comments';
 import { AIPopup } from './AIPopup';
+
 const ArticleDetail = () => {
-  const { id } = useParams();
+  const { slug } = useParams();
   
   const { data: article, isLoading, error } = useQuery({
-    queryKey: ['article', id],
-    queryFn: () => articlesApi.getById(id!),
-    enabled: !!id,
+    queryKey: ['article', slug],
+    queryFn: () => articlesApi.getBySlug(slug!),
+    enabled: !!slug,
   });
 
   const { data: relatedArticles } = useQuery({
-    queryKey: ['relatedArticles', article?.category, id],
+    queryKey: ['relatedArticles', article?.category, slug],
     queryFn: () => {
       const categoryId = typeof article?.category === 'object' ? article.category._id : article?.category;
-      return articlesApi.getRelated(categoryId, id!, 3);
+      return articlesApi.getRelated(categoryId, slug!, 3);
     },
-    enabled: !!article?.category && !!id,
+    enabled: !!article?.category && !!slug,
   });
 
   if (isLoading) {
@@ -70,20 +71,23 @@ const ArticleDetail = () => {
     <div className="min-h-screen bg-gray-50">
       <Navigation />
       
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-blue-300 to-purple-700 text-white">
-        <div className="absolute inset-0 bg-black/20"></div>
+      {/* Hero Section with 3D Animation */}
+      <section className="relative bg-gradient-to-r from-blue-300 to-purple-700 text-white transform-gpu">
+        <div className="absolute inset-0 bg-black/20 animate-pulse"></div>
         <div className="relative container mx-auto px-4 py-8">
-          <Link to="/articles" className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-colors">
+          <Link 
+            to="/articles" 
+            className="inline-flex items-center text-white/80 hover:text-white mb-6 transition-all duration-300 hover:scale-105 transform"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Back to Articles
           </Link>
           
-          <div className="max-w-4xl">
-            <Badge className="mb-4 bg-white/20 text-white border-white/30">
+          <div className="max-w-4xl transform hover:scale-105 transition-all duration-500">
+            <Badge className="mb-4 bg-white/20 text-white border-white/30 animate-bounce">
               {typeof article.category === 'object' ? article.category?.name : article.category || 'General'}
             </Badge>
-            <h1 className="text-4xl md:text-3xl font-bold mb-6 leading-tight">
+            <h1 className="text-4xl md:text-3xl font-bold mb-6 leading-tight animate-fade-in">
               {article.title}
             </h1>
             
@@ -113,13 +117,13 @@ const ArticleDetail = () => {
         </div>
       </section>
 
-      {/* Article Content */}
+      {/* Article Content with Enhanced Animation */}
       <section className="py-12">
         <div className="container mx-auto px-4">
           <div className="flex gap-8">
             {/* Main Content - 75% Width */}
             <div style={{ width: '75%' }}>
-              <Card className="bg-white shadow-lg">
+              <Card className="bg-white shadow-lg transform hover:scale-102 transition-all duration-300 hover:shadow-2xl">
                 <CardContent className="p-8">
                   {/* Featured Image */}
                   {article.featuredImage && (
@@ -235,7 +239,7 @@ const ArticleDetail = () => {
 
             {/* Common Sidebar - 25% Width */}
             <div style={{ width: '25%' }} className="min-w-80">
-              <div className="sticky top-8">
+              <div className="sticky top-8 transform hover:scale-105 transition-all duration-300">
                 <CommonSidebar />
               </div>
             </div>
