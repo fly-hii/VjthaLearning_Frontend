@@ -52,7 +52,11 @@ const App = () => (
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/techhub" element={<TechHub />} />
             <Route path="/gamezone" element={<GameZone />} />
-           
+            <Route path="/article/:id" element={
+              <ProtectedRoute>
+                <ArticleDetail />
+              </ProtectedRoute>
+            } />           
             <Route path="/article/:slug" element={
               <ProtectedRoute>
                 <ArticleDetail />
