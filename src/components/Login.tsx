@@ -43,17 +43,30 @@ const onSubmit = async (data: FormValues) => {
   setIsLoading(true);
   try {
     const response = await signIn(data.email, data.password);
-    if (response?.user?.role === 'Admin') {
+
+    // ✅ safely get user from response
+    const user = response?.user || response?.data?.user;
+
+    if (!user) throw new Error("User not returned from login");
+
+    // ✅ Store in localStorage before navigation
+    localStorage.setItem('user', JSON.stringify(response.user));
+
+
+    // ✅ Navigate based on role
+    if (user.role === 'Admin') {
       navigate('/admin');
     } else {
       navigate('/');
     }
+
   } catch (error) {
     console.error('Login error:', error);
   } finally {
     setIsLoading(false);
   }
 };
+
 
 
 
