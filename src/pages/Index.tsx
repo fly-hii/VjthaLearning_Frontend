@@ -26,7 +26,7 @@ const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
   key,
   name: category.name,
   image: category.image,
-  link: (category as { name: string; image: string; link?: string }).link || `/category/${key}`,
+  link: (category as { name: string; image: string; link?: string }).link || `${key}`,
 }));
   const highlightArticles = [
     {

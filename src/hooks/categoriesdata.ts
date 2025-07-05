@@ -69,36 +69,36 @@ export const cardcategories = {
   "career-jobs": {
     name: "Career & Jobs",
     image: "/lovable-uploads/Carrer & Jobs.png",
-    navigator: "/jobs/today",
+    link: "/jobs/today",
   },
   "tech-hub": {
     name: "Tech Hub",
     image: "/lovable-uploads/Tech hub.png",
-    navigator: "/techhub",
+    link: "/techhub",
   },
   "games": {
     name: "Games",
     image: "/lovable-uploads/Games.png",
-    navigator: "/gamezone",
+    link: "/gamezone",
   },
   "aptitude": {
     name: "Aptitude",
     image: "/lovable-uploads/Aptitude.png",
-    navigator: "/category/case-studies",
+    link: "/category/case-studies",
   },
   "exams": {
     name: "Exams",
     image: "/lovable-uploads/Exams.png",
-    navigator: "/jobs/internships",
+    link: "/jobs/internships",
   },
   "tech-industry": {
     name: "Tech Industry",
     image: "/lovable-uploads/Tech Industry.png",
-    navigator: "/category/tech-innovation",
+    link: "/category/tech-innovation",
   },
   "web-development": {
     name: "Web Development",
     image: "/lovable-uploads/Web Developement.png",
-    navigator: "/category/web-development",
+    link: "/category/web-development",
   },
 };
