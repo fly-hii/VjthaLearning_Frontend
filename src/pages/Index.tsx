@@ -1,4 +1,5 @@
-import { useEffect, useState } from 'react';
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Calendar, User, ArrowRight, ChevronRight, Clock, TrendingUp, Star, ChevronLeft, Play } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -19,6 +20,8 @@ import {
 } from "@/components/ui/carousel"
 import { BackToTop } from './BacktoTop';
 import { cardcategories } from '@/hooks/categoriesdata';
+import { articlesApi, jobsApi } from '@/Services/api';
+import { useQuery } from '@tanstack/react-query';
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
@@ -304,48 +307,72 @@ const chunkArray = (array, size) => {
   }
   return result;
 };
+  const [filteredResults, setFilteredResults] = useState<any[]>([]);
+  const [currentSlide, setCurrentSlide] = useState(0);
 
+  // ✅ Fetch articles
+  const { data: articlesData = [], isLoading: articlesLoading } = useQuery({
+    queryKey: ["articles"],
+    queryFn: () => articlesApi.getAll(),
+  });
 
+const articles = useMemo(() => {
+  return Array.isArray(articlesData) ? articlesData : [];
+}, [articlesData]);
+  // ✅ Optional: Fetch jobs if not local
+  const { data: jobsData = [], isLoading: jobsLoading } = useQuery({
+    queryKey: ["jobs"],
+    queryFn: () => jobsApi.getAll(),
+  });
 
-const articleChunks = chunkArray(firstBlogPosts, 6);
-const [currentSlide, setCurrentSlide] = useState(0);
+  const jobs =useMemo(() => { return Array.isArray(jobsData) ? jobsData : []; }, [jobsData]);
 
-// Auto-slide every 5 seconds
-useEffect(() => {
-  const interval = setInterval(() => {
-    setCurrentSlide((prev) => (prev + 1) % highlights.length);
-  }, 5000); // 5000ms = 5 seconds
+  // ✅ Auto-slide logic (optional)
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentSlide((prev) => (prev + 1) % articles.length); // or `highlights.length`
+    }, 5000);
+    return () => clearInterval(interval);
+  }, [articles.length]);
 
-  return () => clearInterval(interval); // cleanup on unmount
-}, []);
+  // ✅ Search effect
+  useEffect(() => {
+    const query = searchQuery.toLowerCase().trim();
 
+    if (!query) {
+      setFilteredResults([]);
+      return;
+    }
 
-const AISymbolWithPopup = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const [input, setInput] = useState('');
-  const [responses, setResponses] = useState([]);
+    const jobMatches = jobs.filter((job) =>
+      ["title", "author", "name"].some((key) =>
+        job[key]?.toLowerCase().includes(query)
+      )
+    );
 
-  const handleSearch = async () => {
-    if (!input.trim()) return;
+    const articleMatches = articles.filter((article) =>
+      ["title", "author", "name"].some((key) =>
+        article[key]?.toLowerCase().includes(query)
+      )
+    );
 
-    const res = await fetch('http://localhost:5000/api/ask', {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ message: input }),
-    });
+    const results = [
+      ...jobMatches.map((item) => ({ ...item, type: "job" })),
+      ...articleMatches.map((item) => ({ ...item, type: "article" })),
+    ];
 
-    const data = await res.json();
+    setFilteredResults(results);
+  }, [searchQuery, jobs, articles]);
 
-    setResponses((prev) => [
-      ...prev,
-      { question: input, answer: data.reply },
-    ]);
+  const articleChunks = chunkArray(firstBlogPosts, 6);
+const navigate = useNavigate();
 
-    setInput('');
-  };
+const handleSearchSubmit = () => {
+  const query = searchQuery.trim();
+  if (query) {
+    navigate(`/search?q=${encodeURIComponent(query)}`);
+  }
 };
-
-
 
 
 return (
@@ -359,30 +386,26 @@ return (
             Vjtha makes it easy to explore and share knowledge
           </h1>
           {/* Search Bar */}
-          
           <div className="max-w-2xl mx-auto mb-12">
             <div className="relative">
-              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" />
-              
+              <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-gray-400 w-6 h-6" /> 
               <Input
                 type="text"
                 placeholder="Search articles, jobs, technologies..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
                 className="pl-14 pr-6 py-4 text-lg border-2 border-gray-200 focus:border-blue-500 rounded-2xl bg-white shadow-xl shadow-[0_20px_25px_-5px_rgba(0,2,245,0.5)]"
-                
               />
-              
             </div>
-            
-            
-
-            
           </div>
-
-          <Button  size="lg" className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300">
+          <Button
+            size="lg"
+            onClick={() => handleSearchSubmit()} // 👈 add this
+            className="bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 text-white px-8 py-4 text-lg rounded-2xl shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
             Start Exploring
           </Button>
+
         </div>
       </section>
 

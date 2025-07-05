@@ -113,53 +113,39 @@ const Navigation = () => {
           </div>
 
           <div className="hidden lg:flex items-center space-x-4">
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (searchQuery.trim()) {
-                  window.location.href = `/search?q=${encodeURIComponent(searchQuery.trim())}`;
-                }
-              }}
-              className="flex items-center space-x-2"
-            >
-              <Button variant="outline" size="sm" type="submit" className="bg-blue-400">
-                <Search className="w-4 h-4" />
-              </Button>
-            </form>
             {user ? (
-  <div className="relative group">
-    <div className="flex items-center space-x-2 cursor-pointer">
-      <span className="text-sm text-gray-700">
-        Welcome, {user.name
-          ? user.name.split(' ').map(n => n[0]).join('').toUpperCase()
-          : user.name || user.email}
-      </span>
-      <User2 className="w-5 h-5 text-gray-700" />
-    </div>
+              <div className="relative group">
+                <div className="flex items-center space-x-2 cursor-pointer">
+                  <span className="text-sm text-gray-700">
+                    Welcome, {user.name
+                      ? user.name.split(' ').map(n => n[0]).join('').toUpperCase()
+                      : user.name || user.email}
+                  </span>
+                  <User2 className="w-5 h-5 text-gray-700" />
+                </div>
 
-    {/* Dropdown menu */}
-    <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
-      <Link
-        to="/profile"
-        className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-      >
-        Profile
-      </Link>
-      <button
-        onClick={handleSignOut}
-        className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
-      >
-        Logout
-      </button>
-    </div>
-  </div>
-) : (
-  <Link to="/login">
-    <Button className="bg-blue-600 hover:bg-blue-700">Login</Button>
-  </Link>
-)}
+                {/* Dropdown menu */}
+                <div className="absolute right-0 mt-2 w-32 bg-white border rounded shadow-lg opacity-0 group-hover:opacity-100 transition-opacity duration-200 z-50">
+                  <Link
+                    to="/profile"
+                    className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Profile
+                  </Link>
+                  <button
+                    onClick={handleSignOut}
+                    className="w-full text-left px-4 py-2 text-sm text-red-600 hover:bg-gray-100"
+                  >
+                    Logout
+                  </button>
+                </div>
+              </div>
+            ) : (
+              <Link to="/login">
+                <Button className="bg-blue-600 hover:bg-blue-700">Login</Button>
+              </Link>
+            )}
           </div>
-
           <button className="lg:hidden" onClick={() => setIsMenuOpen(!isMenuOpen)}>
             {isMenuOpen ? <X className="w-6 h-6 text-gray-700" /> : <Menu className="w-6 h-6 text-gray-700" />}
           </button>
