@@ -35,6 +35,7 @@ import TechHub from "./components/digitalworld/TechHub";
 import ProfilePage from './components/digitalworld/profile';
 
 import Navigation from "./components/Navigation";
+import { AIPopup } from "./pages/AIPopup";
 
 const queryClient = new QueryClient();
 
@@ -144,6 +145,7 @@ const App = () => (
         </AuthProvider>
       </BrowserRouter>
     </TooltipProvider>
+    <AIPopup />
   </QueryClientProvider>
 );
 
