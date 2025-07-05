@@ -138,41 +138,41 @@ const TechHub = () => {
   };
 
   return (
+          <><Navigation />
     <div className="max-w-7xl mx-auto space-y-6 px-4">
-      <Navigation />
       {/* Header */}
-     <div className="py-4 px-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-2xl text-white mb-8">
-      <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
-        
-        {/* Left side: Title and description */}
-        <div>
-          <h2 className="text-4xl font-bold mb-2">Tech Hub</h2>
-          <p className="text-lg opacity-90">Share your innovations, inspire others</p>
-        </div>
+      <div className="py-4 px-6 bg-gradient-to-r from-purple-500 via-pink-500 to-orange-500 rounded-2xl text-white mb-8">
+        <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
 
-        {/* Right side: Badges */}
-        <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 mt-2 md:mt-0">
-          <Badge variant="secondary" className="bg-white/20 text-white border-none">
-            <Sparkles className="w-4 h-4 mr-1" />
-            Trending
-          </Badge>
-          <Badge variant="secondary" className="bg-white/20 text-white border-none">
-            🚀 Innovation
-          </Badge>
-          <Badge variant="secondary" className="bg-white/20 text-white border-none">
-            💡 Ideas
-          </Badge>
-        </div>
-        <Button
-          onClick={() => setShowCreatePost(true)}
-          className="w-42 h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-        >
-          <Plus className="w-6 h-6 mr-2" />
-          Share Your Innovation
-        </Button>
+          {/* Left side: Title and description */}
+          <div>
+            <h2 className="text-4xl font-bold mb-2">Tech Hub</h2>
+            <p className="text-lg opacity-90">Share your innovations, inspire others</p>
+          </div>
 
+          {/* Right side: Badges */}
+          <div className="flex flex-wrap items-center justify-start md:justify-end gap-2 mt-2 md:mt-0">
+            <Badge variant="secondary" className="bg-white/20 text-white border-none">
+              <Sparkles className="w-4 h-4 mr-1" />
+              Trending
+            </Badge>
+            <Badge variant="secondary" className="bg-white/20 text-white border-none">
+              🚀 Innovation
+            </Badge>
+            <Badge variant="secondary" className="bg-white/20 text-white border-none">
+              💡 Ideas
+            </Badge>
+          </div>
+          <Button
+            onClick={() => setShowCreatePost(true)}
+            className="w-42 h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            <Plus className="w-6 h-6 mr-2" />
+            Share Your Innovation
+          </Button>
+
+        </div>
       </div>
-    </div>
 
       {/* Posts Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -260,30 +260,29 @@ const TechHub = () => {
           post={selectedPost}
           isOpen={!!selectedPost}
           onClose={() => setSelectedPost(null)}
-          onLike={() => handleLike(selectedPost.id)}
-        />
+          onLike={() => handleLike(selectedPost.id)} />
       )}
       <Dialog open={showCreatePost} onOpenChange={setShowCreatePost}>
-  <DialogTrigger asChild>
-    <Button
-      className="w-42 h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
-    >
-      <Plus className="w-6 h-6 mr-2" />
-      Share Your Innovation
-    </Button>
-  </DialogTrigger>
+        <DialogTrigger asChild>
+          <Button
+            className="w-42 h-14 text-lg bg-gradient-to-r from-blue-500 to-purple-600 hover:from-blue-600 hover:to-purple-700 shadow-lg hover:shadow-xl transform hover:scale-105 transition-all duration-300"
+          >
+            <Plus className="w-6 h-6 mr-2" />
+            Share Your Innovation
+          </Button>
+        </DialogTrigger>
 
-  <DialogContent className="max-w-2xl">
-    <DialogHeader>
-      <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
-        Create New Post
-      </DialogTitle>
-    </DialogHeader>
-    <PostCreation onCreatePost={handleCreatePost} />
-  </DialogContent>
-</Dialog>
+        <DialogContent className="max-w-2xl">
+          <DialogHeader>
+            <DialogTitle className="text-2xl bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">
+              Create New Post
+            </DialogTitle>
+          </DialogHeader>
+          <PostCreation onCreatePost={handleCreatePost} />
+        </DialogContent>
+      </Dialog>
 
-    </div>
+    </div></>
   );
 };
 
