@@ -33,6 +33,7 @@ import AdminDashboard from "./pages/admin/AdminDashboard";
 import GameZone from "./components/digitalworld/GameZone";
 import TechHub from "./components/digitalworld/TechHub";
 import ProfilePage from './components/digitalworld/profile';
+import JobBlogHome from './pages/JobBlogHome';
 
 import Navigation from "./components/Navigation";
 import { AIPopup } from "./pages/AIPopup";
@@ -53,6 +54,7 @@ const App = () => (
             <Route path="/profile" element={<ProfilePage />} />
             <Route path="/techhub" element={<TechHub />} />
             <Route path="/gamezone" element={<GameZone />} />
+            <Route path="/jobbloghome" element={<JobBlogHome />} />
             <Route path="/article/:id" element={
               <ProtectedRoute>
                 <ArticleDetail />
