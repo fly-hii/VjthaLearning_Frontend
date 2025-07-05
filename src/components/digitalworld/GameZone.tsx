@@ -10,6 +10,7 @@ import RockPaperScissorsGame from './games/RockPaperScissorsGame';
 import AshtachammaGame from './games/AshtachammaGame';
 import DaddyGame from './games/DaddyGame';
 import Navigation from '../Navigation';
+
 type GameType = 'menu' | 'sudoku' | 'tictactoe' | 'memory' | 'puzzles' | 'rps' | 'ashtachamma' | 'daddy';
 
 const GameZone = () => {
@@ -78,14 +79,14 @@ const GameZone = () => {
         return <DaddyGame onBack={() => setCurrentGame('menu')} />;
       default:
         return (
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4 sm:gap-6">
             {games.map((game) => (
               <Card key={game.id} className="hover:shadow-lg transition-shadow cursor-pointer">
                 <CardHeader className={`${game.color} text-white`}>
-                  <CardTitle className="text-xl">{game.title}</CardTitle>
+                  <CardTitle className="text-lg sm:text-xl">{game.title}</CardTitle>
                 </CardHeader>
-                <CardContent className="p-6">
-                  <p className="text-gray-600 mb-4">{game.description}</p>
+                <CardContent className="p-4 sm:p-6">
+                  <p className="text-gray-600 mb-4 text-sm sm:text-base">{game.description}</p>
                   <Button 
                     onClick={() => setCurrentGame(game.id as GameType)}
                     className="w-full"
@@ -101,19 +102,19 @@ const GameZone = () => {
   };
 
   return (
-    <div className="bg-gray-100 min-h-screen py-8">
+    <div className="bg-gray-100 min-h-screen py-4 sm:py-8">
       <Navigation />
       
-    <div className="max-w-6xl mx-auto">
-      {currentGame === 'menu' && (
-        <div className="text-center mb-8">
-          <h2 className="text-3xl font-bold text-gray-900 mb-4">Game Zone</h2>
-          <p className="text-lg text-gray-600">Choose your adventure and have fun!</p>
-        </div>
-      )}
-      
-      {renderGame()}
-    </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        {currentGame === 'menu' && (
+          <div className="text-center mb-6 sm:mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-gray-900 mb-4">Game Zone</h2>
+            <p className="text-base sm:text-lg text-gray-600">Choose your adventure and have fun!</p>
+          </div>
+        )}
+        
+        {renderGame()}
+      </div>
     </div>
   );
 };

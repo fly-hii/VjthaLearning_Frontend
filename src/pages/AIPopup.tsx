@@ -1,3 +1,4 @@
+
 import { useState, useRef, useEffect } from 'react';
 
 export const AIPopup = () => {
@@ -43,11 +44,11 @@ export const AIPopup = () => {
       {/* AI Button */}
       <span
         onClick={() => setOpen(true)}
-        className="fixed bottom-6 right-6 z-50
-                   w-16 h-16 flex items-center justify-center
-                   text-3xl cursor-pointer
-                   bg-gradient-to-r from-blue-200  to-blue-400
-                   border-4 border-yellow-200 rounded-full
+        className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50
+                   w-12 h-12 sm:w-16 sm:h-16 flex items-center justify-center
+                   text-2xl sm:text-3xl cursor-pointer
+                   bg-gradient-to-r from-blue-200 to-blue-400
+                   border-2 sm:border-4 border-yellow-200 rounded-full
                    shadow-[0_0_15px_#FFD700,0_0_30px_#FFD700]
                    animate-pulse-glow hover:scale-110 transition-transform duration-300"
       >
@@ -56,7 +57,10 @@ export const AIPopup = () => {
 
       {/* AI Popup */}
       {open && (
-        <div className="fixed bottom-6 right-6 z-50 w-full max-w-md h-[500px] rounded-xl overflow-hidden shadow-2xl border border-cyan-300 bg-black bg-opacity-80 backdrop-blur-lg text-white">
+        <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 
+                        w-[calc(100vw-2rem)] max-w-md h-[70vh] sm:h-[500px] 
+                        rounded-xl overflow-hidden shadow-2xl border border-cyan-300 
+                        bg-black bg-opacity-80 backdrop-blur-lg text-white">
           
           {/* Glow Border */}
           <div className="absolute inset-0 rounded-xl neon-border z-0"></div>
@@ -66,7 +70,7 @@ export const AIPopup = () => {
             
             {/* Header */}
             <div className="flex justify-between items-center p-3 bg-gradient-to-r from-cyan-600 to-purple-700 rounded-t-xl">
-              <span className="font-semibold text-base">💬 AI Assistant</span>
+              <span className="font-semibold text-sm sm:text-base">💬 AI Assistant</span>
               <button onClick={() => setOpen(false)} className="hover:text-red-400 text-lg">✖</button>
             </div>
 
@@ -75,7 +79,7 @@ export const AIPopup = () => {
               {messages.map((m, i) => (
                 <div
                   key={i}
-                  className={`p-2 rounded-lg max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap shadow ${
+                  className={`p-2 rounded-lg max-w-[85%] text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow ${
                     m.role === 'user'
                       ? 'ml-auto bg-cyan-700 text-white'
                       : 'mr-auto bg-gray-800 text-green-300'
@@ -85,7 +89,7 @@ export const AIPopup = () => {
                 </div>
               ))}
               {loading && (
-                <div className="mr-auto bg-gray-800 text-green-300 px-4 py-2 rounded-lg max-w-[85%] text-sm leading-relaxed shadow w-fit">
+                <div className="mr-auto bg-gray-800 text-green-300 px-3 sm:px-4 py-2 rounded-lg max-w-[85%] text-xs sm:text-sm leading-relaxed shadow w-fit">
                   🤖 Thinking...
                 </div>
               )}
@@ -99,12 +103,12 @@ export const AIPopup = () => {
                 onChange={(e) => setInput(e.target.value)}
                 onKeyDown={(e) => e.key === 'Enter' && askAI()}
                 placeholder="Type your message..."
-                className="flex-1 p-2 rounded-lg bg-black bg-opacity-40 text-white border border-cyan-500 placeholder-gray-400 text-sm"
+                className="flex-1 p-2 rounded-lg bg-black bg-opacity-40 text-white border border-cyan-500 placeholder-gray-400 text-xs sm:text-sm"
               />
               <button
                 onClick={askAI}
                 disabled={loading}
-                className="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 rounded-lg text-sm"
+                className="bg-cyan-600 hover:bg-cyan-700 text-white px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm"
               >
                 Ask
               </button>
@@ -147,7 +151,13 @@ export const AIPopup = () => {
         }
 
         .custom-scrollbar::-webkit-scrollbar {
-          width: 6px;
+          width: 4px;
+        }
+
+        @media (min-width: 640px) {
+          .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+          }
         }
 
         .custom-scrollbar::-webkit-scrollbar-thumb {
@@ -162,6 +172,3 @@ export const AIPopup = () => {
     </>
   );
 };
-
-
-
