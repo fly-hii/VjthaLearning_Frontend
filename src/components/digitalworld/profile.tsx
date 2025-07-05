@@ -2,7 +2,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from 'react';
 import Navigation from '../Navigation';
-import { AIPopup } from '@/pages/AIPopup';
 import Footer from '../Footer';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -138,7 +137,6 @@ const ProfilePage = () => {
   return (
     <div className="bg-gray-50 min-h-screen">
       <Navigation />
-      <AIPopup />
       
       <div className="max-w-6xl mx-auto p-6 space-y-6">
         {/* User Profile Card with 3D Animation */}

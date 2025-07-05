@@ -6,7 +6,6 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import { internships } from '@/lib/mockdata';
 import { Link } from 'react-router-dom';
-import { AIPopup } from '../AIPopup'; // Assuming you have an AI popup component
 const Internships = () => {
   const internship = internships;
 
@@ -22,7 +21,6 @@ const Internships = () => {
       
     <div className="min-h-screen bg-white">
       <Navigation />
-      <AIPopup /> {/* AI Assistant Popup */}
 
       {/* Page Header */}
       

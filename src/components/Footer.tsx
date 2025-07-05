@@ -153,7 +153,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    <BackToTop />
   </footer>
     
   );

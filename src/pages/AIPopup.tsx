@@ -43,11 +43,11 @@ export const AIPopup = () => {
       {/* AI Button */}
       <span
         onClick={() => setOpen(true)}
-        className="fixed left-[1250px] top-[450px] z-[9999]
+        className="fixed bottom-6 right-6 z-50
                    w-16 h-16 flex items-center justify-center
                    text-3xl cursor-pointer
-                   bg-gradient-to-r from-black via-[#1a0f0f] to-black
-                   border-4 border-yellow-500 rounded-full
+                   bg-gradient-to-r from-blue-200  to-blue-400
+                   border-4 border-yellow-200 rounded-full
                    shadow-[0_0_15px_#FFD700,0_0_30px_#FFD700]
                    animate-pulse-glow hover:scale-110 transition-transform duration-300"
       >
@@ -56,62 +56,58 @@ export const AIPopup = () => {
 
       {/* AI Popup */}
       {open && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-70 backdrop-blur-md">
-          <div className="relative w-full max-w-3xl h-[80vh] rounded-2xl overflow-hidden neon-container border border-cyan-300">
+        <div className="fixed bottom-6 right-6 z-50 w-full max-w-md h-[500px] rounded-xl overflow-hidden shadow-2xl border border-cyan-300 bg-black bg-opacity-80 backdrop-blur-lg text-white">
+          
+          {/* Glow Border */}
+          <div className="absolute inset-0 rounded-xl neon-border z-0"></div>
 
-            {/* Glow Border */}
-            <div className="absolute inset-0 rounded-2xl neon-border z-0"></div>
+          {/* Content */}
+          <div className="relative z-10 flex flex-col w-full h-full">
+            
+            {/* Header */}
+            <div className="flex justify-between items-center p-3 bg-gradient-to-r from-cyan-600 to-purple-700 rounded-t-xl">
+              <span className="font-semibold text-base">💬 AI Assistant</span>
+              <button onClick={() => setOpen(false)} className="hover:text-red-400 text-lg">✖</button>
+            </div>
 
-            {/* Content */}
-            <div className="relative z-10 flex flex-col w-full h-full bg-black bg-opacity-60 backdrop-blur-lg text-white shadow-2xl rounded-2xl">
-              {/* Header */}
-              <div className="flex justify-between items-center p-4 bg-gradient-to-r from-cyan-600 to-purple-700">
-                <span className="font-semibold text-lg">💬 AI Assistant</span>
-                <button onClick={() => setOpen(false)} className="hover:text-red-400 text-xl">✖</button>
-              </div>
-
-              {/* Messages */}
-              <div className="flex-1 overflow-y-auto p-4 space-y-4 custom-scrollbar">
-                {messages.map((m, i) => (
-                  <div
-                    key={i}
-                    className={`p-3 rounded-lg max-w-[80%] text-sm leading-relaxed whitespace-pre-wrap shadow ${
-                      m.role === 'user'
-                        ? 'ml-auto bg-cyan-700 text-white'
-                        : 'mr-auto bg-gray-800 text-green-300'
-                    }`}
-                  >
-                    {m.text}
-                  </div>
-                ))}
-                {loading && (
-  <div
-    className="mr-auto bg-gray-800 text-green-300 px-4 py-2 rounded-lg max-w-[80%] text-sm leading-relaxed shadow w-fit a"
-  >
-    🤖 Thinking...
-  </div>
-)}
-
-                <div ref={bottomRef} />
-              </div>
-
-              {/* Input Area */}
-              <div className="p-4 flex gap-2 border-t border-cyan-800 bg-black bg-opacity-50">
-                <input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  onKeyDown={(e) => e.key === 'Enter' && askAI()}
-                  placeholder="Type your message..."
-                  className="flex-1 p-3 rounded-lg bg-black bg-opacity-40 text-white border border-cyan-500 placeholder-gray-400"
-                />
-                <button
-                  onClick={askAI}
-                  disabled={loading}
-                  className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg min-w-[70px]"
+            {/* Messages */}
+            <div className="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
+              {messages.map((m, i) => (
+                <div
+                  key={i}
+                  className={`p-2 rounded-lg max-w-[85%] text-sm leading-relaxed whitespace-pre-wrap shadow ${
+                    m.role === 'user'
+                      ? 'ml-auto bg-cyan-700 text-white'
+                      : 'mr-auto bg-gray-800 text-green-300'
+                  }`}
                 >
-                  Ask
-                </button>
-              </div>
+                  {m.text}
+                </div>
+              ))}
+              {loading && (
+                <div className="mr-auto bg-gray-800 text-green-300 px-4 py-2 rounded-lg max-w-[85%] text-sm leading-relaxed shadow w-fit">
+                  🤖 Thinking...
+                </div>
+              )}
+              <div ref={bottomRef} />
+            </div>
+
+            {/* Input */}
+            <div className="p-3 flex gap-2 border-t border-cyan-800 bg-black bg-opacity-50 rounded-b-xl">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                onKeyDown={(e) => e.key === 'Enter' && askAI()}
+                placeholder="Type your message..."
+                className="flex-1 p-2 rounded-lg bg-black bg-opacity-40 text-white border border-cyan-500 placeholder-gray-400 text-sm"
+              />
+              <button
+                onClick={askAI}
+                disabled={loading}
+                className="bg-cyan-600 hover:bg-cyan-700 text-white px-3 py-2 rounded-lg text-sm"
+              >
+                Ask
+              </button>
             </div>
           </div>
         </div>

@@ -8,7 +8,6 @@ import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { useToast } from '@/hooks/use-toast';
 import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
-import { AIPopup } from './AIPopup';
 const Contact = () => {
   const [formData, setFormData] = useState({
     name: '',
@@ -87,7 +86,6 @@ const Contact = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      <AIPopup /> {/* AI Assistant Popup */}
       {/* Hero Section */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
         <div className="container mx-auto px-4">

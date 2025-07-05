@@ -9,7 +9,6 @@ import Navigation from '@/components/Navigation';
 import Footer from '@/components/Footer';
 import NewsletterSignup from '@/components/NewsletterSignup';
 import { useRef } from 'react';
-import { AIPopup } from './AIPopup';
 import { useNavigate } from "react-router-dom";
 import {
   Carousel,
@@ -376,8 +375,6 @@ return (
               
             </div>
             
-            {/* 🔥 AI Chat is always available */}
-            <AIPopup />
             
 
             
@@ -674,7 +671,6 @@ return (
 
       {/* Newsletter Signup */}
       <NewsletterSignup />
-      <BackToTop />
       <Footer />
     </div>
   );

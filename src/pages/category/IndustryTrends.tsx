@@ -13,7 +13,6 @@ import { articlesApi } from '@/Services/api';
 import type { Article } from '@/types/api';
 import { subcategories } from '@/hooks/categoriesdata';
 import { useGroupedArticlesByCategory } from '@/hooks/useFilteredArticles';
-import { AIPopup } from '../AIPopup'; // Assuming you have an AI popup component
 const IndustryTrends = () => {
     const [page, setPage] = useState(1);
     const articlesPerPage = 20;
@@ -36,7 +35,6 @@ const IndustryTrends = () => {
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
-      <AIPopup /> {/* AI Assistant Popup */}
 
       {/* Header Section */}
       <section className="py-8 bg-gray-50">
