@@ -84,67 +84,94 @@ useEffect(() => {
 
   fetchHighlightArticles();
 }, []);
+///only industyr
 
-  const [firstBlogPosts, setFirstBlogPosts] = useState<Articles[]>([]);
+ const [firstBlogPosts, setFirstBlogPosts] = useState<Articles[]>([]);
+
 
 useEffect(() => {
-  const fetchTechArticles = async () => {
+  const fetchIndustryArticles = async () => {
     try {
-      const res = await axios.get('/api/articles?category=68594e861cada6edbdbd06c4'); // removed limit
-      console.log('API response:', res.data);
+      const res = await axios.get('/api/articles', {
+        params: { category: '68594dfb1cada6edbdbd06b7' }, // Industry category ID
+      });
 
-      const data = Array.isArray(res.data)
+      const articles = Array.isArray(res.data)
         ? res.data
-        : res.data.articles || res.data.data?.articles || [];
+        : res.data.articles || [];
 
-      setFirstBlogPosts(data);
+      setFirstBlogPosts(articles);
     } catch (error) {
-      console.error('Error fetching technologies articles:', error);
-      setFirstBlogPosts([]);
+      console.error('Failed to fetch industry articles', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  fetchTechArticles();
+  fetchIndustryArticles();
 }, []);
 
+  const [secondBlogPosts, ssetIndustryArticles] = useState<Articles[]>([]);
 
-const [secondBlogPosts, setSecondBlogPosts] = useState<any[]>([]);
 
 useEffect(() => {
-  const fetchEducationArticles = async () => {
+  const fetchIndustryArticles = async () => {
     try {
-      const res = await axios.get('/api/articles?category=685950151cada6edbdbd0708');
-      const data = Array.isArray(res.data) ? res.data : res.data.articles || [];
-      setSecondBlogPosts(data);
+      const response = await articlesApi.getAll({
+        limit: 10,
+        sort: 'latest',
+        category: ['68594dfb1cada6edbdbd06b7'], // Only Industry category
+      });
+
+      ssetIndustryArticles(
+        response.map((article: any) => ({
+          ...article,
+          category: typeof article.category === 'string'
+            ? article.category
+            : (article.category?.name || ''),
+        }))
+      );
     } catch (error) {
-      console.error('Error fetching education articles:', error);
-      setSecondBlogPosts([]);
+      console.error('Failed to fetch industry articles', error);
+    } finally {
+      setLoading(false);
     }
   };
 
-  fetchEducationArticles();
+  fetchIndustryArticles();
 }, []);
 
+//third blog post
+  const [thirdBlogPosts, sssetIndustryArticles] = useState<Articles[]>([]);
 
 
-const highlights = [
-  {
-    title: 'Empowering Fresh Talent',
-    subtitle: 'Find the right job to kickstart your career journey with personalized matches and support at every step.',
-  },
-  {
-    title: 'Real-Time Job Updates',
-    subtitle: 'Stay updated with the latest job opportunities, notifications, and alerts tailored to your profile.',
-  },
-  {
-    title: 'Trusted by Thousands',
-    subtitle: 'Join a growing community of job seekers and recruiters across India who trust our platform to build careers.',
-  },
-  {
-    title: 'Boost Your Visibility',
-    subtitle: 'Stand out from the crowd and get discovered by top recruiters through an optimized and professional profile.',
-  },
-];
+useEffect(() => {
+  const fetchIndustryArticles = async () => {
+    try {
+      const response = await articlesApi.getAll({
+        limit: 10,
+        sort: 'latest',
+        category: ['68594dfb1cada6edbdbd06b7'], // Only Industry category
+      });
+
+      sssetIndustryArticles(
+        response.map((article: any) => ({
+          ...article,
+          category: typeof article.category === 'string'
+            ? article.category
+            : (article.category?.name || ''),
+        }))
+      );
+    } catch (error) {
+      console.error('Failed to fetch industry articles', error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchIndustryArticles();
+}, []);
+
 const chunkArray = (array, size) => {
   const result = [];
   for (let i = 0; i < array.length; i += size) {
@@ -456,96 +483,125 @@ return (
 
 
       {/* Second Blog Section with Slider */}
-      <section className="py-16 bg-white print:bg-white">
-  <div className="container mx-auto px-4">
-    <div className="flex items-center justify-between mb-8 print:flex-col print:items-start print:gap-2">
-      <h2 className="text-3xl font-bold text-gray-900">Education Blog</h2>
-      <Link
-        to="/articles"
-        className="flex items-center text-blue-600 hover:text-blue-800 font-medium print:hidden"
-      >
-        View All <ChevronRight className="w-4 h-4 ml-1" />
-      </Link>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 print:grid-cols-1">
-      {secondBlogPosts.map((article) => (
-        <div key={article._id || article.id} className="border rounded-lg shadow print:shadow-none overflow-hidden">
-          <div className="w-full h-48">
-            <img
-              src={article.image}
-              alt={article.title}
-              className="w-full h-full object-cover"
-            />
-          </div>
-          <div className="p-4">
-            <Badge variant="outline" className="mb-2 text-xs">
-              {typeof article.category === 'object' ? article.category.name : article.category}
-            </Badge>
-            <h3 className="font-bold text-gray-900 mb-2 text-lg">
-              {article.title}
-            </h3>
-            <p className="text-gray-600 mb-4 text-sm">{article.excerpt}</p>
-            <div className="flex justify-between text-sm text-gray-500">
-              <span>{article.author || 'Unknown'}</span>
-              <span>{article.readTime || '2 min read'}</span>
-            </div>
-          </div>
+       <section className="py-16 bg-wh">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-bold text-gray-900">Educational Blog</h2>
+          <Link
+            to="/articles"
+            className="flex items-center text-blue-600 hover:text-blue-800 font-medium"
+          >
+            View All <ChevronRight className="w-4 h-4 ml-1" />
+          </Link>
         </div>
-      ))}
-    </div>
-  </div>
-</section>
+
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-4">
+            {secondBlogPosts.map((article) => (
+              <CarouselItem
+                key={article._id || article.id || article.slug || article.title} // ✅ Unique key
+                className="pl-4 md:basis-1/2 lg:basis-1/3"
+              >
+                <Link to={`/article/${article.slug || article._id}`} className="group block">
+                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+                    <div className="flex lg:flex-col">
+                      <div className="w-16 h-12 lg:w-full lg:h-48 flex-shrink-0">
+                        <img
+                          src={article.image || article.featuredImage}
+                          alt={article.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4 lg:p-6">
+                        <Badge variant="outline" className="mb-2 text-xs">
+                          {typeof article.category === 'object'
+                            ? article.category.name
+                            : article.category}
+                        </Badge>
+                        <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                          {article.title}
+                        </h3>
+                        <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+                          {article.excerpt || article.content?.slice(0, 120) + '...'}
+                        </p>
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                          <span>{article.author || 'Unknown'}</span>
+                          <span>{article.readTime || '3 min read'}</span>
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </section>
+
 
 
       {/* Third Blog Section with Slider */}
-      <section className="py-16 ">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between mb-8">
-            <h2 className="text-3xl font-bold text-gray-900">Jobs Blog</h2>
-            <Link to="/articles" className="flex items-center text-blue-600 hover:text-blue-800 font-medium">
-              View All <ChevronRight className="w-4 h-4 ml-1" />
-            </Link>
-          </div>
-          
-          <Carousel className="w-full">
-            <CarouselContent className="-ml-4">
-              {highlightArticles.slice(4, 8).map((article) => (
-                <CarouselItem key={article.id} className="pl-4 md:basis-1/2 lg:basis-1/3">
-                  <Link to={`/article/${article.id}`} className="group block">
-                    <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
-                      <div className="flex lg:flex-col">
-                        <div className="w-32 h-24 lg:w-full lg:h-48 flex-shrink-0">
-                          <img
-                            src={article.image}
-                            alt={article.title}
-                            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
-                          />
-                        </div>
-                        <CardContent className="flex-1 p-4 lg:p-6">
-                          <Badge variant="outline" className="mb-2 text-xs">
-                            {article.category}
-                          </Badge>
-                          <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
-                            {article.title}
-                          </h3>
-                          <p className="text-gray-600 mb-4 line-clamp-2 text-sm">{article.excerpt}</p>
-                          <div className="flex items-center justify-between text-sm text-gray-500">
-                            <span>{article.author}</span>
-                            <span>{article.readTime}</span>
-                          </div>
-                        </CardContent>
-                      </div>
-                    </Card>
-                  </Link>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious />
-            <CarouselNext />
-          </Carousel>
+       <section className="py-16 bg-wh">
+      <div className="container mx-auto px-4">
+        <div className="flex items-center justify-between mb-8">
+          <h2 className="text-3xl font-bold text-gray-900">Job Blog</h2>
+          <Link
+            to="/articles"
+            className="flex items-center text-blue-600 hover:text-blue-800 font-medium"
+          >
+            View All <ChevronRight className="w-4 h-4 ml-1" />
+          </Link>
         </div>
-      </section>
+
+        <Carousel className="w-full">
+          <CarouselContent className="-ml-4">
+            {thirdBlogPosts.map((article) => (
+              <CarouselItem
+                key={article._id || article.id || article.slug || article.title} // ✅ Unique key
+                className="pl-4 md:basis-1/2 lg:basis-1/3"
+              >
+                <Link to={`/article/${article.slug || article._id}`} className="group block">
+                  <Card className="overflow-hidden hover:shadow-xl transition-all duration-300 h-full">
+                    <div className="flex lg:flex-col">
+                      <div className="w-16 h-12 lg:w-full lg:h-48 flex-shrink-0">
+                        <img
+                          src={article.image || article.featuredImage}
+                          alt={article.title}
+                          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                        />
+                      </div>
+                      <CardContent className="flex-1 p-4 lg:p-6">
+                        <Badge variant="outline" className="mb-2 text-xs">
+                          {typeof article.category === 'object'
+                            ? article.category.name
+                            : article.category}
+                        </Badge>
+                        <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
+                          {article.title}
+                        </h3>
+                        <p className="text-gray-600 mb-4 line-clamp-2 text-sm">
+                          {article.excerpt || article.content?.slice(0, 120) + '...'}
+                        </p>
+                        <div className="flex items-center justify-between text-sm text-gray-500">
+                          <span>{article.author || 'Unknown'}</span>
+                          <span>{article.readTime || '3 min read'}</span>
+                        </div>
+                      </CardContent>
+                    </div>
+                  </Card>
+                </Link>
+              </CarouselItem>
+            ))}
+          </CarouselContent>
+          <CarouselPrevious />
+          <CarouselNext />
+        </Carousel>
+      </div>
+    </section>
+
 
       {/* Newsletter Signup */}
       <NewsletterSignup />
