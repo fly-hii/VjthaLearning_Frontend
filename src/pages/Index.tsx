@@ -69,36 +69,39 @@ const Index = () => {
   const [loading, setLoading] = useState(true);
 
   // Fetch Vjtha Specials - Latest 2 articles from each category
-  useEffect(() => {
-    const fetchHighlightArticles = async () => {
-      try {
-        const allArticles: Articles[] = [];
-        
-        for (const categoryName of Object.values(categoryNames)) {
-          const response = await articlesApi.getAll({
-            limit: 2,
-            sort: 'latest',
-            category: categoryName,
-          });
-          
-          const formattedArticles = response.map((article: any) => ({
-            ...article,
-            category: typeof article.category === 'string'
-              ? article.category
-              : (article.category?.name || categoryName),
-          }));
-          
-          allArticles.push(...formattedArticles);
-        }
+ useEffect(() => {
+  const fetchHighlightArticles = async () => {
+    try {
+      const allArticles: Articles[] = [];
 
-        setHighlightArticles(allArticles);
-      } catch (error) {
-        console.error('Failed to fetch highlight articles', error);
+      for (const categoryName of Object.values(categoryNames)) {
+        const response = await articlesApi.getAll({
+          limit: 2,
+          sort: 'latest',
+          category: categoryName,
+        });
+
+        const formattedArticles = response.map((article: any) => ({
+          ...article,
+          category: typeof article.category === 'string'
+            ? article.category
+            : (article.category?.name || categoryName),
+        }));
+
+        allArticles.push(...formattedArticles);
       }
-    };
 
-    fetchHighlightArticles();
-  }, []);
+      // ✅ Only keep the first 10 articles
+      const top10 = allArticles.slice(0, 10);
+      setHighlightArticles(top10);
+    } catch (error) {
+      console.error('Failed to fetch highlight articles', error);
+    }
+  };
+
+  fetchHighlightArticles();
+}, []);
+
 
   // Fetch Highly Recommended - Top viewed latest article from each category
   useEffect(() => {
