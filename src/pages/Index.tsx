@@ -86,21 +86,26 @@ useEffect(() => {
 }, []);
 ///only industyr
 
- const [firstBlogPosts, setFirstBlogPosts] = useState<Articles[]>([]);
+  const [firstBlogPosts, setIndustryArticles] = useState<Articles[]>([]);
 
 
 useEffect(() => {
   const fetchIndustryArticles = async () => {
     try {
-      const res = await axios.get('/api/articles', {
-        params: { category: '68594dfb1cada6edbdbd06b7' }, // Industry category ID
+      const response = await articlesApi.getAll({
+        limit: 10,
+        sort: 'latest',
+        category: 'UI/UX Design', // Only Industry category
       });
-
-      const articles = Array.isArray(res.data)
-        ? res.data
-        : res.data.articles || [];
-
-      setFirstBlogPosts(articles);
+      
+      setIndustryArticles(
+        response.map((article: any) => ({
+          ...article,
+          category: typeof article.category === 'string'
+            ? article.category
+            : (article.category?.name || ''),
+        }))
+      );
     } catch (error) {
       console.error('Failed to fetch industry articles', error);
     } finally {
