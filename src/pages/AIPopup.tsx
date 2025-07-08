@@ -1,4 +1,3 @@
-
 import { useState, useRef, useEffect } from 'react';
 
 export const AIPopup = () => {
@@ -60,87 +59,58 @@ export const AIPopup = () => {
         <div className="fixed bottom-4 right-4 sm:bottom-6 sm:right-6 z-50 
                         w-[calc(100vw-2rem)] max-w-md h-[70vh] sm:h-[500px] 
                         rounded-xl overflow-hidden shadow-2xl border border-cyan-300 
-                        bg-black bg-opacity-80 backdrop-blur-lg text-white">
+                        bg-white text-gray-900 flex flex-col">
           
-          {/* Glow Border */}
-          <div className="absolute inset-0 rounded-xl neon-border z-0"></div>
+          {/* Header */}
+          <div className="flex justify-between items-center p-4 bg-gradient-to-r from-cyan-600 to-purple-700 text-white rounded-t-xl">
+            <span className="font-semibold text-base">💬 AI Assistant</span>
+            <button onClick={() => setOpen(false)} className="hover:text-red-400 text-lg">✖</button>
+          </div>
 
-          {/* Content */}
-          <div className="relative z-10 flex flex-col w-full h-full">
-            
-            {/* Header */}
-            <div className="flex justify-between items-center p-3 bg-gradient-to-r from-cyan-600 to-purple-700 rounded-t-xl">
-              <span className="font-semibold text-sm sm:text-base">💬 AI Assistant</span>
-              <button onClick={() => setOpen(false)} className="hover:text-red-400 text-lg">✖</button>
-            </div>
-
-            {/* Messages */}
-            <div className="flex-1 overflow-y-auto p-3 space-y-3 custom-scrollbar">
-              {messages.map((m, i) => (
-                <div
-                  key={i}
-                  className={`p-2 rounded-lg max-w-[85%] text-xs sm:text-sm leading-relaxed whitespace-pre-wrap shadow ${
-                    m.role === 'user'
-                      ? 'ml-auto bg-cyan-700 text-white'
-                      : 'mr-auto bg-gray-800 text-green-300'
-                  }`}
-                >
-                  {m.text}
-                </div>
-              ))}
-              {loading && (
-                <div className="mr-auto bg-gray-800 text-green-300 px-3 sm:px-4 py-2 rounded-lg max-w-[85%] text-xs sm:text-sm leading-relaxed shadow w-fit">
-                  🤖 Thinking...
-                </div>
-              )}
-              <div ref={bottomRef} />
-            </div>
-
-            {/* Input */}
-            <div className="p-3 flex gap-2 border-t border-cyan-800 bg-black bg-opacity-50 rounded-b-xl">
-              <input
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                onKeyDown={(e) => e.key === 'Enter' && askAI()}
-                placeholder="Type your message..."
-                className="flex-1 p-2 rounded-lg bg-black bg-opacity-40 text-white border border-cyan-500 placeholder-gray-400 text-xs sm:text-sm"
-              />
-              <button
-                onClick={askAI}
-                disabled={loading}
-                className="bg-cyan-600 hover:bg-cyan-700 text-white px-2 sm:px-3 py-2 rounded-lg text-xs sm:text-sm"
+          {/* Messages */}
+          <div className="flex-1 overflow-y-auto p-4 space-y-3 custom-scrollbar bg-gray-50">
+            {messages.map((m, i) => (
+              <div
+                key={i}
+                className={`p-3 rounded-lg max-w-[85%] text-sm whitespace-pre-wrap shadow ${
+                  m.role === 'user'
+                    ? 'ml-auto bg-cyan-100 text-black'
+                    : 'mr-auto bg-gray-200 text-green-800'
+                }`}
               >
-                Ask
-              </button>
-            </div>
+                {m.text}
+              </div>
+            ))}
+            {loading && (
+              <div className="mr-auto bg-gray-200 text-green-800 px-4 py-2 rounded-lg text-sm shadow w-fit">
+                🤖 Thinking...
+              </div>
+            )}
+            <div ref={bottomRef} />
+          </div>
+
+          {/* Input */}
+          <div className="p-3 flex gap-2 border-t border-gray-200 bg-white rounded-b-xl">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={(e) => e.key === 'Enter' && askAI()}
+              placeholder="Type your message..."
+              className="flex-1 p-2 rounded-lg bg-gray-100 text-gray-800 border border-cyan-500 placeholder-gray-500 text-sm"
+            />
+            <button
+              onClick={askAI}
+              disabled={loading}
+              className="bg-cyan-600 hover:bg-cyan-700 text-white px-4 py-2 rounded-lg text-sm"
+            >
+              Ask
+            </button>
           </div>
         </div>
       )}
 
-      {/* Styles */}
+      {/* Minimal Glow Animation */}
       <style>{`
-        .neon-border {
-          pointer-events: none;
-          background: conic-gradient(
-            from 0deg,
-            #00f7ff,
-            #ff00ff,
-            #00ff88,
-            #ffcc00,
-            #00f7ff
-          );
-          animation: rotate 4s linear infinite;
-          padding: 2px;
-          mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-          -webkit-mask-composite: destination-out;
-          mask-composite: exclude;
-        }
-
-        @keyframes rotate {
-          0% { transform: rotate(0deg); }
-          100% { transform: rotate(360deg); }
-        }
-
         .animate-pulse-glow {
           animation: pulseGlow 1.8s infinite;
         }
@@ -172,3 +142,4 @@ export const AIPopup = () => {
     </>
   );
 };
+

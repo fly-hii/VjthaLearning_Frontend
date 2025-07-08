@@ -50,7 +50,7 @@ const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
 }));
   const [highlightArticles, setHighlightArticles] = useState<Articles[]>([]);
 const [loading, setLoading] = useState(true);
-
+//10 categories
 useEffect(() => {
   const fetchHighlightArticles = async () => {
     try {
@@ -88,7 +88,7 @@ useEffect(() => {
 
   const [firstBlogPosts, setIndustryArticles] = useState<Articles[]>([]);
 
-
+//first blog post
 useEffect(() => {
   const fetchIndustryArticles = async () => {
     try {
@@ -118,7 +118,7 @@ useEffect(() => {
 
   const [secondBlogPosts, ssetIndustryArticles] = useState<Articles[]>([]);
 
-
+//second blog post
 useEffect(() => {
   const fetchIndustryArticles = async () => {
     try {
@@ -149,7 +149,7 @@ useEffect(() => {
 //third blog post
   const [thirdBlogPosts, sssetIndustryArticles] = useState<Articles[]>([]);
 
-
+//third blog post
 useEffect(() => {
   const fetchIndustryArticles = async () => {
     try {

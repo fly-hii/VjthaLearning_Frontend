@@ -50,7 +50,7 @@ const Navigation = () => {
   };
 
   return (
-    <nav className="bg-gradient-to-r from-blue-200 to-blue-300  text-dark shadow-lg sticky top-0 z-50">
+    <nav className="bg-gradient-to-r from-blue-200 to-blue-200  text-dark shadow-lg sticky top-0 z-50">
       <div className="container mx-auto px-2">
         <div className="flex justify-between items-center">
           <Link to="/" className="flex items-center space-x-2">
