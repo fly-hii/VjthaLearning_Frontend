@@ -44,18 +44,6 @@ import { useQuery } from '@tanstack/react-query';
 const Index = () => {
   const [searchQuery, setSearchQuery] = useState('');
 
-<<<<<<< HEAD
-const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
-  key,
-  name: category.name,
-  image: category.image,
-  link: (category as { name: string; image: string; link?: string }).link || `${key}`,
-}));
-  const [highlightArticles, setHighlightArticles] = useState<Articles[]>([]);
-const [loading, setLoading] = useState(true);
-//10 categories
-useEffect(() => {
-=======
   const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
     key,
     name: category.name,
@@ -82,7 +70,6 @@ useEffect(() => {
 
   // Fetch Vjtha Specials - Latest 2 articles from each category
  useEffect(() => {
->>>>>>> a5e2dc5a640052a20acf2820e7c3b40400829628
   const fetchHighlightArticles = async () => {
     try {
       const allArticles: Articles[] = [];
@@ -115,30 +102,6 @@ useEffect(() => {
   fetchHighlightArticles();
 }, []);
 
-<<<<<<< HEAD
-//first blog post
-useEffect(() => {
-  const fetchIndustryArticles = async () => {
-    try {
-      const response = await articlesApi.getAll({
-        limit: 10,
-        sort: 'latest',
-        category: 'UI/UX Design', // Only Industry category
-      });
-      
-      setIndustryArticles(
-        response.map((article: any) => ({
-          ...article,
-          category: typeof article.category === 'string'
-            ? article.category
-            : (article.category?.name || ''),
-        }))
-      );
-    } catch (error) {
-      console.error('Failed to fetch industry articles', error);
-    } finally {
-      setLoading(false);
-=======
 
   // Fetch Highly Recommended - Top viewed latest article from each category
   useEffect(() => {
@@ -255,85 +218,10 @@ useEffect(() => {
     const result = [];
     for (let i = 0; i < array.length; i += size) {
       result.push(array.slice(i, i + size));
->>>>>>> a5e2dc5a640052a20acf2820e7c3b40400829628
     }
     return result;
   };
 
-<<<<<<< HEAD
-  fetchIndustryArticles();
-}, []);
-
-  const [secondBlogPosts, ssetIndustryArticles] = useState<Articles[]>([]);
-
-//second blog post
-useEffect(() => {
-  const fetchIndustryArticles = async () => {
-    try {
-      const response = await articlesApi.getAll({
-        limit: 10,
-        sort: 'latest',
-        category: ['68594dfb1cada6edbdbd06b7'], // Only Industry category
-      });
-
-      ssetIndustryArticles(
-        response.map((article: any) => ({
-          ...article,
-          category: typeof article.category === 'string'
-            ? article.category
-            : (article.category?.name || ''),
-        }))
-      );
-    } catch (error) {
-      console.error('Failed to fetch industry articles', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchIndustryArticles();
-}, []);
-
-//third blog post
-  const [thirdBlogPosts, sssetIndustryArticles] = useState<Articles[]>([]);
-
-//third blog post
-useEffect(() => {
-  const fetchIndustryArticles = async () => {
-    try {
-      const response = await articlesApi.getAll({
-        limit: 10,
-        sort: 'latest',
-        category: ['68594dfb1cada6edbdbd06b7'], // Only Industry category
-      });
-
-      sssetIndustryArticles(
-        response.map((article: any) => ({
-          ...article,
-          category: typeof article.category === 'string'
-            ? article.category
-            : (article.category?.name || ''),
-        }))
-      );
-    } catch (error) {
-      console.error('Failed to fetch industry articles', error);
-    } finally {
-      setLoading(false);
-    }
-  };
-
-  fetchIndustryArticles();
-}, []);
-
-const chunkArray = (array, size) => {
-  const result = [];
-  for (let i = 0; i < array.length; i += size) {
-    result.push(array.slice(i, i + size));
-  }
-  return result;
-};
-=======
->>>>>>> a5e2dc5a640052a20acf2820e7c3b40400829628
   const [filteredResults, setFilteredResults] = useState<any[]>([]);
   const [currentSlide, setCurrentSlide] = useState(0);
 
