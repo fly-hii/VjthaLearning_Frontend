@@ -555,7 +555,7 @@ const createArticleMutationn = useMutation({
               placeholder="Article Title"
               value={newArticle.title}
               onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
-              className="transform transition-all duration-200 focus:scale-105"
+              className="transform transition-all duration-200 "
             />
 
             {/* File Upload Section */}
@@ -617,7 +617,7 @@ const createArticleMutationn = useMutation({
             {/* Content */}
             <textarea
               placeholder="Article Content"
-              className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none transform transition-all duration-200 focus:scale-105"
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none transform transition-all duration-200 "
               rows={5}
               value={newArticle.content}
               onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}

@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -484,9 +483,9 @@ const Index = () => {
                         </div>
                         <CardContent className="flex-1 p-4 lg:p-6">
                           <Badge variant="outline" className="mb-2 text-xs">
-                            {typeof article.category === 'object'
+                            {typeof article.category === 'object' && article.category
                               ? article.category.name
-                              : article.category}
+                              : article.category || 'Uncategorized'}
                           </Badge>
                           <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                             {article.title}
@@ -543,9 +542,9 @@ const Index = () => {
                         </div>
                         <CardContent className="flex-1 p-4 lg:p-6">
                           <Badge variant="outline" className="mb-2 text-xs">
-                            {typeof article.category === 'object'
+                            {typeof article.category === 'object' && article.category
                               ? article.category.name
-                              : article.category}
+                              : article.category || 'Uncategorized'}
                           </Badge>
                           <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
                             {article.title}
