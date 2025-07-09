@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -108,11 +107,11 @@ const NonTechJobs = () => {
                     {jobs.map((job) => (
                       <Card key={job._id} className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                         <div className="relative">
-                          <img
-                            src={job.image || '/placeholder.svg'}
-                            alt={job.title}
-                            className="w-full h-40 object-cover"
-                          />
+                          <div className="w-full h-40 bg-gradient-to-br from-purple-500 to-pink-600 flex items-center justify-center">
+                            <span className="text-white font-bold text-2xl">
+                              {job.title?.charAt(0) || 'J'}
+                            </span>
+                          </div>
                           {job.urgent && (
                             <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                               Urgent
@@ -135,11 +134,11 @@ const NonTechJobs = () => {
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <DollarSign className="w-4 h-4 mr-2" />
-                              {job.salary}
+                              ${job.salary}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <Briefcase className="w-4 h-4 mr-2" />
-                              {job.experience}
+                              {job.experienceFrom}-{job.experienceTo} years
                             </div>
                           </div>
                           
@@ -168,6 +167,7 @@ const NonTechJobs = () => {
               </div>
             </div>
 
+            {/* Sidebar */}
             <div className="w-80">
               <div className="bg-gray-100 p-6 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Non-Tech Jobs</h2>

@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign, GraduationCap } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -108,11 +107,11 @@ const Internships = () => {
                     {jobs.map((job) => (
                       <Card key={job._id} className="bg-white border-2 border-gray-300 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                         <div className="relative">
-                          <img
-                            src={job.image || '/placeholder.svg'}
-                            alt={job.title}
-                            className="w-full h-40 object-cover"
-                          />
+                          <div className="w-full h-40 bg-gradient-to-br from-orange-500 to-yellow-600 flex items-center justify-center">
+                            <span className="text-white font-bold text-2xl">
+                              {job.title?.charAt(0) || 'I'}
+                            </span>
+                          </div>
                           {job.urgent && (
                             <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                               Urgent
@@ -135,11 +134,11 @@ const Internships = () => {
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <DollarSign className="w-4 h-4 mr-2" />
-                              {job.salary}
+                              ${job.salary}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <GraduationCap className="w-4 h-4 mr-2" />
-                              {job.experience || 'Entry Level'}
+                              {job.experienceFrom === 0 && job.experienceTo === 0 ? 'Entry Level' : `${job.experienceFrom}-${job.experienceTo} years`}
                             </div>
                           </div>
                           
@@ -168,6 +167,7 @@ const Internships = () => {
               </div>
             </div>
 
+            {/* Sidebar */}
             <div className="w-80">
               <div className="bg-gray-100 p-6 hover:shadow-lg hover:shadow-blue-500/50 transition-shadow">
                 <h2 className="text-xl font-bold mb-6 text-center">Latest Internships</h2>

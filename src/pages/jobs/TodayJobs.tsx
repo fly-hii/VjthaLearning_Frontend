@@ -112,11 +112,11 @@ const TodayJobs = () => {
                     {jobs.map((job) => (
                       <Card key={job._id} className="bg-white border-2 border-gray-300 hover:shadow-xl hover:shadow-blue-600/50 transition-shadow">
                         <div className="relative">
-                          <img
-                            src={job.image || '/placeholder.svg'}
-                            alt={job.title}
-                            className="w-full h-40 object-cover"
-                          />
+                          <div className="w-full h-40 bg-gradient-to-br from-green-500 to-blue-600 flex items-center justify-center">
+                            <span className="text-white font-bold text-2xl">
+                              {job.title?.charAt(0) || 'J'}
+                            </span>
+                          </div>
                           {job.urgent && (
                             <Badge className="absolute top-2 left-2 bg-red-600 text-white">
                               Urgent
@@ -139,11 +139,11 @@ const TodayJobs = () => {
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <DollarSign className="w-4 h-4 mr-2" />
-                              {job.salary}
+                              ${job.salary}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <Briefcase className="w-4 h-4 mr-2" />
-                              {job.experience}
+                              {job.experienceFrom}-{job.experienceTo} years
                             </div>
                           </div>
                           

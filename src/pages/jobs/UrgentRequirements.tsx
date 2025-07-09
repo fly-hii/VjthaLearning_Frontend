@@ -1,4 +1,3 @@
-
 import { useState, useEffect } from 'react';
 import { ArrowRight, Calendar, MapPin, Briefcase, Clock, DollarSign, AlertTriangle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -107,11 +106,11 @@ const UrgentRequirements = () => {
                     {jobs.map((job) => (
                       <Card key={job._id} className="bg-white border-2 hover:shadow-2xl transition-shadow">
                         <div className="relative">
-                          <img
-                            src={job.image || '/placeholder.svg'}
-                            alt={job.title}
-                            className="w-full h-40 object-cover"
-                          />
+                          <div className="w-full h-40 bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center">
+                            <span className="text-white font-bold text-2xl">
+                              {job.title?.charAt(0) || 'U'}
+                            </span>
+                          </div>
                           <Badge className="absolute top-2 left-2 bg-red-600 text-white animate-pulse">
                             URGENT
                           </Badge>
@@ -132,11 +131,11 @@ const UrgentRequirements = () => {
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <DollarSign className="w-4 h-4 mr-2" />
-                              {job.salary}
+                              ${job.salary}
                             </div>
                             <div className="flex items-center text-sm text-gray-600">
                               <Briefcase className="w-4 h-4 mr-2" />
-                              {job.experience}
+                              {job.experienceFrom}-{job.experienceTo} years
                             </div>
                           </div>
                           
