@@ -62,7 +62,7 @@ export const AIPopup = () => {
                         bg-white text-gray-900 flex flex-col">
           
           {/* Header */}
-          <div className="flex justify-between items-center p-4 bg-gradient-to-r from-cyan-600 to-purple-700 text-white rounded-t-xl">
+          <div className="flex justify-between items-center p-4 bg-blue-300 text-white rounded-t-xl">
             <span className="font-semibold text-base">💬 AI Assistant</span>
             <button onClick={() => setOpen(false)} className="hover:text-red-400 text-lg">✖</button>
           </div>

@@ -103,7 +103,7 @@ const GameZone = () => {
 
   return (
           <><Navigation />
-    <div className="bg-gray-100 min-h-screen py-4 sm:py-8">
+    <div className="bg-gray-100 min-h-screen sm:py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         {currentGame === 'menu' && (
           <div className="text-center mb-6 sm:mb-8">
