@@ -327,19 +327,20 @@ export const techPostApi = {
   },
 
   // ➕ Create a new post with FormData (for file upload)
-  createWithFormData: async (formData: FormData): Promise<TechPostResponse> => {
-    const res = await fetch(`${API_BASE_URL}/tech-posts`, {
-      method: "POST",
-      headers: getAuthHeadersFormData(),
-      body: formData,
-    });
-    if (!res.ok) {
-      const err = await res.json();
-      throw new Error(err.message || "Failed to create tech post");
-    }
-    const result = await res.json();
-    return result.post;
-  },
+createWithFormData: async (formData: FormData): Promise<TechPostResponse> => {
+  const res = await fetch(`${API_BASE_URL}/tech-posts`, {
+    method: "POST",
+    headers: getAuthHeadersFormData(),
+    body: formData,
+  });
+  if (!res.ok) {
+    const err = await res.json();
+    throw new Error(err.message || "Failed to create tech post");
+  }
+  const result = await res.json();
+  return result.post;
+},
+
 
   // ➕ Create a new post with JSON (backwards compatibility)
   create: async (data: TechPostPayload): Promise<TechPostResponse> => {
