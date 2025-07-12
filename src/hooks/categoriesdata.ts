@@ -71,25 +71,25 @@ export const cardcategories = {
     image: "/lovable-uploads/Carrer & Jobs.png",
     link: "/jobs/today",
   },
-  "tech-hub": {
-    name: "Tech Hub",
-    image: "/lovable-uploads/Tech hub.png",
-    link: "/techhub",
-  },
   "games": {
     name: "Games",
     image: "/lovable-uploads/Games.png",
     link: "/gamezone",
   },
+  "tech-hub": {
+    name: "Tech Hub",
+    image: "/lovable-uploads/Tech hub.png",
+    link: "/techhub",
+  },
+    "exams": {
+    name: "Exams",
+    image: "/lovable-uploads/Exams.png",
+    link: "/jobs/internships",
+  },
   "aptitude": {
     name: "Aptitude",
     image: "/lovable-uploads/Aptitude.png",
     link: "/category/case-studies",
-  },
-  "exams": {
-    name: "Exams",
-    image: "/lovable-uploads/Exams.png",
-    link: "/jobs/internships",
   },
   "tech-industry": {
     name: "Tech Industry",
