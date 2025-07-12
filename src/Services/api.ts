@@ -13,8 +13,11 @@ import {
   CreateCommentData,
   Job,
   CreateJobData,
-  UpdateJobData
+  UpdateJobData,
+  TechPostResponse,
+  TechPostPayload
 } from '@/types/api';
+import axios from 'axios';
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
@@ -302,3 +305,60 @@ export const jobsApi = {
     if (!res.ok) throw new Error('Failed to delete job');
   },
 };
+export const techPostApi = {
+  // 🔍 Get all tech posts
+  getAll: async (): Promise<TechPostResponse[]> => {
+    const res = await fetch(`${API_BASE_URL}/api/tech-posts`);
+    if (!res.ok) throw new Error("Failed to fetch tech posts");
+    return res.json();
+  },
+
+  // 🔍 Get a single post by ID
+  getById: async (id: string): Promise<TechPostResponse> => {
+    const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`);
+    if (!res.ok) throw new Error("Failed to fetch tech post");
+    return res.json();
+  },
+
+  // ➕ Create a new post with base64 media
+  create: async (data: TechPostPayload): Promise<TechPostResponse> => {
+    const res = await fetch(`${API_BASE_URL}/api/tech-posts`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to create tech post");
+    }
+    const result = await res.json();
+    return result.post;
+  },
+
+  // ✏️ Update a post
+  update: async (id: string, data: Partial<TechPostPayload>): Promise<TechPostResponse> => {
+    const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data),
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to update tech post");
+    }
+    const result = await res.json();
+    return result.post;
+  },
+
+  // 🗑️ Delete a post
+  delete: async (id: string): Promise<void> => {
+    const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`, {
+      method: "DELETE",
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to delete tech post");
+    }
+  },
+};
+

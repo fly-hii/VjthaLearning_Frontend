@@ -151,3 +151,29 @@ export interface CreateJobData extends Omit<Job, '_id' | 'postedDate' | 'applica
 
 export interface UpdateJobData extends Partial<CreateJobData> {}
 
+export interface TechPostPayload {
+  content: string;
+  avatar?: string;
+  tags?: string[];
+  likes?: number;
+  comments?: number;
+  shares?: number;
+  isLiked?: boolean;
+  isBookmarked?: boolean;
+}
+
+export interface TechPostResponse extends TechPostPayload {
+  _id: string;
+  content: string;
+  tags: string[];
+  media?: string;
+  mediaType?: 'image' | 'video';
+  author: {
+    _id: string;
+    name: string;
+    email: string;
+    profilePhoto?: string;
+  };
+  createdAt: string;
+  updatedAt: string;
+}
