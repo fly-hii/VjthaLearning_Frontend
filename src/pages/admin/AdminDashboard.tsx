@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import AdminLayout from '@/components/admin/AdminLayout';
 import DashboardHome from '@/components/admin/DashboardHome';
 import ArticlesManagement from '@/components/admin/ArticlesManagement';

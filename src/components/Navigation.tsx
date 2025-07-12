@@ -3,13 +3,13 @@ import { useRef, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X, Search, ChevronDown, LogOut, User2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const Navigation = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState<string | null>(null);
   const location = useLocation();
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
   const [searchQuery, setSearchQuery] = useState('');
 
   const navItems = [
@@ -45,8 +45,8 @@ const Navigation = () => {
   const isActive = (path: string) => location.pathname === path;
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const handleSignOut = async () => {
-    await signOut();
+  const handleSignOut = () => {
+    logout();
   };
 
   return (

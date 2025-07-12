@@ -8,9 +8,10 @@ import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { Calendar, MapPin, Building, Clock, User, Briefcase, CheckCircle, XCircle, AlertCircle } from 'lucide-react';
 import { toast } from 'sonner';
+import { useAuth } from '@/hooks/useAuth';
 
 const ProfilePage = () => {
-  const [user, setUser] = useState<any>(null);
+  const { user, isAuthenticated, loading } = useAuth();
   const [appliedJobs, setAppliedJobs] = useState<any[]>([]);
   const [stats, setStats] = useState({
     totalApplications: 0,
@@ -20,13 +21,10 @@ const ProfilePage = () => {
   });
 
   useEffect(() => {
-    const stored = localStorage.getItem('user');
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      setUser(parsed);
-      fetchAppliedJobs(parsed._id);
+    if (user?._id) {
+      fetchAppliedJobs(user._id);
     }
-  }, []);
+  }, [user]);
 
   const fetchAppliedJobs = async (userId: string) => {
     try {
@@ -132,7 +130,8 @@ const ProfilePage = () => {
     }
   };
 
-  if (!user) return <p className="text-center mt-10 text-red-500">User not logged in</p>;
+  if (loading) return <p className="text-center mt-10">Loading...</p>;
+  if (!isAuthenticated || !user) return <p className="text-center mt-10 text-red-500">User not logged in</p>;
 
   return (
     <div className="bg-gray-50 min-h-screen">

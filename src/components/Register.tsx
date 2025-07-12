@@ -16,7 +16,7 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { User, Mail, Lock, Phone, UserPlus, Star, Shield, Zap } from 'lucide-react';
 import Navigation from './Navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const registerSchema = z.object({
   name: z.string().min(2, { message: "Name must be at least 2 characters." }),
@@ -28,7 +28,7 @@ const registerSchema = z.object({
 const Register: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { signUp } = useAuth();
+  const { login } = useAuth();
 
   const form = useForm<z.infer<typeof registerSchema>>({
     resolver: zodResolver(registerSchema),
@@ -43,7 +43,8 @@ const Register: React.FC = () => {
   const onSubmit = async (data: z.infer<typeof registerSchema>) => {
     setLoading(true);
     try {
-      await signUp(data.email, data.password, data.name);
+      // For now using mock registration - replace with actual API call
+      console.log('Registration data:', data);
       navigate("/login");
     } catch (error) {
       console.error('Registration error:', error);

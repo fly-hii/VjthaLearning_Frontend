@@ -14,10 +14,10 @@ import PostCreation from './PostCreation';
 import PostDetail from './PostDetail';
 import Navigation from '../Navigation';
 import { techPostApi } from '../../Services/api';
-// import { useAuth } from '@/hooks/use-auth';
+import { useAuth } from '@/hooks/useAuth';
 
 const TechHub = () => {
-  // const { user } = useAuth();
+  const { user } = useAuth();
   const [posts, setPosts] = useState([]);
   const [selectedPost, setSelectedPost] = useState(null);
   const [showCreatePost, setShowCreatePost] = useState(false);

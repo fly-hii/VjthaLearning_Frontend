@@ -483,8 +483,8 @@ const Index = () => {
                         </div>
                         <CardContent className="flex-1 p-4 lg:p-6">
                           <Badge variant="outline" className="mb-2 text-xs">
-                            {typeof article.category === 'object' && article.category
-                              ? article.category.name
+                            {typeof article.category === 'object' && article.category && 'name' in article.category
+                              ? (article.category as any).name
                               : article.category || 'Uncategorized'}
                           </Badge>
                           <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">
@@ -542,8 +542,8 @@ const Index = () => {
                         </div>
                         <CardContent className="flex-1 p-4 lg:p-6">
                           <Badge variant="outline" className="mb-2 text-xs">
-                            {typeof article.category === 'object' && article.category
-                              ? article.category.name
+                            {typeof article.category === 'object' && article.category && 'name' in article.category
+                              ? (article.category as any).name
                               : article.category || 'Uncategorized'}
                           </Badge>
                           <h3 className="font-bold text-gray-900 mb-3 group-hover:text-blue-600 transition-colors line-clamp-2">

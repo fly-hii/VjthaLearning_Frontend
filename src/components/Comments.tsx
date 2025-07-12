@@ -6,7 +6,7 @@ import { Textarea } from '@/components/ui/textarea';
 import { Card, CardContent } from '@/components/ui/card';
 import { MessageCircle, Send, User } from 'lucide-react';
 import { articlesApi } from '@/Services/api';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { toast } from 'sonner';
 import type { Comment, CreateCommentData } from '@/types/api';
 

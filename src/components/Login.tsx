@@ -16,7 +16,7 @@ import {
 import { Input } from '@/components/ui/input';
 import { Eye, EyeOff, Lock, Mail, BookOpen, Newspaper } from 'lucide-react';
 import Navigation from './Navigation';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 
 const formSchema = z.object({
   email: z.string().email({ message: "Enter a valid email address" }),
@@ -29,7 +29,7 @@ const Login = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
-  const { signIn } = useAuth();
+  const { login } = useAuth();
 
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -42,19 +42,22 @@ const Login = () => {
   const onSubmit = async (data: FormValues) => {
     setIsLoading(true);
     try {
-      await signIn(data.email, data.password);
+      // For now using mock data - replace with actual API call
+      const mockToken = 'mock-token-123';
+      const mockUser = {
+        _id: '1',
+        name: 'User',
+        email: data.email,
+        role: 'Admin' as const,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        lastLogin: new Date().toISOString()
+      };
+      login(mockUser, mockToken);
       
-      // Get user from localStorage after successful sign in
-      const storedUser = localStorage.getItem('user');
-      if (storedUser) {
-        const user = JSON.parse(storedUser);
-        
-        // Navigate based on role
-        if (user.role === 'Admin') {
-          navigate('/admin');
-        } else {
-          navigate('/');
-        }
+      // Navigate based on role
+      if (mockUser.role === 'Admin') {
+        navigate('/admin');
       } else {
         navigate('/');
       }

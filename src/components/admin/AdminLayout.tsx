@@ -16,7 +16,7 @@ import {
   Menu
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { useAuth } from '@/contexts/AuthContext';
+import { useAuth } from '@/hooks/useAuth';
 import { useState } from 'react';
 
 interface AdminLayoutProps {
@@ -24,7 +24,7 @@ interface AdminLayoutProps {
 }
 
 const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
-  const { user, signOut } = useAuth();
+  const { user, logout } = useAuth();
   const location = useLocation();
   const [sidebarOpen, setSidebarOpen] = useState(true);
 
@@ -91,7 +91,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
           <Button
             variant="outline"
             size="sm"
-            onClick={signOut}
+            onClick={logout}
             className="w-full flex items-center space-x-2"
           >
             <LogOut className="w-4 h-4" />
