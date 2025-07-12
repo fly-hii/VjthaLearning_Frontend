@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
 import {
   Dialog, DialogContent, DialogHeader,
-  DialogTitle, DialogTrigger
+  DialogTitle
 } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import PostCreation from './PostCreation';
@@ -62,37 +62,28 @@ const TechHub = () => {
     }
   };
 
-  const handleCreatePost = async (newPost) => {
-    try {
-      if (!user) return alert("You must be logged in to post.");
-      if (!newPost.content) return alert("Post content is required.");
+const handleCreatePost = async (newPost) => {
+  try {
+    const formData = new FormData();
+    formData.append('content', newPost.content);
+    formData.append('mediaType', newPost.mediaType || 'image');
 
-      if (newPost.mediaFile) {
-        const base64 = await toBase64(newPost.mediaFile);
-        newPost.media = base64;
-        newPost.mediaType = newPost.mediaFile.type.startsWith('image') ? 'image' : 'video';
-        delete newPost.mediaFile;
-      }
-
-      newPost.author = user.name || user.fullName || 'Anonymous';
-      newPost.avatar = user.avatar || '/default-avatar.png';
-
-      const created = await techPostApi.create(newPost);
-      setPosts([created, ...posts]);
-      setShowCreatePost(false);
-    } catch (err) {
-      console.error('Error creating post:', err);
+    if (newPost.mediaFile) {
+      formData.append('media', newPost.mediaFile);
     }
-  };
 
-  const toBase64 = (file) => {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onload = () => resolve(reader.result);
-      reader.onerror = (error) => reject(error);
-    });
-  };
+    if (newPost.tags) {
+      formData.append('tags', newPost.tags.join(','));
+    }
+
+    await techPostApi.create(formData); // send FormData directly
+    fetchPosts(); // reload posts
+    setShowCreatePost(false);
+  } catch (err) {
+    console.error('Error creating post:', err);
+  }
+};
+
 
   const handleDeletePost = async (postId) => {
     try {
@@ -135,9 +126,9 @@ const TechHub = () => {
               <CardContent className="p-0 flex flex-col h-full">
                 <div className="p-6 flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <img src={post.avatar} alt={post.author} className="w-12 h-12 rounded-full object-cover" />
+                    <img src={post.author?.avatar || '/default-avatar.png'} alt={post.author?.name} className="w-12 h-12 rounded-full object-cover" />
                     <div>
-                      <h4 className="font-semibold text-gray-900 text-lg">{post.author}</h4>
+                      <h4 className="font-semibold text-gray-900 text-lg">{post.author?.name || 'Anonymous'}</h4>
                       <p className="text-sm text-gray-500">{post.timestamp}</p>
                     </div>
                   </div>

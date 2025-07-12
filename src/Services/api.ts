@@ -15,9 +15,9 @@ import {
   CreateJobData,
   UpdateJobData,
   TechPostResponse,
-  TechPostPayload
+  TechPostPayload 
 } from '@/types/api';
-import axios from 'axios';
+import axios from 'axios';    
 
 const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
