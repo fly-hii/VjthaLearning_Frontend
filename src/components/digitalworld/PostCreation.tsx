@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -10,8 +9,10 @@ import { Upload, Image, Video } from 'lucide-react';
 interface PostCreationProps {
   onCreatePost: (post: {
     content: string;
-    mediaFile?: File;
+    media?: string;
     mediaType?: 'image' | 'video';
+    mediaFile?: File;
+    timestamp: string;
     tags?: string[];
   }) => void;
 }
@@ -27,8 +28,11 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
     e.preventDefault();
     if (!content.trim()) return;
 
+    const timestamp = new Date().toISOString();
     const post: any = {
       content,
+      timestamp,
+      tags: tags ? tags.split(',').map((tag) => tag.trim()) : [],
     };
 
     if (mediaFile) {
@@ -36,13 +40,8 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
       post.mediaType = mediaType;
     }
 
-    if (tags.trim()) {
-      post.tags = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
-    }
-
     onCreatePost(post);
 
-    // Reset form
     setContent('');
     setMediaFile(null);
     setMediaPreview(null);
@@ -52,7 +51,6 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
-    
     setMediaFile(file);
     setMediaPreview(URL.createObjectURL(file));
     setMediaType(file.type.startsWith('video') ? 'video' : 'image');
@@ -73,19 +71,18 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
       </div>
 
       <div>
-        <Label htmlFor="tags">Tags (comma-separated)</Label>
+        <Label htmlFor="tags">Tags (comma separated)</Label>
         <Input
           id="tags"
           value={tags}
           onChange={(e) => setTags(e.target.value)}
-          placeholder="technology, innovation, coding"
+          placeholder="e.g. tech, ai, robotics"
         />
       </div>
 
       <div>
         <Label htmlFor="media">Upload Media (optional)</Label>
         <Input
-          id="media"
           type="file"
           accept="image/*,video/*"
           onChange={handleFileChange}
