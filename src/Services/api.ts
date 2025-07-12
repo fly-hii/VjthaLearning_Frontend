@@ -321,14 +321,14 @@ export const techPostApi = {
 
   // 🔍 Get a single post by ID
   getById: async (id: string): Promise<TechPostResponse> => {
-    const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`);
+    const res = await fetch(`${API_BASE_URL}/tech-posts/${id}`);
     if (!res.ok) throw new Error("Failed to fetch tech post");
     return res.json();
   },
 
   // ➕ Create a new post with FormData (for file upload)
   createWithFormData: async (formData: FormData): Promise<TechPostResponse> => {
-    const res = await fetch(`${API_BASE_URL}/api/tech-posts`, {
+    const res = await fetch(`${API_BASE_URL}/tech-posts`, {
       method: "POST",
       headers: getAuthHeadersFormData(),
       body: formData,
@@ -343,7 +343,7 @@ export const techPostApi = {
 
   // ➕ Create a new post with JSON (backwards compatibility)
   create: async (data: TechPostPayload): Promise<TechPostResponse> => {
-    const res = await fetch(`${API_BASE_URL}/api/tech-posts`, {
+    const res = await fetch(`${API_BASE_URL}/tech-posts`, {
       method: "POST",
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
@@ -358,7 +358,7 @@ export const techPostApi = {
 
   // ✏️ Update a post
   update: async (id: string, data: Partial<TechPostPayload>): Promise<TechPostResponse> => {
-    const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/tech-posts/${id}`, {
       method: "PUT",
       headers: getAuthHeaders(),
       body: JSON.stringify(data),
@@ -373,7 +373,7 @@ export const techPostApi = {
 
   // 🗑️ Delete a post
   delete: async (id: string): Promise<void> => {
-    const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`, {
+    const res = await fetch(`${API_BASE_URL}/tech-posts/${id}`, {
       method: "DELETE",
       headers: getAuthHeaders(),
     });
