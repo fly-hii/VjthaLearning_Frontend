@@ -27,6 +27,11 @@ const getAuthHeaders = () => ({
   'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
 });
 
+// Helper function to get auth headers for FormData
+const getAuthHeadersFormData = () => ({
+  'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
+});
+
 // Article API Functions
 export const articlesApi = {
   // Get all articles with optional query parameters
@@ -305,6 +310,7 @@ export const jobsApi = {
     if (!res.ok) throw new Error('Failed to delete job');
   },
 };
+
 export const techPostApi = {
   // 🔍 Get all tech posts
   getAll: async (): Promise<TechPostResponse[]> => {
@@ -320,11 +326,26 @@ export const techPostApi = {
     return res.json();
   },
 
-  // ➕ Create a new post with base64 media
+  // ➕ Create a new post with FormData (for file upload)
+  createWithFormData: async (formData: FormData): Promise<TechPostResponse> => {
+    const res = await fetch(`${API_BASE_URL}/api/tech-posts`, {
+      method: "POST",
+      headers: getAuthHeadersFormData(),
+      body: formData,
+    });
+    if (!res.ok) {
+      const err = await res.json();
+      throw new Error(err.message || "Failed to create tech post");
+    }
+    const result = await res.json();
+    return result.post;
+  },
+
+  // ➕ Create a new post with JSON (backwards compatibility)
   create: async (data: TechPostPayload): Promise<TechPostResponse> => {
     const res = await fetch(`${API_BASE_URL}/api/tech-posts`, {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) {
@@ -339,7 +360,7 @@ export const techPostApi = {
   update: async (id: string, data: Partial<TechPostPayload>): Promise<TechPostResponse> => {
     const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`, {
       method: "PUT",
-      headers: { "Content-Type": "application/json" },
+      headers: getAuthHeaders(),
       body: JSON.stringify(data),
     });
     if (!res.ok) {
@@ -354,6 +375,7 @@ export const techPostApi = {
   delete: async (id: string): Promise<void> => {
     const res = await fetch(`${API_BASE_URL}/api/tech-posts/${id}`, {
       method: "DELETE",
+      headers: getAuthHeaders(),
     });
     if (!res.ok) {
       const err = await res.json();
@@ -361,4 +383,3 @@ export const techPostApi = {
     }
   },
 };
-

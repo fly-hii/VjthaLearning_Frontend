@@ -1,3 +1,4 @@
+
 import { useEffect, useState } from 'react';
 import {
   Plus, Heart, MessageCircle, Share2, Bookmark,
@@ -62,28 +63,27 @@ const TechHub = () => {
     }
   };
 
-const handleCreatePost = async (newPost) => {
-  try {
-    const formData = new FormData();
-    formData.append('content', newPost.content);
-    formData.append('mediaType', newPost.mediaType || 'image');
+  const handleCreatePost = async (newPost) => {
+    try {
+      const formData = new FormData();
+      formData.append('content', newPost.content);
+      
+      if (newPost.mediaFile) {
+        formData.append('media', newPost.mediaFile);
+        formData.append('mediaType', newPost.mediaType || 'image');
+      }
 
-    if (newPost.mediaFile) {
-      formData.append('media', newPost.mediaFile);
+      if (newPost.tags && newPost.tags.length > 0) {
+        formData.append('tags', newPost.tags.join(','));
+      }
+
+      await techPostApi.createWithFormData(formData);
+      fetchPosts(); // reload posts
+      setShowCreatePost(false);
+    } catch (err) {
+      console.error('Error creating post:', err);
     }
-
-    if (newPost.tags) {
-      formData.append('tags', newPost.tags.join(','));
-    }
-
-    await techPostApi.create(formData); // send FormData directly
-    fetchPosts(); // reload posts
-    setShowCreatePost(false);
-  } catch (err) {
-    console.error('Error creating post:', err);
-  }
-};
-
+  };
 
   const handleDeletePost = async (postId) => {
     try {
@@ -126,10 +126,16 @@ const handleCreatePost = async (newPost) => {
               <CardContent className="p-0 flex flex-col h-full">
                 <div className="p-6 flex items-center justify-between">
                   <div className="flex items-center space-x-4">
-                    <img src={post.author?.avatar || '/default-avatar.png'} alt={post.author?.name} className="w-12 h-12 rounded-full object-cover" />
+                    <img 
+                      src={post.author?.avatar || post.author?.profileImage || '/default-avatar.png'} 
+                      alt={post.author?.name} 
+                      className="w-12 h-12 rounded-full object-cover" 
+                    />
                     <div>
                       <h4 className="font-semibold text-gray-900 text-lg">{post.author?.name || 'Anonymous'}</h4>
-                      <p className="text-sm text-gray-500">{post.timestamp}</p>
+                      <p className="text-sm text-gray-500">
+                        {new Date(post.createdAt).toLocaleDateString()}
+                      </p>
                     </div>
                   </div>
                   <Button onClick={() => handleDeletePost(post._id)} variant="ghost" size="sm">
@@ -141,8 +147,8 @@ const handleCreatePost = async (newPost) => {
                   <p className="text-gray-800 text-lg mb-4">{post.content}</p>
                   {post.media && (
                     post.mediaType === 'image'
-                      ? <img src={post.media} alt="Post media" className="rounded-xl" />
-                      : <video src={post.media} controls className="rounded-xl" />
+                      ? <img src={post.media} alt="Post media" className="rounded-xl w-full" />
+                      : <video src={post.media} controls className="rounded-xl w-full" />
                   )}
                   <div className="flex flex-wrap gap-2 mt-4">
                     {post.tags?.map((tag, i) => (

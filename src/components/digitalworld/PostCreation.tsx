@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from 'react';
 import { Button } from '@/components/ui/button';
@@ -9,10 +10,9 @@ import { Upload, Image, Video } from 'lucide-react';
 interface PostCreationProps {
   onCreatePost: (post: {
     content: string;
-    media?: string;
-    mediaType?: 'image' | 'video';
     mediaFile?: File;
-    timestamp: string;
+    mediaType?: 'image' | 'video';
+    tags?: string[];
   }) => void;
 }
 
@@ -21,15 +21,14 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
   const [mediaFile, setMediaFile] = useState<File | null>(null);
   const [mediaPreview, setMediaPreview] = useState<string | null>(null);
   const [mediaType, setMediaType] = useState<'image' | 'video'>('image');
+  const [tags, setTags] = useState('');
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!content.trim()) return;
 
-    const timestamp = new Date().toISOString();
     const post: any = {
       content,
-      timestamp,
     };
 
     if (mediaFile) {
@@ -37,16 +36,23 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
       post.mediaType = mediaType;
     }
 
+    if (tags.trim()) {
+      post.tags = tags.split(',').map(tag => tag.trim()).filter(tag => tag);
+    }
+
     onCreatePost(post);
 
+    // Reset form
     setContent('');
     setMediaFile(null);
     setMediaPreview(null);
+    setTags('');
   };
 
   const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (!file) return;
+    
     setMediaFile(file);
     setMediaPreview(URL.createObjectURL(file));
     setMediaType(file.type.startsWith('video') ? 'video' : 'image');
@@ -67,8 +73,19 @@ const PostCreation = ({ onCreatePost }: PostCreationProps) => {
       </div>
 
       <div>
+        <Label htmlFor="tags">Tags (comma-separated)</Label>
+        <Input
+          id="tags"
+          value={tags}
+          onChange={(e) => setTags(e.target.value)}
+          placeholder="technology, innovation, coding"
+        />
+      </div>
+
+      <div>
         <Label htmlFor="media">Upload Media (optional)</Label>
         <Input
+          id="media"
           type="file"
           accept="image/*,video/*"
           onChange={handleFileChange}
