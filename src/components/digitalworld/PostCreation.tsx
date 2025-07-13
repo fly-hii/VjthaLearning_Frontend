@@ -17,6 +17,7 @@ interface PostCreationProps {
   }) => void;
 }
 
+
 const PostCreation = ({ onCreatePost }: PostCreationProps) => {
   const [content, setContent] = useState('');
   const [mediaFile, setMediaFile] = useState<File | null>(null);
