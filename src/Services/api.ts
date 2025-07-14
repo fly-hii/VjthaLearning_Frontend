@@ -17,8 +17,10 @@ import {
   TechPostResponse,
   TechPostPayload 
 } from '@/types/api';
+import axios from 'axios';
+import { env } from 'process';  
 
-const API_BASE_URL = import.meta.env.BACKEND_URL;
+const API_BASE_URL = import.meta.env.VITE_BACKEND_URL;
 
 // Helper function to get auth headers
 const getAuthHeaders = () => ({
