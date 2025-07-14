@@ -78,12 +78,12 @@ export const cardcategories = {
   },
   "tech-hub": {
     name: "Tech Hub",
-    image: "/lovable-uploads/Tech hub.png",
+    image: "/lovable-uploads/techhub.png",
     link: "/techhub",
   },
     "exams": {
     name: "Exams",
-    image: "/lovable-uploads/Exams.png",
+    image: "/lovable-uploads/exam.png",
     link: "/jobs/internships",
   },
   "aptitude": {
