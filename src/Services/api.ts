@@ -79,18 +79,7 @@ export const articlesApi = {
     return response.json();
   },
 
-  // Create new article
-  create: async (data: CreateArticleData): Promise<Article> => {
-    const response = await fetch(`${API_BASE_URL}/articles`, {
-      method: 'POST',
-      headers: getAuthHeaders(),
-      body: JSON.stringify(data),
-    });
-    if (!response.ok) throw new Error('Failed to create article');
-    return response.json();
-  },
-
-  // Create article with media files (FormData)
+  // Create new article with media files (FormData)
   createWithMedia: async (formData: FormData): Promise<Article> => {
     const response = await fetch(`${API_BASE_URL}/articles`, {
       method: 'POST',
@@ -101,7 +90,29 @@ export const articlesApi = {
     return response.json();
   },
 
-  // Update article
+  // Create new article (JSON only - backwards compatibility)
+  create: async (data: CreateArticleData): Promise<Article> => {
+    const response = await fetch(`${API_BASE_URL}/articles`, {
+      method: 'POST',
+      headers: getAuthHeaders(),
+      body: JSON.stringify(data),
+    });
+    if (!response.ok) throw new Error('Failed to create article');
+    return response.json();
+  },
+
+  // Update article with media files
+  updateWithMedia: async (id: string, formData: FormData): Promise<Article> => {
+    const response = await fetch(`${API_BASE_URL}/articles/${id}`, {
+      method: 'PUT',
+      headers: getAuthHeadersFormData(),
+      body: formData,
+    });
+    if (!response.ok) throw new Error('Failed to update article with media');
+    return response.json();
+  },
+
+  // Update article (JSON only)
   update: async (id: string, data: UpdateArticleData): Promise<Article> => {
     const response = await fetch(`${API_BASE_URL}/articles/${id}`, {
       method: 'PUT',
@@ -119,6 +130,18 @@ export const articlesApi = {
       headers: getAuthHeaders(),
     });
     if (!response.ok) throw new Error('Failed to delete article');
+  },
+
+  // Increment article views
+  incrementViews: async (id: string): Promise<{ views: number }> => {
+    const response = await fetch(`${API_BASE_URL}/articles/${id}/views`, {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    if (!response.ok) throw new Error('Failed to increment views');
+    return response.json();
   },
 
   // Search articles
@@ -141,11 +164,14 @@ export const articlesApi = {
     if (!response.ok) throw new Error('Failed to fetch comments');
     return response.json();
   },
+
+  // Get all approved comments
   getAllComments: async (): Promise<Comment[]> => {
     const response = await fetch(`${API_BASE_URL}/articles/comments`);
     if (!response.ok) throw new Error('Failed to fetch comments');
     return response.json();
   },
+
   // Add comment to an article
   addComment: async (articleId: string, data: CreateCommentData): Promise<Comment> => {
     const response = await fetch(`${API_BASE_URL}/articles/${articleId}/comments`, {

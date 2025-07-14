@@ -1,4 +1,3 @@
-
 /* eslint-disable @typescript-eslint/no-empty-object-type */
 
 // Media Types for Articles
@@ -24,7 +23,7 @@ export interface Article {
   content: string;
   featuredImage?: string;
   videoEmbedUrl?: string;
-  media?: Media[]; // New field for multiple media files
+  media?: Media[]; // Updated to support multiple media files
   tags?: string[];
   category?: Category | string;
   categorySlug?: string;
@@ -37,6 +36,7 @@ export interface Article {
   createdAt: Date | string;
   updatedAt: Date | string;
   views?: number;
+  comments?: Comment[] | string[]; // Can be populated or just IDs
 }
 
 export interface CreateArticleData {
@@ -45,7 +45,7 @@ export interface CreateArticleData {
   excerpt?: string;
   featuredImage?: string;
   videoEmbedUrl?: string;
-  media?: Media[]; // New field for multiple media files
+  media?: Media[]; // Support for multiple media files
   tags?: string[];
   category: string;
   author: string;
@@ -116,10 +116,10 @@ export interface CreateUserData {
 
 export interface UpdateUserData extends Partial<CreateUserData> {}
 
-// Comment Types
+// Comment Types - Updated to match backend
 export interface Comment {
   _id: string;
-  article: string;
+  article: string | Article; // Can be populated
   name: string;
   email: string;
   message: string;
@@ -133,6 +133,7 @@ export interface CreateCommentData {
   email: string;
   message: string;
 }
+
 export interface Job {
   _id: string;
   title: string;
