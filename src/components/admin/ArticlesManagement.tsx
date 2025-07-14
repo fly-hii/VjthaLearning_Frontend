@@ -1,3 +1,4 @@
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import React, { useState } from 'react';
@@ -17,7 +18,8 @@ import {
   Upload,
   File,
   Image,
-  Video
+  Video,
+  X
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -78,14 +80,13 @@ const fetchCategories = async () => {
   return response.json();
 };
 
-const createArticle = async (article: any) => {
+const createArticleWithMedia = async (formData: FormData) => {
   const response = await fetch(`${API_BASE_URL}/articles`, {
     method: 'POST',
     headers: {
-      'Content-Type': 'application/json',
       'Authorization': `Bearer ${localStorage.getItem('authToken')}`,
     },
-    body: JSON.stringify(article),
+    body: formData,
   });
   if (!response.ok) throw new Error('Failed to create article');
   return response.json();
@@ -140,19 +141,24 @@ const ArticlesManagement: React.FC = () => {
     featured: articles.filter((a: any) => a.isFeatured).length,
     totalViews: articles.reduce((sum: number, a: any) => sum + (a.views || 0), 0),
   };
-  //creating new article
+
+  // Creating new article with media support
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
-const [newArticle, setNewArticle] = useState<any>({
-  title: '',
-  content: '',
-  tags: '',
-  category: '',
-  author: '',
-  isPublished: false,
-  featuredImage: '',
-  videoFile: null,
-  documentFile: null,
-});
+  const [newArticle, setNewArticle] = useState<any>({
+    title: '',
+    content: '',
+    excerpt: '',
+    tags: '',
+    category: '',
+    author: '',
+    isPublished: false,
+    seo: {
+      title: '',
+      description: '',
+      keywords: '',
+    },
+  });
+  const [selectedFiles, setSelectedFiles] = useState<File[]>([]);
 
   const [jobApplications, setJobApplications] = useState<any[]>([
     {
@@ -175,20 +181,24 @@ const [newArticle, setNewArticle] = useState<any>({
     }
   ]);
 
-  const handleFileUpload = (event: React.ChangeEvent<HTMLInputElement>, fileType: string) => {
-    const file = event.target.files?.[0];
-    if (file) {
-      // Mock file upload - replace with actual upload logic
-      const fileUrl = URL.createObjectURL(file);
-      if (fileType === 'image') {
-        setNewArticle({ ...newArticle, featuredImage: fileUrl });
-      } else if (fileType === 'video') {
-        setNewArticle({ ...newArticle, videoFile: file });
-      } else if (fileType === 'document') {
-        setNewArticle({ ...newArticle, documentFile: file });
-      }
-      toast.success(`${fileType} uploaded successfully`);
+  const handleMultipleFileUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newFiles = Array.from(files);
+      setSelectedFiles(prev => [...prev, ...newFiles]);
+      toast.success(`${newFiles.length} file(s) added successfully`);
     }
+  };
+
+  const removeFile = (index: number) => {
+    setSelectedFiles(prev => prev.filter((_, i) => i !== index));
+    toast.success('File removed');
+  };
+
+  const getFileIcon = (file: File) => {
+    if (file.type.startsWith('image/')) return <Image className="w-4 h-4" />;
+    if (file.type.startsWith('video/')) return <Video className="w-4 h-4" />;
+    return <File className="w-4 h-4" />;
   };
 
   const updateApplicationStatus = (applicationId: number, newStatus: string) => {
@@ -215,58 +225,57 @@ const [newArticle, setNewArticle] = useState<any>({
     }
   };
 
-const queryClients = useQueryClient();
+  const createArticleMutation = useMutation({
+    mutationFn: createArticleWithMedia,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['articles'] });
+      toast.success('Article created successfully');
+      setIsCreateModalOpen(false);
+      setNewArticle({
+        title: '',
+        content: '',
+        excerpt: '',
+        tags: '',
+        category: '',
+        author: '',
+        isPublished: false,
+        seo: {
+          title: '',
+          description: '',
+          keywords: '',
+        },
+      });
+      setSelectedFiles([]);
+    },
+    onError: (error: Error) => {
+      toast.error(error.message || 'Failed to create article');
+    },
+  });
 
-const createArticleMutation = useMutation({
-  mutationFn: createArticle,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['articles'] });
-    toast.success('Article created successfully');
-    setIsCreateModalOpen(false);
-    setNewArticle({
-      title: '',
-      content: '',
-      tags: '',
-      category: '',
-      author: '',
-      isPublished: false,
+  const handleCreateArticle = async () => {
+    const formData = new FormData();
+    
+    // Add article data
+    formData.append('title', newArticle.title);
+    formData.append('content', newArticle.content);
+    formData.append('excerpt', newArticle.excerpt);
+    formData.append('tags', newArticle.tags);
+    formData.append('category', newArticle.category);
+    formData.append('author', newArticle.author);
+    formData.append('isPublished', newArticle.isPublished.toString());
+    
+    // Add SEO data
+    if (newArticle.seo.title) formData.append('seo[title]', newArticle.seo.title);
+    if (newArticle.seo.description) formData.append('seo[description]', newArticle.seo.description);
+    if (newArticle.seo.keywords) formData.append('seo[keywords]', newArticle.seo.keywords);
+    
+    // Add media files
+    selectedFiles.forEach((file) => {
+      formData.append('media', file);
     });
-  },
-  onError: (error: Error) => {
-    toast.error(error.message || 'Failed to create article');
-  },
-});
-const handleCreateArticle = async (newArticle: any) => {
-  createArticleMutation.mutate(newArticle);
-};
 
-  const queryClientss = useQueryClient();
-
-const createArticleMutationn = useMutation({
-  mutationFn: createArticle,
-  onSuccess: () => {
-    queryClient.invalidateQueries({ queryKey: ['articles'] });
-    toast.success('Article created successfully');
-    setIsCreateModalOpen(false);
-    setNewArticle({
-  title: '',
-  content: '',
-  tags: '',
-  category: '',
-  author: '',
-  isPublished: false,
-  featuredImage: '', // ✅ Clear this too
-  videoFile: null,
-  documentFile: null,
-});
-
-  },
-  onError: (error: Error) => {
-    toast.error(error.message || 'Failed to create article');
-  },
-});
-
-  
+    createArticleMutation.mutate(formData);
+  };
 
   return (
     <div className="space-y-6">
@@ -542,86 +551,85 @@ const createArticleMutationn = useMutation({
         </TabsContent>
       </Tabs>
 
-      {/* Enhanced Create Article Dialog with File Upload */}
+      {/* Enhanced Create Article Dialog with Multiple File Upload */}
       <Dialog open={isCreateModalOpen} onOpenChange={setIsCreateModalOpen}>
-        <DialogContent className="sm:max-w-4xl bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl animate-in zoom-in-95 fade-in duration-300">
+        <DialogContent className="sm:max-w-4xl bg-white/95 backdrop-blur-xl rounded-2xl shadow-2xl animate-in zoom-in-95 fade-in duration-300 max-h-[90vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold text-gray-900">Create New Article</DialogTitle>
           </DialogHeader>
 
-          <div className="space-y-4 mt-4 max-h-96 overflow-y-auto">
+          <div className="space-y-4 mt-4">
             {/* Title */}
             <Input
               placeholder="Article Title"
               value={newArticle.title}
               onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
-              className="transform transition-all duration-200 "
+              className="transform transition-all duration-200"
             />
 
-            {/* File Upload Section */}
-            <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
-              <h3 className="font-medium text-gray-900">Media Upload</h3>
-              
-              {/* Image Upload */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Featured Image</label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="file"
-                    accept="image/*"
-                    onChange={(e) => handleFileUpload(e, 'image')}
-                    className="flex-1"
-                  />
-                  <Button size="sm" variant="outline">
-                    <Image className="w-4 h-4" />
-                  </Button>
-                </div>
-                {newArticle.featuredImage && (
-                  <img src={newArticle.featuredImage} alt="Preview" className="w-20 h-20 object-cover rounded" />
-                )}
-              </div>
-
-              {/* Video Upload */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Video File</label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="file"
-                    accept="video/*"
-                    onChange={(e) => handleFileUpload(e, 'video')}
-                    className="flex-1"
-                  />
-                  <Button size="sm" variant="outline">
-                    <Video className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-
-              {/* Document Upload */}
-              <div className="space-y-2">
-                <label className="block text-sm font-medium text-gray-700">Documents (PDF, PPT, Excel)</label>
-                <div className="flex items-center space-x-2">
-                  <Input
-                    type="file"
-                    accept=".pdf,.ppt,.pptx,.xls,.xlsx,.doc,.docx"
-                    onChange={(e) => handleFileUpload(e, 'document')}
-                    className="flex-1"
-                  />
-                  <Button size="sm" variant="outline">
-                    <Upload className="w-4 h-4" />
-                  </Button>
-                </div>
-              </div>
-            </div>
+            {/* Excerpt */}
+            <Input
+              placeholder="Article Excerpt (optional)"
+              value={newArticle.excerpt}
+              onChange={(e) => setNewArticle({ ...newArticle, excerpt: e.target.value })}
+            />
 
             {/* Content */}
             <textarea
               placeholder="Article Content"
-              className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none transform transition-all duration-200 "
-              rows={5}
+              className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none transform transition-all duration-200"
+              rows={8}
               value={newArticle.content}
               onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
             />
+
+            {/* Multiple File Upload Section */}
+            <div className="space-y-4 p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-medium text-gray-900">Media Upload (Images, Videos, Documents)</h3>
+              
+              <div className="space-y-2">
+                <label className="block text-sm font-medium text-gray-700">
+                  Select Files (Multiple allowed)
+                </label>
+                <Input
+                  type="file"
+                  multiple
+                  accept="image/*,video/*,.pdf,.ppt,.pptx,.doc,.docx,.xls,.xlsx"
+                  onChange={handleMultipleFileUpload}
+                  className="cursor-pointer"
+                />
+                <p className="text-xs text-gray-500">
+                  Supported: Images, Videos, PDF, PPT, DOC, XLS files
+                </p>
+              </div>
+
+              {/* Selected Files Display */}
+              {selectedFiles.length > 0 && (
+                <div className="space-y-2">
+                  <h4 className="font-medium text-sm text-gray-700">Selected Files:</h4>
+                  <div className="grid grid-cols-1 gap-2 max-h-32 overflow-y-auto">
+                    {selectedFiles.map((file, index) => (
+                      <div key={index} className="flex items-center justify-between p-2 bg-white rounded border">
+                        <div className="flex items-center space-x-2">
+                          {getFileIcon(file)}
+                          <span className="text-sm truncate">{file.name}</span>
+                          <span className="text-xs text-gray-500">
+                            ({(file.size / 1024 / 1024).toFixed(2)} MB)
+                          </span>
+                        </div>
+                        <Button
+                          size="sm"
+                          variant="ghost"
+                          onClick={() => removeFile(index)}
+                        >
+                          <X className="w-4 h-4" />
+                        </Button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Tags */}
             <Input
@@ -649,6 +657,35 @@ const createArticleMutationn = useMutation({
               ))}
             </select>
 
+            {/* SEO Section */}
+            <div className="space-y-2 p-4 bg-gray-50 rounded-lg">
+              <h3 className="font-medium text-gray-900">SEO Settings (Optional)</h3>
+              <Input
+                placeholder="SEO Title"
+                value={newArticle.seo.title}
+                onChange={(e) => setNewArticle({ 
+                  ...newArticle, 
+                  seo: { ...newArticle.seo, title: e.target.value }
+                })}
+              />
+              <Input
+                placeholder="SEO Description"
+                value={newArticle.seo.description}
+                onChange={(e) => setNewArticle({ 
+                  ...newArticle, 
+                  seo: { ...newArticle.seo, description: e.target.value }
+                })}
+              />
+              <Input
+                placeholder="SEO Keywords (comma separated)"
+                value={newArticle.seo.keywords}
+                onChange={(e) => setNewArticle({ 
+                  ...newArticle, 
+                  seo: { ...newArticle.seo, keywords: e.target.value }
+                })}
+              />
+            </div>
+
             {/* Publish Checkbox */}
             <div className="flex items-center space-x-2">
               <input
@@ -656,79 +693,68 @@ const createArticleMutationn = useMutation({
                 checked={newArticle.isPublished}
                 onChange={(e) => setNewArticle({ ...newArticle, isPublished: e.target.checked })}
               />
-              <label>Publish</label>
+              <label>Publish immediately</label>
             </div>
           </div>
 
           <DialogFooter className="mt-4">
-            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>Cancel</Button>
+            <Button variant="outline" onClick={() => setIsCreateModalOpen(false)}>
+              Cancel
+            </Button>
             <Button 
-              onClick={() => handleCreateArticle(newArticle)} 
+              onClick={handleCreateArticle}
+              disabled={createArticleMutation.isPending}
               className="bg-blue-600 text-white hover:bg-blue-700 transform hover:scale-105 transition-all duration-200"
             >
-              Create Article
+              {createArticleMutation.isPending ? 'Creating...' : 'Create Article'}
             </Button>
           </DialogFooter>
         </DialogContent>
       </Dialog>
 
-    {/* 🔍 View Article Dialog */}
+      {/* View Article Dialog */}
       <Dialog open={!!viewArticle} onOpenChange={(open) => !open && setViewArticle(null)}>
-      <DialogContent
-        className="sm:max-w-3xl bg-white/90 dark:bg-zinc-900/80 backdrop-blur-xl rounded-2xl shadow-2xl
-                  animate-in zoom-in-95 fade-in duration-300 transition-all border border-gray-200 dark:border-zinc-700"
-      >
-        <DialogHeader>
-          <DialogTitle className="text-3xl font-bold tracking-tight text-blue-600 dark:text-blue-400 mb-1">
-            📄 {viewArticle?.title}
-          </DialogTitle>
-          <p className="text-sm text-muted-foreground">✨ A closer look at this gem of an article</p>
-        </DialogHeader>
+        <DialogContent className="sm:max-w-3xl bg-white/90 dark:bg-zinc-900/80 backdrop-blur-xl rounded-2xl shadow-2xl animate-in zoom-in-95 fade-in duration-300 transition-all border border-gray-200 dark:border-zinc-700">
+          <DialogHeader>
+            <DialogTitle className="text-3xl font-bold tracking-tight text-blue-600 dark:text-blue-400 mb-1">
+              📄 {viewArticle?.title}
+            </DialogTitle>
+            <p className="text-sm text-muted-foreground">✨ A closer look at this gem of an article</p>
+          </DialogHeader>
 
-        <div className="space-y-3 mt-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
-          <div className="border-b border-dashed pb-2">
-            <p><strong>👤 Author:</strong> <span className="text-blue-700 dark:text-blue-300">{viewArticle?.author}</span></p>
-            <p><strong>🏷️ Category:</strong> <span className="italic">{viewArticle?.category?.name || '—'}</span></p>
-            <p className="flex items-center gap-2">
-              <strong>📌 Status:</strong>
-              <span
-                className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white tracking-wide animate-pulse transition-all duration-300 ${
-                  viewArticle?.isPublished ? 'bg-emerald-600' : 'bg-gray-500'
-                }`}
-              >
-                {viewArticle?.isPublished ? 'Published' : 'Draft'}
-              </span>
-            </p>
-            <p><strong>👁️ Views:</strong> <span className="font-medium">{viewArticle?.views}</span></p>
-            <p className="flex items-center gap-2">
-              <strong>💬 Comments:</strong>
-              <span className="font-medium">{viewArticle?.comments?.length || 0}</span>
-            </p>
-            <p><strong>🗓️ Published:</strong> {viewArticle?.createdAt && new Date(viewArticle.createdAt).toLocaleDateString()}</p>
+          <div className="space-y-3 mt-4 text-sm leading-relaxed text-gray-700 dark:text-gray-300">
+            <div className="border-b border-dashed pb-2">
+              <p><strong>👤 Author:</strong> <span className="text-blue-700 dark:text-blue-300">{viewArticle?.author}</span></p>
+              <p><strong>🏷️ Category:</strong> <span className="italic">{viewArticle?.category?.name || '—'}</span></p>
+              <p className="flex items-center gap-2">
+                <strong>📌 Status:</strong>
+                <span className={`px-2 py-0.5 rounded-full text-xs font-semibold text-white tracking-wide animate-pulse transition-all duration-300 ${viewArticle?.isPublished ? 'bg-emerald-600' : 'bg-gray-500'}`}>
+                  {viewArticle?.isPublished ? 'Published' : 'Draft'}
+                </span>
+              </p>
+              <p><strong>👁️ Views:</strong> <span className="font-medium">{viewArticle?.views}</span></p>
+              <p className="flex items-center gap-2">
+                <strong>💬 Comments:</strong>
+                <span className="font-medium">{viewArticle?.comments?.length || 0}</span>
+              </p>
+              <p><strong>🗓️ Published:</strong> {viewArticle?.createdAt && new Date(viewArticle.createdAt).toLocaleDateString()}</p>
+            </div>
+
+            <div className="mt-4">
+              <h2 className="text-xl font-semibold mb-2 text-indigo-700 dark:text-indigo-300">📝 Content</h2>
+              <div className="prose max-w-none prose-sm prose-blue dark:prose-invert transition-all" dangerouslySetInnerHTML={{ __html: viewArticle?.content || '' }} />
+            </div>
           </div>
 
-          <div className="mt-4">
-            <h2 className="text-xl font-semibold mb-2 text-indigo-700 dark:text-indigo-300">📝 Content</h2>
-            <div
-              className="prose max-w-none prose-sm prose-blue dark:prose-invert transition-all"
-              dangerouslySetInnerHTML={{ __html: viewArticle?.content || '' }}
-            />
-          </div>
-        </div>
+          <DialogFooter className="mt-8">
+            <Button variant="outline" onClick={() => setViewArticle(null)} className="transition-colors bg-white hover:bg-blue-50 text-blue-600 border-blue-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-blue-300">
+              ✖ Close Preview
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
 
-        <DialogFooter className="mt-8">
-          <Button
-            variant="outline"
-            onClick={() => setViewArticle(null)}
-            className="transition-colors bg-white hover:bg-blue-50 text-blue-600 border-blue-300 dark:bg-zinc-800 dark:hover:bg-zinc-700 dark:text-blue-300"
-          >
-            ✖ Close Preview
-          </Button>
-        </DialogFooter>
-      </DialogContent>
-    </Dialog>
-
-      {/* ✏️ Edit Article Dialog */}
+      {/* Edit Article Dialog */}
       <Dialog open={!!editArticle} onOpenChange={(open) => !open && setEditArticle(null)}>
         <DialogContent className="sm:max-w-3xl bg-white dark:bg-zinc-900 rounded-2xl shadow-xl transition-all duration-300 animate-in fade-in-90 slide-in-from-bottom-2">
           <DialogHeader>
@@ -741,9 +767,7 @@ const createArticleMutationn = useMutation({
               <label className="text-sm font-medium block mb-1">Title</label>
               <Input
                 value={editArticle?.title}
-                onChange={(e) =>
-                  setEditArticle((prev) => ({ ...prev, title: e.target.value }))
-                }
+                onChange={(e) => setEditArticle((prev) => ({ ...prev, title: e.target.value }))}
                 placeholder="Article title"
                 className="w-full border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
               />
@@ -754,9 +778,7 @@ const createArticleMutationn = useMutation({
                 rows={8}
                 className="w-full p-3 border border-gray-300 rounded-lg text-sm resize-none focus:outline-none focus:ring-2 focus:ring-blue-500 transition-all"
                 value={editArticle?.content}
-                onChange={(e) =>
-                  setEditArticle((prev) => ({ ...prev, content: e.target.value }))
-                }
+                onChange={(e) => setEditArticle((prev) => ({ ...prev, content: e.target.value }))}
                 placeholder="Write article content..."
               />
             </div>
@@ -768,7 +790,6 @@ const createArticleMutationn = useMutation({
             </Button>
             <Button
               onClick={() => {
-                // TODO: Replace with actual update logic
                 toast.success('Update API not implemented yet');
                 setEditArticle(null);
               }}
@@ -779,7 +800,6 @@ const createArticleMutationn = useMutation({
           </DialogFooter>
         </DialogContent>
       </Dialog>
-
     </div>
   );
 };

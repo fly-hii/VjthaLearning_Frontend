@@ -90,6 +90,17 @@ export const articlesApi = {
     return response.json();
   },
 
+  // Create article with media files (FormData)
+  createWithMedia: async (formData: FormData): Promise<Article> => {
+    const response = await fetch(`${API_BASE_URL}/articles`, {
+      method: 'POST',
+      headers: getAuthHeadersFormData(),
+      body: formData,
+    });
+    if (!response.ok) throw new Error('Failed to create article with media');
+    return response.json();
+  },
+
   // Update article
   update: async (id: string, data: UpdateArticleData): Promise<Article> => {
     const response = await fetch(`${API_BASE_URL}/articles/${id}`, {

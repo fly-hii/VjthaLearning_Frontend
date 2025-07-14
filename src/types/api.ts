@@ -1,4 +1,13 @@
+
 /* eslint-disable @typescript-eslint/no-empty-object-type */
+
+// Media Types for Articles
+export interface Media {
+  url: string;
+  type: 'image' | 'video' | 'document';
+  filename?: string;
+  mimetype?: string;
+}
 
 // Article Types
 export interface ArticleSEO {
@@ -15,6 +24,7 @@ export interface Article {
   content: string;
   featuredImage?: string;
   videoEmbedUrl?: string;
+  media?: Media[]; // New field for multiple media files
   tags?: string[];
   category?: Category | string;
   categorySlug?: string;
@@ -35,6 +45,7 @@ export interface CreateArticleData {
   excerpt?: string;
   featuredImage?: string;
   videoEmbedUrl?: string;
+  media?: Media[]; // New field for multiple media files
   tags?: string[];
   category: string;
   author: string;
