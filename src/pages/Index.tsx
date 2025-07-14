@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
@@ -39,9 +40,9 @@ import { BackToTop } from './BacktoTop';
 import { cardcategories } from '@/hooks/categoriesdata';
 import { articlesApi, jobsApi } from '@/Services/api';
 import { useQuery } from '@tanstack/react-query';
+import { useDebounce } from '@/hooks/useDebouncers';
 
 const Index = () => {
-  const [searchQuery, setSearchQuery] = useState('');
 
   const categoryCards = Object.entries(cardcategories).map(([key, category]) => ({
     key,
@@ -60,237 +61,190 @@ const Index = () => {
     caseStudies: 'Case Studies'
   };
 
-  const [highlightArticles, setHighlightArticles] = useState<Articles[]>([]);
-  const [highlyRecommended, setHighlyRecommended] = useState<Articles[]>([]);
-  const [technologyArticles, setTechnologyArticles] = useState<Articles[]>([]);
-  const [educationArticles, setEducationArticles] = useState<Articles[]>([]);
-  const [jobsData, setJobsData] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  // Fetch Vjtha Specials - Latest 2 articles from each category
- useEffect(() => {
+// state
+const [highlightArticles, setHighlightArticles] = useState([]);
+const [highlyRecommended, setHighlyRecommended] = useState([]);
+const [technologyArticles, setTechnologyArticles] = useState([]);
+const [educationArticles, setEducationArticles] = useState([]);
+const [jobsData, setJobsData] = useState([]);
+const [loading, setLoading] = useState(true);
+const [filteredResults, setFilteredResults] = useState([]);
+const [currentSlide, setCurrentSlide] = useState(0);
+const [searchQuery, setSearchQuery] = useState("");
+
+
+const debouncedSearch = useDebounce(searchQuery, 300);
+
+// highlight articles
+useEffect(() => {
   const fetchHighlightArticles = async () => {
     try {
-      const allArticles: Articles[] = [];
+      const allArticles: any[] = [];
 
       for (const categoryName of Object.values(categoryNames)) {
-        const response = await articlesApi.getAll({
-          limit: 2,
-          sort: 'latest',
-          category: categoryName,
-        });
-
-        const formattedArticles = response.map((article: any) => ({
+        const response = await articlesApi.getAll({ limit: 2, sort: 'latest', category: categoryName });
+        const formatted = response.map((article: any) => ({
           ...article,
           category: typeof article.category === 'string'
             ? article.category
-            : (article.category?.name || categoryName),
+            : article.category?.name || categoryName,
         }));
-
-        allArticles.push(...formattedArticles);
+        allArticles.push(...formatted);
       }
 
-      // ✅ Only keep the first 10 articles
-      const top10 = allArticles.slice(0, 10);
-      setHighlightArticles(top10);
+      setHighlightArticles(allArticles.slice(0, 10));
     } catch (error) {
-      console.error('Failed to fetch highlight articles', error);
+      console.error("Failed to fetch highlight articles", error);
     }
   };
 
   fetchHighlightArticles();
 }, []);
 
+// highly recommended
+useEffect(() => {
+  const fetchHighlyRecommended = async () => {
+    try {
+      const topArticles: any[] = [];
 
-  // Fetch Highly Recommended - Top viewed latest article from each category
-  useEffect(() => {
-    const fetchHighlyRecommended = async () => {
-      try {
-        const topArticles: Articles[] = [];
-        
-        for (const categoryName of Object.values(categoryNames)) {
-          const response = await articlesApi.getAll({
-            limit: 10,
-            sort: 'latest',
-            category: categoryName,
+      for (const categoryName of Object.values(categoryNames)) {
+        const response = await articlesApi.getAll({ limit: 10, sort: 'latest', category: categoryName });
+        const sortedByViews = response.sort((a: any, b: any) => (b.views || 0) - (a.views || 0));
+        if (sortedByViews[0]) {
+          topArticles.push({
+            ...sortedByViews[0],
+            category: typeof sortedByViews[0].category === 'string'
+              ? sortedByViews[0].category
+              : sortedByViews[0].category?.name || categoryName,
           });
-          
-          // Sort by views and get the top one
-          const sortedByViews = response.sort((a: any, b: any) => (b.views || 0) - (a.views || 0));
-          if (sortedByViews.length > 0) {
-            topArticles.push({
-              ...sortedByViews[0],
-              category: typeof sortedByViews[0].category === 'string'
-                ? sortedByViews[0].category
-                : (sortedByViews[0].category?.name || categoryName),
-            });
-          }
         }
-
-        setHighlyRecommended(topArticles);
-      } catch (error) {
-        console.error('Failed to fetch highly recommended articles', error);
       }
-    };
 
-    fetchHighlyRecommended();
-  }, []);
-
-  // Fetch Technology Blog - Latest 10 articles without category filter
-  useEffect(() => {
-    const fetchTechnologyArticles = async () => {
-      try {
-        const response = await articlesApi.getAll({
-          limit: 10,
-          sort: 'latest',
-        });
-        
-        setTechnologyArticles(
-          response.map((article: any) => ({
-            ...article,
-            category: typeof article.category === 'string'
-              ? article.category
-              : (article.category?.name || ''),
-          }))
-        );
-      } catch (error) {
-        console.error('Failed to fetch technology articles', error);
-      }
-    };
-
-    fetchTechnologyArticles();
-  }, []);
-
-  // Fetch Education Blog - Filter by education keywords
-  useEffect(() => {
-    const fetchEducationArticles = async () => {
-      try {
-        const response = await articlesApi.getAll({
-          limit: 50, // Get more to filter from
-          sort: 'latest',
-        });
-        
-        const educationKeywords = ['education', 'learning', 'course', 'tutorial', 'study', 'book', 'guide', 'training', 'skill', 'certification'];
-        
-        const filteredArticles = response.filter((article: any) =>
-          educationKeywords.some(keyword =>
-            article.title.toLowerCase().includes(keyword.toLowerCase())
-          )
-        ).slice(0, 10); // Take only first 10 matches
-        
-        setEducationArticles(
-          filteredArticles.map((article: any) => ({
-            ...article,
-            category: typeof article.category === 'string'
-              ? article.category
-              : (article.category?.name || ''),
-          }))
-        );
-      } catch (error) {
-        console.error('Failed to fetch education articles', error);
-      }
-    };
-
-    fetchEducationArticles();
-  }, []);
-
-  // Fetch Jobs Data - Latest 10 jobs
-  useEffect(() => {
-    const fetchJobsData = async () => {
-      try {
-        const response = await jobsApi.getAll();
-        const sortedJobs = response.sort((a: any, b: any) => 
-          new Date(b.postedDate || b.createdAt).getTime() - new Date(a.postedDate || a.createdAt).getTime()
-        );
-        setJobsData(sortedJobs.slice(0, 10));
-      } catch (error) {
-        console.error('Failed to fetch jobs data', error);
-      } finally {
-        setLoading(false);
-      }
-    };
-
-    fetchJobsData();
-  }, []);
-
-  const chunkArray = (array: any[], size: number) => {
-    const result = [];
-    for (let i = 0; i < array.length; i += size) {
-      result.push(array.slice(i, i + size));
-    }
-    return result;
-  };
-
-  const [filteredResults, setFilteredResults] = useState<any[]>([]);
-  const [currentSlide, setCurrentSlide] = useState(0);
-
-  // ✅ Fetch articles
-  const { data: articlesData = [], isLoading: articlesLoading } = useQuery({
-    queryKey: ["articles"],
-    queryFn: () => articlesApi.getAll(),
-  });
-
-  const articles = useMemo(() => {
-    return Array.isArray(articlesData) ? articlesData : [];
-  }, [articlesData]);
-
-  // ✅ Optional: Fetch jobs if not local
-  const { data: jobsDataQuery = [], isLoading: jobsLoading } = useQuery({
-    queryKey: ["jobs"],
-    queryFn: () => jobsApi.getAll(),
-  });
-
-  const jobs = useMemo(() => { 
-    return Array.isArray(jobsDataQuery) ? jobsDataQuery : []; 
-  }, [jobsDataQuery]);
-
-  // ✅ Auto-slide logic (optional)
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentSlide((prev) => (prev + 1) % articles.length);
-    }, 5000);
-    return () => clearInterval(interval);
-  }, [articles.length]);
-
-  // ✅ Search effect
-  useEffect(() => {
-    const query = searchQuery.toLowerCase().trim();
-
-    if (!query) {
-      setFilteredResults([]);
-      return;
-    }
-
-    const jobMatches = jobs.filter((job) =>
-      ["title", "author", "name"].some((key) =>
-        job[key]?.toLowerCase().includes(query)
-      )
-    );
-
-    const articleMatches = articles.filter((article) =>
-      ["title", "author", "name"].some((key) =>
-        article[key]?.toLowerCase().includes(query)
-      )
-    );
-
-    const results = [
-      ...jobMatches.map((item) => ({ ...item, type: "job" })),
-      ...articleMatches.map((item) => ({ ...item, type: "article" })),
-    ];
-
-    setFilteredResults(results);
-  }, [searchQuery, jobs, articles]);
-
-  const recommendedChunks = chunkArray(highlyRecommended, 6);
-  const navigate = useNavigate();
-
-  const handleSearchSubmit = () => {
-    const query = searchQuery.trim();
-    if (query) {
-      navigate(`/search?q=${encodeURIComponent(query)}`);
+      setHighlyRecommended(topArticles);
+    } catch (error) {
+      console.error("Failed to fetch highly recommended", error);
     }
   };
 
+  fetchHighlyRecommended();
+}, []);
+
+// technology blog
+useEffect(() => {
+  const fetchTechnologyArticles = async () => {
+    try {
+      const response = await articlesApi.getAll({ limit: 10, sort: 'latest' });
+      const formatted = response.map((article: any) => ({
+        ...article,
+        category: typeof article.category === 'string'
+          ? article.category
+          : article.category?.name || '',
+      }));
+      setTechnologyArticles(formatted);
+    } catch (error) {
+      console.error("Failed to fetch tech articles", error);
+    }
+  };
+
+  fetchTechnologyArticles();
+}, []);
+
+// education blog
+useEffect(() => {
+  const fetchEducationArticles = async () => {
+    try {
+      const response = await articlesApi.getAll({ limit: 50, sort: 'latest' });
+      const keywords = ['education', 'learning', 'course', 'tutorial', 'study', 'book', 'guide', 'training', 'skill', 'certification'];
+
+      const filtered = response
+        .filter((article: any) => keywords.some((kw) => article.title?.toLowerCase().includes(kw)))
+        .slice(0, 10)
+        .map((article: any) => ({
+          ...article,
+          category: typeof article.category === 'string'
+            ? article.category
+            : article.category?.name || '',
+        }));
+
+      setEducationArticles(filtered);
+    } catch (error) {
+      console.error("Failed to fetch education articles", error);
+    }
+  };
+
+  fetchEducationArticles();
+}, []);
+
+// jobs data
+useEffect(() => {
+  const fetchJobs = async () => {
+    try {
+      const response = await jobsApi.getAll();
+      const sorted = response.sort((a: any, b: any) =>
+        new Date(b.postedDate || b.createdAt).getTime() - new Date(a.postedDate || a.createdAt).getTime()
+      );
+      setJobsData(sorted.slice(0, 10));
+    } catch (error) {
+      console.error("Failed to fetch jobs", error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  fetchJobs();
+}, []);
+
+// auto-slide
+const articlesLength = useMemo(() => highlightArticles.length, [highlightArticles]);
+
+useEffect(() => {
+  const interval = setInterval(() => {
+    setCurrentSlide((prev) => (prev + 1) % articlesLength);
+  }, 5000);
+  return () => clearInterval(interval);
+}, [articlesLength]);
+
+// search filter
+useEffect(() => {
+  const query = debouncedSearch.toLowerCase().trim();
+  if (!query) return setFilteredResults([]);
+
+  const jobMatches = jobsData.filter((job) =>
+    ["title", "author", "name"].some((key) =>
+      job[key]?.toLowerCase().includes(query)
+    )
+  );
+
+  const articleMatches = highlightArticles.filter((article) =>
+    ["title", "author", "name"].some((key) =>
+      article[key]?.toLowerCase().includes(query)
+    )
+  );
+
+  setFilteredResults([
+    ...jobMatches.map((item) => ({ ...item, type: "job" })),
+    ...articleMatches.map((item) => ({ ...item, type: "article" })),
+  ]);
+}, [debouncedSearch, jobsData, highlightArticles]);
+
+// utils
+const chunkArray = (array: any[], size: number) => {
+  const result = [];
+  for (let i = 0; i < array.length; i += size) {
+    result.push(array.slice(i, i + size));
+  }
+  return result;
+};
+
+const recommendedChunks = chunkArray(highlyRecommended, 6);
+
+// navigation
+const navigate = useNavigate();
+const handleSearchSubmit = () => {
+  const query = searchQuery.trim();
+  if (query) navigate(`/search?q=${encodeURIComponent(query)}`);
+};
   return (
     <div className="bg-gray text-black">
       <Navigation />
