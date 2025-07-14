@@ -1,4 +1,3 @@
-
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Filter, Calendar, User, Clock, ArrowRight } from 'lucide-react';
@@ -137,16 +136,37 @@ const Articles = () => {
                   {paginatedArticles.map((article: Article) => (
                     <Card key={article._id} className="bg-white border-2 border-gray-200 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
                       <div className="relative">
-                        {article.media
-                          ?.filter(item => item.type == 'image')
-                          .map((image, index) => (
-                            <img
-                              key={index}
-                              src={image.url}
-                              alt={image.filename || `Image ${index}`}
-                              className="rounded-lg mb-4"
-                            />
-                          ))}
+                        {/* Display first image from media array */}
+                        {article.media && article.media.length > 0 && (
+                          (() => {
+                            const firstImage = article.media.find(item => item.type === 'image');
+                            return firstImage ? (
+                              <img
+                                src={firstImage.url}
+                                alt={firstImage.filename || article.title}
+                                className="w-full h-32 sm:h-48 object-cover rounded-t-lg"
+                                onError={(e) => {
+                                  console.error('Image failed to load:', firstImage.url);
+                                  e.currentTarget.style.display = 'none';
+                                }}
+                              />
+                            ) : null;
+                          })()
+                        )}
+                        
+                        {/* Fallback to featuredImage if no media */}
+                        {(!article.media || article.media.length === 0) && article.featuredImage && (
+                          <img
+                            src={article.featuredImage}
+                            alt={article.title}
+                            className="w-full h-32 sm:h-48 object-cover rounded-t-lg"
+                            onError={(e) => {
+                              console.error('Featured image failed to load:', article.featuredImage);
+                              e.currentTarget.style.display = 'none';
+                            }}
+                          />
+                        )}
+                        
                         {(article.isFeatured || article.featured) && (
                           <Badge className="absolute top-2 left-2 bg-red-600 text-white text-xs">
                             Featured
