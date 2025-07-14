@@ -46,14 +46,14 @@ const ArticlesPageWithModal = () => {
                   <CardContent className="p-4">
                     {article.featuredImage && (
                       <img
-                        src={article.featuredImage}
+                        src={article.media?.url || article.featuredImage}
                         alt={article.title}
                         className="w-full h-40 object-cover rounded-md mb-3"
                       />
                     )}
                     <Badge variant="secondary" className="mb-2">
                       {typeof article.category === 'object'
-                        ? article.category.name
+                        ? article.category.name || "null"
                         : article.category}
                     </Badge>
                     <h3 className="text-lg font-semibold text-gray-900 line-clamp-2 group-hover:text-blue-600 transition-colors">

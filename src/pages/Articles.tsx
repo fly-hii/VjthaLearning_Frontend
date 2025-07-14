@@ -54,6 +54,7 @@ const Articles = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, [page]);
 
+
   return (
     <div className="min-h-screen bg-white">
       <Navigation />
@@ -136,13 +137,16 @@ const Articles = () => {
                   {paginatedArticles.map((article: Article) => (
                     <Card key={article._id} className="bg-white border-2 border-gray-200 hover:shadow-lg hover:shadow-blue-500/20 transition-all duration-300">
                       <div className="relative">
-                        {article.featuredImage && (
-                          <img
-                            src={article.featuredImage}
-                            alt={article.title}
-                            className="w-full h-32 sm:h-48 object-cover rounded-t-lg"
-                          />
-                        )}
+                        {article.media
+                          ?.filter(item => item.type == 'image')
+                          .map((image, index) => (
+                            <img
+                              key={index}
+                              src={image.url}
+                              alt={image.filename || `Image ${index}`}
+                              className="rounded-lg mb-4"
+                            />
+                          ))}
                         {(article.isFeatured || article.featured) && (
                           <Badge className="absolute top-2 left-2 bg-red-600 text-white text-xs">
                             Featured
