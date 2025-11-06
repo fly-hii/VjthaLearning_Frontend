@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')   // Jenkins credentials ID
         DOCKERHUB_USERNAME = 'flyhii'
         IMAGE_NAME = 'vjthalearning_frontend'
-        EC2_HOST = 'ubuntu@184.72.87.106'                // 👉 Replace with actual EC2 public IP
+        EC2_HOST = 'ubuntu@54.91.4.56'                // 👉 Replace with actual EC2 public IP
     }
 
     stages {
