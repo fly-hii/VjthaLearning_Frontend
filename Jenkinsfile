@@ -55,7 +55,7 @@ pipeline {
                         sudo docker pull ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest;
                         sudo docker stop ${IMAGE_NAME} || true;
                         sudo docker rm ${IMAGE_NAME} || true;
-                        sudo docker run -d -p 8080:8080 --name ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest;
+                        sudo docker run -d -p 8081:8081 --name ${IMAGE_NAME} ${DOCKERHUB_USERNAME}/${IMAGE_NAME}:latest;
                         sudo docker image prune -f;
                         echo '✅ Deployment Completed Successfully';
                     "
