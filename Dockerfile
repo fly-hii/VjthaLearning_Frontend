@@ -13,6 +13,7 @@ RUN npm ci --legacy-peer-deps
 # Copy the rest of the project
 COPY . .
 
+
 # Build the production app
 RUN npm run build
 
