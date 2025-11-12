@@ -5,7 +5,7 @@ pipeline {
         DOCKERHUB_CREDENTIALS = credentials('dockerhub')
         DOCKERHUB_USERNAME = 'flyhii'
         IMAGE_NAME = 'vjthalearning_frontend'
-        EC2_HOST = 'ubuntu@98.91.235.231'
+        EC2_HOST = 'ubuntu@35.153.104.25'
         TEAMS_WEBHOOK = credentials('teams_webhook_url')   // Jenkins Secret Text credential for Teams
     }
 
