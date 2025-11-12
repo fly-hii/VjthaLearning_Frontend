@@ -18,8 +18,6 @@ RUN npm run build
 
 
 
-
-
 # ---------- Production Stage ----------
 FROM node:18-alpine
 
